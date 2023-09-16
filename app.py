@@ -10,7 +10,8 @@ app = Flask(__name__)
 class_names = ["Acne", "Eczema", "Atopic", "Psoriasis", "Tinea", "Vitiligo"]
 
 # Load saved model
-model = tf.keras.models.load_model('model/6class.h5')
+model = tf.keras.models.load_model('model/skin_model.h5')
+vgg_model = tf.keras.applications.VGG19(weights = 'imagenet',  include_top = False, input_shape = (180, 180, 3)) 
 
 # Function to preprocess image
 def preprocess_image(image_path):
@@ -18,6 +19,8 @@ def preprocess_image(image_path):
     img = cv2.resize(img, (180, 180))
     img = np.array(img) / 255.0
     img = np.expand_dims(img, axis=0)
+    img = vgg_model.predict(img)
+    img = img.reshape(1, -1)  # Flatten the image to (1, 12800)
     return img
 
 @app.route('/predict', methods=['POST'])
@@ -48,5 +51,4 @@ def predict():
         return jsonify({"error": str(e)})
 
 if __name__ == '__main__':
-    # app.run(host='0.0.0.0', port=5000)
-    app.debug(True)
+    app.run(debug=True)
