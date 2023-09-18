@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import multer from 'multer';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import getDiagnosis from './openaiHandler.js';
 
 const app = express();
 const port = 3000;
@@ -167,16 +168,22 @@ app.post('/api/upload', checkAuth, upload.single('image'), async (req, res) => {
   }
 });
 
-
 // Diagnosis API
-app.post('/api/diagnose', checkAuth, (req, res) => {
+app.post('/api/diagnose', checkAuth, async (req, res) => {
   try {
-    // Implement diagnosis logic here
-    // Process the image data and provide a diagnosis
+    // Set a fixed prompt here
+    // const prompt = "disease-name"; // You can replace "disease-name" with your desired prompt
+    const prompt = "how to cure acne give me 2 points"; // we will paste the name of disease here come from our ai model
 
-    //vaibhav and karan Bhai deploy krdo AI model and link daal dena here
+    // Call the getDiagnosis function
+    const diagnosis = await getDiagnosis(prompt);
 
-    return res.status(200).json({ diagnosis: 'Diagnosis result goes here.' });
+    // processing the diagnosis here
+    console.log('Diagnosis:', diagnosis);
+
+    // Return the diagnosis
+    return res.status(200).json({ diagnosis });
+
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Server error.' });
