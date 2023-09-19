@@ -28,12 +28,13 @@ mongoose
     console.error("MongoDB connection error:", error);
   });
 
-//User schema
+// User schema with 'Gender' added
 const userSchema = new mongoose.Schema({
   username: String,
   email: String,
   password: String,
   dob: Date,
+  gender: String, // Add 'gender' field
   profilePicture: String,
   uploadedImages: [String],
 });
@@ -74,7 +75,7 @@ const checkAuth = (req, res, next) => {
 // Registration API with local image storage
 app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
   try {
-    const { username, email, password, dob } = req.body;
+    const { username, email, password, dob, gender } = req.body;
 
     // Check if the email is already registered
     const existingUser = await User.findOne({ email });
@@ -95,6 +96,7 @@ app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
       email,
       password: hashedPassword,
       dob: new Date(dob),
+      gender, // Include 'gender' in the user object
       profilePicture: profilePicturePath,
     });
 
