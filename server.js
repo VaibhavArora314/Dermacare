@@ -6,6 +6,7 @@ import multer from "multer";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import getDiagnosis from "./openaiHandler.js";
+import PDFDocument from 'pdfkit'; // Import PDFKit
 
 const app = express();
 const port = 3000;
@@ -300,6 +301,101 @@ app.post("/api/logout", (req, res) => {
   res.cookie("token", "", { expires: new Date(0), httpOnly: true });
   return res.status(200).json({ message: "Logout successful." });
 });
+
+// /api/generate-pdf?disease=acne --> API call
+// /api/generate-pdf?disease=acne --> API call
+// Endpoint to generate a PDF containing user diagnosis
+app.get('/api/generate-pdf', checkAuth, async (req, res) => {
+  try {
+    const userId = req.userId;
+    const diseaseName = req.query.disease; // Get the disease name from the query parameter
+
+    // Retrieve user profile from DB
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    // Use the getDiagnosis API to fetch 5 medicines to cure the disease
+    const medicinesPrompt = `Provide 5 medicines to cure ${diseaseName}. just 5 names no numbering required and just name no description`;
+    const medicinesResponse = await getDiagnosis(medicinesPrompt);
+
+    // Use the getDiagnosis API to fetch 5 key points about the disease
+    const pointsPrompt = `Provide 5 key points about ${diseaseName}. just 5 points no numbering required and description`;
+    const pointsResponse = await getDiagnosis(pointsPrompt);
+
+    // Ensure that both responses are valid
+    if (!medicinesResponse || !pointsResponse) {
+      return res.status(500).json({ error: 'Invalid diagnosis response.' });
+    }
+
+    // Create a new PDF document
+    const doc = new PDFDocument();
+
+    // Pipe the PDF document to the response
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=user_diagnosis_${diseaseName}.pdf`);
+    doc.pipe(res);
+
+    // Add a professional title with different font color
+    doc.fontSize(24).fillColor('#007BFF').text('DermaCare', { align: 'center' });
+
+    // User Information Section
+    doc.fontSize(16).fillColor('#333333').text('User Information', { underline: true });
+    doc.fontSize(12).fillColor('#333333').text(`Name: ${user.username}`);
+    doc.fontSize(12).fillColor('#333333').text(`Age: ${calculateAge(user.dob)}`);
+    doc.fontSize(12).fillColor('#333333').text(`Gender: ${user.gender}`);
+    doc.fontSize(12).fillColor('#333333').text(`Email: ${user.email}`);
+    // Draw a line below User Information
+    doc.moveTo(72, doc.y + 20).lineTo(540, doc.y + 20).stroke('#007BFF');
+
+    // Diagnosis Section - Key Points
+    doc.moveDown(0.5); // Add some space between sections
+    doc.fontSize(16).fillColor('#333333').text('Diagnosis - Key Points', { underline: true });
+    // Add the key points about the disease from the API response
+    doc.fontSize(12).fillColor('#333333').text(pointsResponse);
+    // Draw a line below Diagnosis - Key Points
+    doc.moveTo(72, doc.y + 20).lineTo(540, doc.y + 20).stroke('#007BFF');
+
+    // Medicines Suggestion Section
+    doc.moveDown(0.5); // Add some space between sections
+    doc.fontSize(16).fillColor('#333333').text('Medicines Suggestion', { underline: true });
+    // Split the medicines response into lines and use them as medicine suggestions
+    const medicines = medicinesResponse.split('\n').slice(0, 5);
+    medicines.forEach((medicine, index) => {
+      doc.fontSize(12).fillColor('#333333').text(`${index + 1}. ${medicine}`);
+    });
+    // Draw a line below Medicines Suggestion
+    doc.moveTo(72, doc.y + 20).lineTo(540, doc.y + 20).stroke('#007BFF');
+
+    // Copyright Section
+    doc.moveDown(0.5); // Add some space before the copyright notice
+    doc.fontSize(8).fillColor('#333333').text('© 2023 DermaCare. All rights reserved.', { align: 'center' });
+
+    // Finalize the PDF
+    doc.end();
+
+    return res.status(200);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Server error.' });
+  }
+});
+
+
+// Function to calculate age from date of birth
+function calculateAge(dob) {
+  const today = new Date();
+  const birthDate = new Date(dob);
+  const age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    return age - 1;
+  }
+  return age;
+}
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
