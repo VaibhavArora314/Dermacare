@@ -1,0 +1,100 @@
+  @import url('https://fonts.googleapis.com/css2?family=Lato&family=Roboto:wght@300&display=swap');
+
+$myCustomTextStyles: (
+  font-family: 'Lato',
+  font-size: 1em,
+  font-weight: 600,
+//   line-height: 44px,
+  letter-spacing: 0,
+  text-align: left,
+);
+
+// Define a mixin to apply the styles
+@mixin applyCustomTextStyles {
+  @each $property, $value in $myCustomTextStyles {
+    #{$property}: $value;
+  }
+}
+
+
+.form-parent{
+    width: 22%;
+    min-height:50vh;
+    display:flex;
+    background:white;
+    padding:1rem 1rem 1.5rem 1.5rem ;
+    border-radius:10px;
+    border: none;
+    position: absolute;
+    right:10%;
+    top:5rem;
+    display: flex;
+    flex-direction: column;
+      
+    .heading{
+        >p{
+            @include applyCustomTextStyles;
+            font-size:1.4em;
+   
+         }
+      }
+      >.row-1{
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #000000;
+    }
+    
+    >.row{
+        >.input-field {
+            flex-direction: column;
+            display: flex;
+            gap:0.7rem;
+            margin-bottom: 0.6rem;
+            
+            >.Google-btn{
+                padding:1rem !important;
+                // width: 10vw !important;
+            }
+            >label{
+                @include applyCustomTextStyles;
+             }
+          }
+          >.input-field input{
+            padding: 1rem;
+            border: 1px solid #000000;
+            border-radius:4px;
+
+          }
+      }
+      
+      .login-btn{
+        background: #04736f;
+        padding:1rem;
+        text-align: center !important;
+        border:none;
+        border-radius:10px;
+        margin-top:1rem;
+        color:white;
+        cursor:pointer;
+        @include applyCustomTextStyles;
+      }
+      .login-btn:hover{
+        background-color: #07cac7;
+      }
+    .signup{
+        margin-top:0.5rem;
+        text-align: center;
+        border-top: 1px solid #000000;
+        display:flex;
+        flex-direction: column;
+        .signup-btn{
+            background:transparent;
+            border:none;
+            cursor: pointer;
+            text-decoration: underline;
+            color:black;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+    }  
+    
+}
