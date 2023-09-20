@@ -8,9 +8,11 @@ import cookieParser from "cookie-parser";
 import getDiagnosis from "./openaiHandler.js";
 import PDFDocument from 'pdfkit'; // Import PDFKit
 import cors from "cors";
+import path from "path"; // Import the 'path' module
+import { fileURLToPath } from 'url';
 
 const app = express();
-const port = 5000;   //Backend Server at port 5000
+const port = 5000;   // Backend Server at port 5000
 
 const reactServerURL = 'http://localhost:3000'; // Replace with your actual React server URL
 
@@ -220,7 +222,6 @@ app.post("/api/diagnose", checkAuth, async (req, res) => {
 });
 
 // User Profile API
-// User Profile API using checkAuth middleware to extract the user ID
 app.get("/api/user/profile", checkAuth, async (req, res) => {
   try {
     const userId = req.userId;
@@ -241,7 +242,6 @@ app.get("/api/user/profile", checkAuth, async (req, res) => {
 });
 
 // Image History API
-// Image History API using checkAuth middleware to extract the user ID
 app.get("/api/user/images", checkAuth, async (req, res) => {
   try {
     const userId = req.userId;
@@ -261,8 +261,7 @@ app.get("/api/user/images", checkAuth, async (req, res) => {
   }
 });
 
-//Search Any disease
-// http://localhost:3000/api/search-disease?disease=acne -->API call with query
+// Search Any disease
 app.get("/api/search-disease", checkAuth, async (req, res) => {
   try {
     // Get the disease name from the query parameters
@@ -310,8 +309,6 @@ app.post("/api/logout", (req, res) => {
   return res.status(200).json({ message: "Logout successful." });
 });
 
-// /api/generate-pdf?disease=acne --> API call
-// /api/generate-pdf?disease=acne --> API call
 // Endpoint to generate a PDF containing user diagnosis
 app.get('/api/generate-pdf', checkAuth, async (req, res) => {
   try {
@@ -341,15 +338,26 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
     // Create a new PDF document
     const doc = new PDFDocument();
 
+    // Get the directory path of the current module
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+    // Specify the path to your logo image file
+    const logoPath = path.join(__dirname, 'logo.png'); // Replace 'Backendlogo.png' with your logo file name
+
     // Pipe the PDF document to the response
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', `attachment; filename=user_diagnosis_${diseaseName}.pdf`);
     doc.pipe(res);
 
-    // Add a professional title with different font color
-    doc.fontSize(24).fillColor('#007BFF').text('DermaCare', { align: 'center' });
+    // Add a professional title with logo and bold heading
+    const logoWidth = 200; // Adjust the logo width as needed
+    const pageWidth = doc.page.width;
+    const xPosition = (pageWidth - logoWidth) / 2;
 
+    doc.image(logoPath, xPosition, 20, { width: logoWidth }); // Place the logo at the top-center
+    
     // User Information Section
+    doc.moveDown(0.5); // Add some space between sections
     doc.fontSize(16).fillColor('#333333').text('User Information', { underline: true });
     doc.fontSize(12).fillColor('#333333').text(`Name: ${user.username}`);
     doc.fontSize(12).fillColor('#333333').text(`Age: ${calculateAge(user.dob)}`);
@@ -390,7 +398,6 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
     return res.status(500).json({ error: 'Server error.' });
   }
 });
-
 
 // Function to calculate age from date of birth
 function calculateAge(dob) {
