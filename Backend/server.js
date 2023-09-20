@@ -10,9 +10,9 @@ import PDFDocument from 'pdfkit'; // Import PDFKit
 import cors from "cors";
 
 const app = express();
-const port = 3000;
+const port = 5000;   //Backend Server at port 5000
 
-const reactServerURL = 'http://localhost:3001'; // Replace with your actual React server URL
+const reactServerURL = 'http://localhost:3000'; // Replace with your actual React server URL
 
 app.use(cors({
   origin: reactServerURL,
