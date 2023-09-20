@@ -323,7 +323,7 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
     }
 
     // Use the getDiagnosis API to fetch 5 medicines to cure the disease
-    const medicinesPrompt = `Provide 5 medicines to cure ${diseaseName}. just 5 names no numbering required and just name no description`;
+    const medicinesPrompt = `Provide 5 medicines to cure ${diseaseName}. just 5 names no need of 1 2 3 s.no and just name no description`;
     const medicinesResponse = await getDiagnosis(medicinesPrompt);
 
     // Use the getDiagnosis API to fetch 5 key points about the disease
@@ -341,7 +341,7 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
     // Get the directory path of the current module
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-    // Specify the path to your logo image file
+    // Modify the path to the logo image
     const logoPath = path.join(__dirname, 'logo.png'); // Replace 'Backendlogo.png' with your logo file name
 
     // Pipe the PDF document to the response
@@ -357,22 +357,28 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
     doc.image(logoPath, xPosition, 20, { width: logoWidth }); // Place the logo at the top-center
     
     // User Information Section
-    doc.moveDown(0.5); // Add some space between sections
     doc.fontSize(16).fillColor('#333333').text('User Information', { underline: true });
     doc.fontSize(12).fillColor('#333333').text(`Name: ${user.username}`);
     doc.fontSize(12).fillColor('#333333').text(`Age: ${calculateAge(user.dob)}`);
     doc.fontSize(12).fillColor('#333333').text(`Gender: ${user.gender}`);
     doc.fontSize(12).fillColor('#333333').text(`Email: ${user.email}`);
-    // Draw a line below User Information
-    doc.moveTo(72, doc.y + 20).lineTo(540, doc.y + 20).stroke('#007BFF');
+
+    // Add the last uploaded image by the user
+    if (user.uploadedImages.length > 0) {
+      const lastImage = user.uploadedImages[user.uploadedImages.length - 1];
+      const imagePath = path.join(__dirname, lastImage);
+      const imageWidth = 200; // Set the image width
+      const xImagePosition = (pageWidth - imageWidth) / 2; // Center-align the image
+
+      doc.moveDown(1); // Add some space before the image
+      doc.image(imagePath, xImagePosition, doc.y, { width: imageWidth }); // Display the image
+      doc.moveDown(0.5); // Add some space after the image
+    }
 
     // Diagnosis Section - Key Points
-    doc.moveDown(0.5); // Add some space between sections
     doc.fontSize(16).fillColor('#333333').text('Diagnosis - Key Points', { underline: true });
     // Add the key points about the disease from the API response
     doc.fontSize(12).fillColor('#333333').text(pointsResponse);
-    // Draw a line below Diagnosis - Key Points
-    doc.moveTo(72, doc.y + 20).lineTo(540, doc.y + 20).stroke('#007BFF');
 
     // Medicines Suggestion Section
     doc.moveDown(0.5); // Add some space between sections
@@ -380,10 +386,8 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
     // Split the medicines response into lines and use them as medicine suggestions
     const medicines = medicinesResponse.split('\n').slice(0, 5);
     medicines.forEach((medicine, index) => {
-      doc.fontSize(12).fillColor('#333333').text(`${index + 1}. ${medicine}`);
+      doc.fontSize(12).fillColor('#333333').text(`${medicine}`);
     });
-    // Draw a line below Medicines Suggestion
-    doc.moveTo(72, doc.y + 20).lineTo(540, doc.y + 20).stroke('#007BFF');
 
     // Copyright Section
     doc.moveDown(0.5); // Add some space before the copyright notice
