@@ -7,9 +7,17 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import getDiagnosis from "./openaiHandler.js";
 import PDFDocument from 'pdfkit'; // Import PDFKit
+import cors from "cors";
 
 const app = express();
 const port = 3000;
+
+const reactServerURL = 'http://localhost:3001'; // Replace with your actual React server URL
+
+app.use(cors({
+  origin: reactServerURL,
+  credentials: true,
+}));
 
 // Middleware for parsing JSON data
 app.use(bodyParser.json());
