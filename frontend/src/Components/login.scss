@@ -1,5 +1,20 @@
   @import url('https://fonts.googleapis.com/css2?family=Lato&family=Roboto:wght@300&display=swap');
 
+// signup styling
+
+$myCustomInputStyles:(
+  flex-direction: column,
+  display: flex,
+  gap:0.7rem,
+  margin-bottom: 0.6rem,
+);
+
+@mixin applyCustomInputStyles {
+  @each $property, $value in $myCustomInputStyles {
+    #{$property}: $value;
+  }
+}
+
 $myCustomTextStyles: (
   font-family: 'Lato',
   font-size: 1em,
@@ -9,7 +24,8 @@ $myCustomTextStyles: (
   text-align: left,
 );
 
-// Define a mixin to apply the styles
+
+
 @mixin applyCustomTextStyles {
   @each $property, $value in $myCustomTextStyles {
     #{$property}: $value;
@@ -17,6 +33,82 @@ $myCustomTextStyles: (
 }
 
 
+.signup-parent{
+  width:35% !important;
+   right:3% !important;
+   top:5% !important;
+   .heading{
+        display: flex!important;
+        justify-content: center!important;
+        font-size: 1.2em;
+   }
+  .row-1{
+    border-bottom: none !important;
+  }
+  .signup-row{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-template-rows: repeat(3,1fr);
+    gap:20px;
+    
+     >.signup-field{
+
+      @include applyCustomInputStyles;
+      >label{
+        @include applyCustomTextStyles;
+        
+     } 
+     > label::after {
+      content: '*';
+      color: red;
+      font-size: 1em;
+      font-weight: 600;
+    }
+     >input{
+      padding: 1rem;
+      border: 1px solid #000000;
+      border-radius:4px;
+
+    }
+    >#dob{
+      width:auto !important;
+      padding:1rem !important;
+    }
+    >#gender{
+      border: 1px solid #000000;
+      border-radius:4px;
+      padding: 1rem 0.4rem 1rem 0;
+
+    }
+   
+    >.custom-upload-pic {
+      padding:4px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      background: #b5f3ee;
+      border-radius: 5px;
+      text-align: center;
+      width: 100%;
+      margin-right: 10px;
+      color: black;
+      font-weight:500;
+    }
+    }
+   
+  }
+
+
+  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+//  login styling
+
+
+ 
+
+
+  
+}
 .form-parent{
     width: 22%;
     min-height:50vh;
@@ -37,18 +129,19 @@ $myCustomTextStyles: (
             font-size:1.4em;
    
          }
+        
       }
       >.row-1{
         margin-bottom: 1rem;
         border-bottom: 1px solid #000000;
-    }
+      }
+     
+
+    
     
     >.row{
         >.input-field {
-            flex-direction: column;
-            display: flex;
-            gap:0.7rem;
-            margin-bottom: 0.6rem;
+            @include applyCustomInputStyles;
             
             >.Google-btn{
                 padding:1rem !important;
@@ -57,13 +150,15 @@ $myCustomTextStyles: (
             >label{
                 @include applyCustomTextStyles;
              }
+           
+             >input{
+               padding: 1rem;
+               border: 1px solid #000000;
+               border-radius:4px;
+   
+             }
           }
-          >.input-field input{
-            padding: 1rem;
-            border: 1px solid #000000;
-            border-radius:4px;
-
-          }
+         
       }
       
       .login-btn{
