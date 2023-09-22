@@ -1,6 +1,13 @@
+.app-parent{
+  height: 100vh;
+  overflow-y: hidden;
+}
+
 .App {
   text-align: center;
 }
+
+
 
 .App-logo {
   height: 40vmin;

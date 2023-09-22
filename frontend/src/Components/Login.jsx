@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -6,6 +6,8 @@ import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import "./login.scss";
 export default function Login() {
+  const [rememberMe, setRememberMe] = useState(false);
+
   return (
     <Grid container>
       <div className="form-parent">
@@ -45,6 +47,17 @@ export default function Login() {
             <input placeholder="Enter your password" type="password" required />
           </div>
         </div>
+        <div className="row">
+          <label>
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={() => setRememberMe(!rememberMe)}
+            />
+            Remember Me
+          </label>
+        </div>
+
         <button className="login-btn">Log In</button>
         <div className="signup">
           <p>Don't have an account?</p>

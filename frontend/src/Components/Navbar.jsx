@@ -14,7 +14,7 @@ import Logo from "../assets/icons/logo.png";
 import Person from "../assets/icons/person.png";
 
 const pages = ["About Us", "History", "Contact-Us"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Profile", "Logout"];
 
 export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -106,11 +106,11 @@ export default function Navbar() {
             sx={{
               flexGrow: 1,
               display: { xs: "none", md: "flex" },
-              marginLeft: "40%",
-              gap: "2.5rem",
+              marginLeft: "55%",
+              gap: "2rem",
             }}
           >
-            <Button
+            {/* <Button
               sx={{
                 background: "#118480",
                 // fontFamily: "Lato",
@@ -127,7 +127,7 @@ export default function Navbar() {
               }}
             >
               Home
-            </Button>
+            </Button> */}
             {pages.map((page) => (
               <Button
                 key={page}
@@ -140,6 +140,7 @@ export default function Navbar() {
                   //   fontFamily: "Monteserrat",
                   fontSize: "1em",
                   textTransform: "capitalize",
+                  "&:hover": { backgroundColor: "#C8E1D3" },
                 }}
               >
                 {page}
