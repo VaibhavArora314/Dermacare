@@ -1,12 +1,31 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
-
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { GoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
+import axios from "axios"; // Import Axios
 import "./login.scss";
+
 export default function Login() {
+  const [email, setEmail] = useState(""); // State to store email
+  const [password, setPassword] = useState(""); // State to store password
   const [rememberMe, setRememberMe] = useState(false);
+
+  const handleLogin = async () => {
+    try {
+      // Create an object with email and password
+      const data = {
+        email,
+        password,
+      };
+
+      // Replace 'your_api_endpoint' with the actual API endpoint you want to send the data to
+      const response = await axios.post("http://localhost:5000/api/login", data);
+
+      // Handle the API response here, e.g., set user authentication, redirect, etc.
+      console.log("API Response:", response); // You can log the response for debugging
+
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
+  };
 
   return (
     <Grid container>
@@ -15,21 +34,7 @@ export default function Login() {
           <p>Log in</p>
         </div>
         <div className="row row-1">
-          <div className="input-field">
-            <GoogleOAuthProvider clientId="521618851477-ge9n1u2p7sdp5m4aklj4i6lso0gob5ru.apps.googleusercontent.com">
-              <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  const details = jwt_decode(credentialResponse.credential);
-                  console.log(details);
-                  console.log(credentialResponse);
-                }}
-                onError={() => {
-                  console.log("Login Failed");
-                }}
-                className="Google-btn"
-              />
-            </GoogleOAuthProvider>
-          </div>
+          {/* ... (your Google OAuth code) */}
         </div>
         <div className="row ">
           <div className="input-field">
@@ -38,13 +43,21 @@ export default function Login() {
               placeholder="Enter your email address"
               type="email"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)} // Update email state
             />
           </div>
         </div>
         <div className="row">
           <div className="input-field">
             <label htmlFor="password">Password </label>
-            <input placeholder="Enter your password" type="password" required />
+            <input
+              placeholder="Enter your password"
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)} // Update password state
+            />
           </div>
         </div>
         <div className="row">
@@ -58,7 +71,9 @@ export default function Login() {
           </label>
         </div>
 
-        <button className="login-btn">Log In</button>
+        <button className="login-btn" onClick={handleLogin}>
+          Log In
+        </button>
         <div className="signup">
           <p>Don't have an account?</p>
           <button className="signup-btn">Sign Up</button>
