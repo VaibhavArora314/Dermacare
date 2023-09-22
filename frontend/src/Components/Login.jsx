@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
-import axios from "axios"; // Import Axios
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
 import "./login.scss";
-
+import axios from "axios";
 export default function Login() {
-  const [email, setEmail] = useState(""); // State to store email
-  const [password, setPassword] = useState(""); // State to store password
   const [rememberMe, setRememberMe] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
     try {
@@ -17,16 +19,19 @@ export default function Login() {
       };
 
       // Replace 'your_api_endpoint' with the actual API endpoint you want to send the data to
-      const response = await axios.post("http://localhost:5000/api/login", data);
+      const response = await axios.post(
+        "http://localhost:5000/api/login",
+        data
+      );
 
       // Handle the API response here, e.g., set user authentication, redirect, etc.
       console.log("API Response:", response); // You can log the response for debugging
-
     } catch (error) {
       console.error("Login failed:", error);
     }
   };
 
+  console.log(email);
   return (
     <Grid container>
       <div className="form-parent">
@@ -34,7 +39,21 @@ export default function Login() {
           <p>Log in</p>
         </div>
         <div className="row row-1">
-          {/* ... (your Google OAuth code) */}
+          <div className="input-field">
+            <GoogleOAuthProvider clientId="521618851477-ge9n1u2p7sdp5m4aklj4i6lso0gob5ru.apps.googleusercontent.com">
+              <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  const details = jwt_decode(credentialResponse.credential);
+                  console.log(details);
+                  console.log(credentialResponse);
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+                className="Google-btn"
+              />
+            </GoogleOAuthProvider>
+          </div>
         </div>
         <div className="row ">
           <div className="input-field">
@@ -42,9 +61,8 @@ export default function Login() {
             <input
               placeholder="Enter your email address"
               type="email"
+              onChange={(e) => setEmail(e.target.value)}
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)} // Update email state
             />
           </div>
         </div>
@@ -55,8 +73,7 @@ export default function Login() {
               placeholder="Enter your password"
               type="password"
               required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)} // Update password state
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
         </div>
