@@ -192,7 +192,7 @@ app.post("/api/login", async (req, res) => {
     // If passwords match Setting JWT token
     if (passwordMatch) {
       // Generate a JWT token with user ID
-      const token = jwt.sign({ userId: newUser._id }, jwtSecretKey, {
+      const token = jwt.sign({ userId: user._id }, jwtSecretKey, {
         expiresIn: expirationInSeconds,
       });
 
@@ -237,12 +237,10 @@ app.post("/api/upload", checkAuth, upload.single("image"), async (req, res) => {
         $push: { uploadedImages: uploadedImage },
       });
 
-      return res
-        .status(201)
-        .json({
-          message: "Image uploaded successfully.",
-          imageUrl: cloudinaryResponse.secure_url,
-        });
+      return res.status(201).json({
+        message: "Image uploaded successfully.",
+        imageUrl: cloudinaryResponse.secure_url,
+      });
     } else {
       // If the image upload to Cloudinary failed, return an error response
       return res

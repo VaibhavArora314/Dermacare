@@ -20,16 +20,17 @@ const History = () => {
       );
       //   console.log(res);
 
-      const images = res.data.uploadedImages;
+      const history = res.data.uploadedImages;
 
-      setHistory(
-        images.map((image) => {
-          return {
-            image: image,
-            disease: "Acne",
-          };
-        })
-      );
+      // setHistory(
+      //   images.map((image) => {
+      //     return {
+      //       image: image,
+      //       disease: "Acne",
+      //     };
+      //   })
+      // );
+      setHistory(history);
     } catch (ex) {
       console.log(ex);
     }
@@ -39,16 +40,15 @@ const History = () => {
     getHistory();
   }, [token]);
 
-  const handleEmailSend = async (index) => {
+  const handleEmailSend = async (id) => {
     try {
-      const config = {
-        headers: {
-          token, // Replace 'your_token_value_here' with the actual token value you want to send.
-        },
-      };
-
+      // const config = {
+      //   headers: {
+      //     token, // Replace 'your_token_value_here' with the actual token value you want to send.
+      //   },
+      // };
       //   const res = await axios.get(
-      //     `http://localhost:5000/api/generate-pdf?index=${index}`,
+      //     `http://localhost:5000/api/generate-pdf?id=${id}`,
       //     config
       //   );
       //   console.log(res);
@@ -64,7 +64,7 @@ const History = () => {
       <h2>History</h2>
       {history.map((h, index) => (
         <div
-          key={index}
+          key={h._id}
           style={{
             display: "flex",
             flexDirection: "row",
@@ -74,15 +74,15 @@ const History = () => {
         >
           <p>{index + 1}</p>
           <img
-            src={h.image}
+            src={h.imageUrl}
             alt=""
             style={{ height: "100px", width: "100px", objectFit: "cover" }}
           />
-          <h4>Acne</h4>
+          <h4>{h.diseaseName}</h4>
           <button
             style={{ height: "50px" }}
             onClick={() => {
-              handleEmailSend(index);
+              handleEmailSend(h._id);
             }}
           >
             Send Report via Email
