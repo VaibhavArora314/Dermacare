@@ -56,11 +56,15 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   dob: Date,
-  gender: String, // Add 'gender' field
+  gender: String,
   profilePicture: String,
-  uploadedImages: [String],
+  uploadedImages: [
+    {
+      imageUrl: String, // Store the image URL
+      diseaseName: String, // Store the disease name
+    },
+  ],
 });
-
 const User = mongoose.model("User", userSchema);
 
 // Multer setup for handling file uploads
@@ -206,6 +210,8 @@ app.post("/api/upload", checkAuth, upload.single("image"), async (req, res) => {
     // Save the uploaded image file path to the user's profile
     const userId = req.userId;
     const imagePath = req.file ? req.file.path : "";
+    // const diseaseName = "ml-model"; // Get the disease name from the model
+    const diseaseName = "acne"; // Get the disease name from the request body
 
     // Upload the image to Cloudinary
     let cloudinaryResponse = null;
@@ -215,12 +221,20 @@ app.post("/api/upload", checkAuth, upload.single("image"), async (req, res) => {
 
     // Check if the image was successfully uploaded to Cloudinary
     if (cloudinaryResponse && cloudinaryResponse.secure_url) {
-      // Add the Cloudinary image URL to the user's uploadedImages array
+      // Create an object with image URL and disease name
+      const uploadedImage = {
+        imageUrl: cloudinaryResponse.secure_url,
+        diseaseName: diseaseName,
+      };
+
+      // Add the image object to the user's uploadedImages array
       await User.findByIdAndUpdate(userId, {
-        $push: { uploadedImages: cloudinaryResponse.secure_url },
+        $push: { uploadedImages: uploadedImage },
       });
 
-      return res.status(201).json({ message: "Image uploaded successfully.", imageUrl: cloudinaryResponse.secure_url });
+      return res
+        .status(201)
+        .json({ message: "Image uploaded successfully.", imageUrl: cloudinaryResponse.secure_url });
     } else {
       // If the image upload to Cloudinary failed, return an error response
       return res.status(500).json({ error: "Failed to upload image to Cloudinary." });
@@ -230,6 +244,7 @@ app.post("/api/upload", checkAuth, upload.single("image"), async (req, res) => {
     return res.status(500).json({ error: "Server error." });
   }
 });
+
 // Diagnosis API
 app.post("/api/diagnose", checkAuth, async (req, res) => {
   try {
