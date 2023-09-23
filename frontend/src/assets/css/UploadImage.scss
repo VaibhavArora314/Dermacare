@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat:wght@500&family=Roboto:wght@300&display=swap');
+
+.par-container {
+  display: flex;
+  flex-direction: row;
+  gap:5px;
+  padding:1.5rem 1rem ;
+  width:100vw;
+  height:100vh;
+  width:100%;
+  overflow-x:hidden;
+
+  &__upload-section{
+    width:65%;
+    padding:1rem;
+    padding-left:4rem;
+    &__heading{
+        margin-top:5%;
+        color: #000;
+        text-align: left;
+        font-family: Montserrat;
+        font-size: 1.6em;
+        font-style: normal;
+        font-weight: 600;
+        
+    }
+    >.image-upload{
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        height:40%;
+        width:100%;
+        flex-shrink: 0;
+        padding:1rem 2rem 1rem 2rem;
+        border-radius: 4px;
+        border: 1px dashed #088586;
+        background: rgba(255, 255, 255, 0.05);
+        
+        >.upload-container{
+            display: flex;
+            justify-content: center;
+            margin-top:8%;
+            font-family: Montserrat;
+
+            >.upload-box{
+
+
+                >.img-icon{
+                  justify-content: center;
+                }
+                 >p{
+
+                     >.input-btn{
+                         cursor:pointer;
+                         background: transparent;
+                         border:none;
+                         text-decoration: underline;
+                         color: var(--Accent-Color, #088586);
+                         font-family: Montserrat;
+                         font-size: 1em;
+                         font-style: normal;
+                         font-weight: 600;
+                         line-height: 24px;
+                         text-decoration-line: underline;
+                     }
+                 }
+            }
+        }
+    }
+    
+}
+&__img-section {
+   padding:0;
+    height:100vh;
+    // width:auto;
+    
+    >.img-vector{
+        transform: scale(0.7);
+        margin-top: -5rem;
+    }
+}
+
+
+}
+
