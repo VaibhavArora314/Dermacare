@@ -40,7 +40,7 @@ const History = () => {
     getHistory();
   }, [token]);
 
-  const handleEmailSend = async (id) => {
+  const handleEmailSend = async (index) => {
     try {
       // const config = {
       //   headers: {
@@ -48,7 +48,7 @@ const History = () => {
       //   },
       // };
       //   const res = await axios.get(
-      //     `http://localhost:5000/api/generate-pdf?id=${id}`,
+      //     `http://localhost:5000/api/generate-pdf?index=${index}`,
       //     config
       //   );
       //   console.log(res);
@@ -82,7 +82,7 @@ const History = () => {
           <button
             style={{ height: "50px" }}
             onClick={() => {
-              handleEmailSend(h._id);
+              handleEmailSend(h.index);
             }}
           >
             Send Report via Email
