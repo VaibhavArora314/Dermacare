@@ -6,6 +6,7 @@ import jwt_decode from "jwt-decode";
 import "./login.scss";
 import axios from "axios";
 import Signup from "./Signup";
+import Cookies from "js-cookie";
 
 export default function Login() {
   const [rememberMe, setRememberMe] = useState(false);
@@ -28,6 +29,8 @@ export default function Login() {
         "http://localhost:5000/api/login",
         data
       );
+
+      Cookies.set("token", response?.data?.token, { expires: 365 });
 
       // Handle the API response here, e.g., set user authentication, redirect, etc.
       console.log("API Response:", response); // You can log the response for debugging

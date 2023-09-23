@@ -6,21 +6,23 @@ import multer from "multer";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import getDiagnosis from "./openaiHandler.js";
-import PDFDocument from 'pdfkit'; // Import PDFKit
+import PDFDocument from "pdfkit"; // Import PDFKit
 import cors from "cors";
 import path from "path"; // Import the 'path' module
-import { fileURLToPath } from 'url';
-import nodemailer from 'nodemailer'; // Import Nodemailer
+import { fileURLToPath } from "url";
+import nodemailer from "nodemailer"; // Import Nodemailer
 
 const app = express();
-const port = 5000;   // Backend Server at port 5000
+const port = 5000; // Backend Server at port 5000
 
-const reactServerURL = 'http://localhost:3000'; // Replace with your actual React server URL
+const reactServerURL = "http://localhost:3000"; // Replace with your actual React server URL
 
-app.use(cors({
-  origin: reactServerURL,
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: reactServerURL,
+    credentials: true,
+  })
+);
 
 // Middleware for parsing JSON data
 app.use(bodyParser.json());
@@ -68,6 +70,7 @@ const jwtSecretKey = "we-can-do-it";
 
 // Middleware to check if the user is authenticated
 const checkAuth = (req, res, next) => {
+  console.log(req.cookies);
   const token = req.cookies.token;
 
   if (!token) {
@@ -86,10 +89,10 @@ const checkAuth = (req, res, next) => {
 
 // Set up Nodemailer transporter
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   auth: {
-    user: 'dermacareofficialmail@gmail.com', // Your email address
-    pass: 'bkxq kzwo wocn xxvl', // Your email password or app-specific password
+    user: "dermacareofficialmail@gmail.com", // Your email address
+    pass: "bkxq kzwo wocn xxvl", // Your email password or app-specific password
   },
 });
 
@@ -133,9 +136,9 @@ app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
 
     // Send a comprehensive welcome email to the user
     const mailOptions = {
-      from: 'dermacareofficialmail@gmail.com',
+      from: "dermacareofficialmail@gmail.com",
       to: email,
-      subject: 'Welcome to Dermacare',
+      subject: "Welcome to Dermacare",
       text: `Dear ${username},\n\nWelcome to Dermacare! Thank you for registering with us. We are thrilled to have you join our skincare community.\n\nDermacare offers a wide range of features to support your skincare journey:\n\n1. Instant Skin Diagnosis: Our cutting-edge AI-driven technology analyzes your skin images within seconds to detect skin conditions accurately.\n
 2. Medication Suggestions: Receive personalized medication recommendations based on your diagnosis, helping you take better care of your skin.\n
 3. Search Any Disease: Explore our vast database to find accurate and high-quality information about various diseases and conditions.\n
@@ -151,7 +154,7 @@ We are proud to offer skin diagnosis within seconds, utilizing advanced image pr
       if (error) {
         console.error(error);
       } else {
-        console.log('Email sent: ' + info.response);
+        console.log("Email sent: " + info.response);
       }
     });
 
@@ -188,7 +191,7 @@ app.post("/api/login", async (req, res) => {
       // Set the token as a cookie
       res.cookie("token", token, { httpOnly: true });
 
-      return res.status(200).json({ message: "Login successful." });
+      return res.status(200).json({ message: "Login successful.", token });
     } else {
       return res.status(401).json({ error: "Incorrect password." });
     }
@@ -242,10 +245,10 @@ app.post("/api/diagnose", checkAuth, async (req, res) => {
 
     // Response object with the collected responses
     const response = {
-      "Key Points": responses[0].split('\n').slice(0, 5), // Get the first 5 points
-      "Common Medicines": responses[1].split('\n').slice(0, 5), // Get the first 5 medicines
-      "Preventive Measures": responses[2].split('\n').slice(0, 5), // Get the first 5 measures
-      "Home Remedies": responses[3].split('\n').slice(0, 5), // Get the first 5 remedies
+      "Key Points": responses[0].split("\n").slice(0, 5), // Get the first 5 points
+      "Common Medicines": responses[1].split("\n").slice(0, 5), // Get the first 5 medicines
+      "Preventive Measures": responses[2].split("\n").slice(0, 5), // Get the first 5 measures
+      "Home Remedies": responses[3].split("\n").slice(0, 5), // Get the first 5 remedies
     };
 
     return res.status(200).json(response);
@@ -322,11 +325,11 @@ app.get("/api/search-disease", checkAuth, async (req, res) => {
 
     // Response object with the collected disease information
     const response = {
-      "Key Points": responses[0].split('\n').slice(0, 5), // Get the first 5 points
-      "Common Symptoms": responses[1].split('\n').slice(0, 5), // Get the first 5 symptoms
-      "Causes and Risk Factors": responses[2].split('\n').slice(0, 5), // Get the first 5 causes
-      "Treatment Options": responses[3].split('\n').slice(0, 5), // Get the first 5 treatment options
-      "Research Findings": responses[4].split('\n').slice(0, 5), // Get the first 5 research findings
+      "Key Points": responses[0].split("\n").slice(0, 5), // Get the first 5 points
+      "Common Symptoms": responses[1].split("\n").slice(0, 5), // Get the first 5 symptoms
+      "Causes and Risk Factors": responses[2].split("\n").slice(0, 5), // Get the first 5 causes
+      "Treatment Options": responses[3].split("\n").slice(0, 5), // Get the first 5 treatment options
+      "Research Findings": responses[4].split("\n").slice(0, 5), // Get the first 5 research findings
     };
 
     return res.status(200).json(response);
@@ -344,7 +347,7 @@ app.post("/api/logout", (req, res) => {
 });
 
 // Endpoint to generate a PDF containing user diagnosis and send it to the user's Gmail
-app.get('/api/generate-pdf', checkAuth, async (req, res) => {
+app.get("/api/generate-pdf", checkAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const diseaseName = req.query.disease; // Get the disease name from the query parameter
@@ -353,7 +356,7 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ error: 'User not found.' });
+      return res.status(404).json({ error: "User not found." });
     }
 
     // Use the getDiagnosis API to fetch detailed information about the disease
@@ -366,7 +369,7 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
 
     // Ensure that both responses are valid
     if (!diseaseInfoResponse || !medicinesResponse) {
-      return res.status(500).json({ error: 'Invalid diagnosis response.' });
+      return res.status(500).json({ error: "Invalid diagnosis response." });
     }
 
     // Create a new PDF document
@@ -376,11 +379,14 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
     // Modify the path to the logo image
-    const logoPath = path.join(__dirname, 'logo.png'); // Replace 'Backendlogo.png' with your logo file name
+    const logoPath = path.join(__dirname, "logo.png"); // Replace 'Backendlogo.png' with your logo file name
 
     // Pipe the PDF document to the response
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename=user_diagnosis_${diseaseName}.pdf`);
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=user_diagnosis_${diseaseName}.pdf`
+    );
     doc.pipe(res);
 
     // Add a professional title with logo and bold heading
@@ -391,11 +397,17 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
     doc.image(logoPath, xPosition, 20, { width: logoWidth }); // Place the logo at the top-center
 
     // User Information Section
-    doc.fontSize(16).fillColor('#333333').text('User Information', { underline: true });
-    doc.fontSize(12).fillColor('#333333').text(`Name: ${user.username}`);
-    doc.fontSize(12).fillColor('#333333').text(`Age: ${calculateAge(user.dob)}`);
-    doc.fontSize(12).fillColor('#333333').text(`Gender: ${user.gender}`);
-    doc.fontSize(12).fillColor('#333333').text(`Email: ${user.email}`);
+    doc
+      .fontSize(16)
+      .fillColor("#333333")
+      .text("User Information", { underline: true });
+    doc.fontSize(12).fillColor("#333333").text(`Name: ${user.username}`);
+    doc
+      .fontSize(12)
+      .fillColor("#333333")
+      .text(`Age: ${calculateAge(user.dob)}`);
+    doc.fontSize(12).fillColor("#333333").text(`Gender: ${user.gender}`);
+    doc.fontSize(12).fillColor("#333333").text(`Email: ${user.email}`);
 
     // Add the last uploaded image by the user
     if (user.uploadedImages.length > 0) {
@@ -410,50 +422,85 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
     }
 
     // Diagnosis Section - Disease Information
-    doc.fontSize(16).fillColor('#333333').text(`Diagnosis - ${diseaseName} Information`, { underline: true });
+    doc
+      .fontSize(16)
+      .fillColor("#333333")
+      .text(`Diagnosis - ${diseaseName} Information`, { underline: true });
     // Add the detailed information about the disease from the API response
-    doc.fontSize(12).fillColor('#333333').text(diseaseInfoResponse);
+    doc.fontSize(12).fillColor("#333333").text(diseaseInfoResponse);
 
     // Medicines Suggestion Section
     doc.moveDown(0.5); // Add some space between sections
-    doc.fontSize(16).fillColor('#333333').text('Medicines Suggestion', { underline: true });
+    doc
+      .fontSize(16)
+      .fillColor("#333333")
+      .text("Medicines Suggestion", { underline: true });
     // Split the medicines response into lines and use them as medicine suggestions
-    const medicines = medicinesResponse.split('\n').slice(0, 5);
-    doc.fontSize(12).fillColor('#333333').text('Here are 5 medicines that can help with this condition:');
+    const medicines = medicinesResponse.split("\n").slice(0, 5);
+    doc
+      .fontSize(12)
+      .fillColor("#333333")
+      .text("Here are 5 medicines that can help with this condition:");
     medicines.forEach((medicine, index) => {
-      doc.fontSize(12).fillColor('#333333').text(`${medicine}`);
+      doc.fontSize(12).fillColor("#333333").text(`${medicine}`);
     });
 
     // Recommendations Section
     doc.moveDown(0.5); // Add some space between sections
-    doc.fontSize(16).fillColor('#333333').text('Recommendations', { underline: true });
+    doc
+      .fontSize(16)
+      .fillColor("#333333")
+      .text("Recommendations", { underline: true });
     // Add personalized recommendations or advice for the user here
-    doc.fontSize(12).fillColor('#333333').text('Based on your diagnosis, we recommend the following:');
-    doc.fontSize(12).fillColor('#333333').text('- Maintain a healthy skincare routine.');
-    doc.fontSize(12).fillColor('#333333').text('- Use sunscreen to protect your skin from UV rays.');
-    doc.fontSize(12).fillColor('#333333').text('- Consult a dermatologist for further evaluation.');
-    
+    doc
+      .fontSize(12)
+      .fillColor("#333333")
+      .text("Based on your diagnosis, we recommend the following:");
+    doc
+      .fontSize(12)
+      .fillColor("#333333")
+      .text("- Maintain a healthy skincare routine.");
+    doc
+      .fontSize(12)
+      .fillColor("#333333")
+      .text("- Use sunscreen to protect your skin from UV rays.");
+    doc
+      .fontSize(12)
+      .fillColor("#333333")
+      .text("- Consult a dermatologist for further evaluation.");
+
     // Additional Information Section
     doc.moveDown(0.5); // Add some space between sections
-    doc.fontSize(16).fillColor('#333333').text('Additional Information', { underline: true });
+    doc
+      .fontSize(16)
+      .fillColor("#333333")
+      .text("Additional Information", { underline: true });
     // Add any additional information or resources related to the disease here
-    doc.fontSize(12).fillColor('#333333').text('For more information and resources on this condition, you can visit our website or consult with our dermatologists.');
+    doc
+      .fontSize(12)
+      .fillColor("#333333")
+      .text(
+        "For more information and resources on this condition, you can visit our website or consult with our dermatologists."
+      );
 
     // Copyright Section
     doc.moveDown(0.5); // Add some space before the copyright notice
-    doc.fontSize(8).fillColor('#333333').text('© 2023 DermaCare. All rights reserved.', { align: 'center' });
+    doc
+      .fontSize(8)
+      .fillColor("#333333")
+      .text("© 2023 DermaCare. All rights reserved.", { align: "center" });
 
     // Generate a PDF file and get its buffer
     const pdfBuffer = await new Promise((resolve, reject) => {
       const buffers = [];
-      doc.on('data', (buffer) => buffers.push(buffer));
-      doc.on('end', () => resolve(Buffer.concat(buffers)));
+      doc.on("data", (buffer) => buffers.push(buffer));
+      doc.on("end", () => resolve(Buffer.concat(buffers)));
       doc.end();
     });
 
     // Send the PDF as an email attachment to the user's Gmail address
     const mailOptions = {
-      from: 'dermacareofficialmail@gmail.com', // Sender email address
+      from: "dermacareofficialmail@gmail.com", // Sender email address
       to: user.email, // User's email address
       subject: `Your Dermacare Diagnosis Report for ${diseaseName}`,
       text: `Dear ${user.username},\n\nPlease find attached your Dermacare diagnosis report for ${diseaseName}. This report contains detailed information about the condition, a list of recommended medicines, and personalized skincare advice.\n\nBest regards,\nThe Dermacare Team`,
@@ -469,16 +516,16 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error(error);
-        return res.status(500).json({ error: 'Failed to send email.' });
+        return res.status(500).json({ error: "Failed to send email." });
       } else {
-        console.log('Email sent: ' + info.response);
+        console.log("Email sent: " + info.response);
         // Send a success response to the client
-        return res.status(200).json({ message: 'Email sent successfully.' });
+        return res.status(200).json({ message: "Email sent successfully." });
       }
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Server error.' });
+    return res.status(500).json({ error: "Server error." });
   }
 });
 
@@ -489,7 +536,10 @@ function calculateAge(dob) {
   const age = today.getFullYear() - birthDate.getFullYear();
   const monthDiff = today.getMonth() - birthDate.getMonth();
 
-  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+  if (
+    monthDiff < 0 ||
+    (monthDiff === 0 && today.getDate() < birthDate.getDate())
+  ) {
     return age - 1;
   }
   return age;
