@@ -388,9 +388,9 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
 
     // Get the directory path of the current module
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-    // Modify the path to the logo image
-    const logoPath = path.join(__dirname, "logo.png"); // Replace 'Backendlogo.png' with your logo file name
+    
+    // Modify the path to the logo image (replace 'logo.png' with your logo file name)
+    const logoPath = path.join(__dirname, 'logo.png'); // Replace 'logo.png' with the actual filename
 
     // Pipe the PDF document to the response
     res.setHeader("Content-Type", "application/pdf");
@@ -420,15 +420,18 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
     doc.fontSize(12).fillColor("#333333").text(`Gender: ${user.gender}`);
     doc.fontSize(12).fillColor("#333333").text(`Email: ${user.email}`);
 
-    // Add the last uploaded image by the user
+    // Display the last uploaded image from Cloudinary in the PDF
     if (user.uploadedImages.length > 0) {
       const lastImage = user.uploadedImages[user.uploadedImages.length - 1];
-      const imagePath = path.join(__dirname, lastImage);
+      console.log(lastImage);
       const imageWidth = 200; // Set the image width
       const xImagePosition = (pageWidth - imageWidth) / 2; // Center-align the image
 
       doc.moveDown(1); // Add some space before the image
-      doc.image(imagePath, xImagePosition, doc.y, { width: imageWidth }); // Display the image
+
+      // Display the Cloudinary image directly in the PDF using the Cloudinary URL
+      doc.image(lastImage, xImagePosition, doc.y, { width: imageWidth });
+
       doc.moveDown(0.5); // Add some space after the image
     }
 
@@ -518,25 +521,18 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
       attachments: [
         {
           filename: `user_diagnosis_${diseaseName}.pdf`,
-          content: pdfBuffer, // Attach the PDF buffer
+          content: pdfBuffer,
         },
       ],
     };
 
-    // Send the email
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error(error);
-        return res.status(500).json({ error: "Failed to send email." });
-      } else {
-        console.log("Email sent: " + info.response);
-        // Send a success response to the client
-        return res.status(200).json({ message: "Email sent successfully." });
-      }
-    });
+    // Send the email with the PDF attachment
+    await sendEmail(mailOptions);
+
+    res.status(200).json({ message: "PDF generated and sent successfully." });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Server error." });
+    console.error("Error generating PDF and sending email:", error);
+    res.status(500).json({ error: "Internal server error." });
   }
 });
 
