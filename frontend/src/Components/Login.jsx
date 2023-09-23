@@ -13,6 +13,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [signup, setsignup] = useState(false);
   const [error, seterror] = useState(false);
+  const [isflipped, setisflipped] = useState();
 
   const handleLogin = async () => {
     try {
@@ -40,7 +41,7 @@ export default function Login() {
   return !signup ? (
     <>
       <Grid container>
-        <div className="form-parent">
+        <div className={`form-parent ${isflipped ? "flip-signup-card" : ""}`}>
           <div className="heading">
             <p>
               Log in{" "}
@@ -123,6 +124,6 @@ export default function Login() {
       </Grid>
     </>
   ) : (
-    <Signup />
+    !isflipped && <Signup />
   );
 }

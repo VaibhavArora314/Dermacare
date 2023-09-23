@@ -18,8 +18,10 @@ export default function Signup() {
   const [signup, setsignup] = useState(false);
   const [dob, setdob] = useState();
   const [profilePhoto, setprofilePhoto] = useState(null);
+  const [isFlipped, setIsFlipped] = useState(false);
 
   const handleRegister = async () => {
+    setIsFlipped(!isFlipped);
     try {
       // Create an object with email and password
       const data = {
@@ -46,20 +48,15 @@ export default function Signup() {
   };
 
   const handleImageChange = (event) => {
-    const file = event.target.files[0];
+    let img = event.target.files && event.target.files[0];
 
-    if (file) {
-      const reader = new FileReader();
+    if (img) {
+      const imageUrl = URL.createObjectURL(img);
 
-      reader.onload = (e) => {
-        // Store the image data in the state
-        setprofilePhoto(e.target.result);
-      };
-
-      reader.readAsDataURL(file);
+      setprofilePhoto(imageUrl);
     }
   };
-
+  console.log(profilePhoto);
   const currentYear = new Date().getFullYear();
   const minYear = currentYear - 60;
   const maxYear = currentYear;
@@ -68,7 +65,11 @@ export default function Signup() {
   return !signup ? (
     <>
       <Grid container>
-        <div className="form-parent signup-parent">
+        <div
+          className={`form-parent signup-parent ${
+            isFlipped ? "flip-signup-card" : ""
+          }`}
+        >
           <div className="heading">
             <p>Sign Up</p>
           </div>
@@ -173,7 +174,6 @@ export default function Signup() {
               </p>
             </div>
           </div>
-
           <button className="login-btn" onClick={handleRegister}>
             Register
           </button>
@@ -181,6 +181,6 @@ export default function Signup() {
       </Grid>
     </>
   ) : (
-    <Login />
+    !isFlipped && <Login />
   );
 }
