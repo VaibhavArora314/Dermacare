@@ -11,7 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Login from "./Login";
 
 export default function Signup() {
-  const [name, setname] = useState();
+  const [username, setname] = useState();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [gender, setgender] = useState();
@@ -25,7 +25,7 @@ export default function Signup() {
     try {
       // Create an object with email and password
       const data = {
-        name,
+        username,
         dob,
         gender,
         email,
@@ -35,7 +35,7 @@ export default function Signup() {
 
       // Replace 'your_api_endpoint' with the actual API endpoint you want to send the data to
       const response = await axios.post(
-        "http://localhost:5000/api/login",
+        "http://localhost:5000/api/register",
         data
       );
 
@@ -97,7 +97,7 @@ export default function Signup() {
             <div className=" row signup-field">
               <label htmlFor="name">Name </label>
               <input
-                placeholder="Enter your email address"
+                placeholder="Enter your Name"
                 type="email"
                 onChange={(e) => setname(e.target.value)}
                 required
