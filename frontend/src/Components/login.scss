@@ -31,12 +31,19 @@ $myCustomTextStyles: (
     #{$property}: $value;
   }
 }
-
+.flip-signup-card{
+  transform: rotateY(180deg); 
+}
 
 .signup-parent{
   width:35% !important;
    right:3% !important;
    top:5% !important;
+   perspective: 1000px;
+   transition: transform 0.5s; /* Add a smooth transition effect */
+   transform-style: preserve-3d; 
+
+   
    .heading{
         display: flex!important;
         justify-content: center!important;
@@ -122,7 +129,13 @@ $myCustomTextStyles: (
     top:5rem;
     display: flex;
     flex-direction: column;
+
+    // flip-card animation
       
+    perspective: 1000px;
+    transition: transform 0.5s; /* Add a smooth transition effect */
+    transform-style: preserve-3d; 
+
     .heading{
         >p{
             @include applyCustomTextStyles;
