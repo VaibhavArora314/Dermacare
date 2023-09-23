@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Grid from "@mui/material/Grid";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin } from "@react-oauth/google";
@@ -6,7 +6,7 @@ import jwt_decode from "jwt-decode";
 import "./login.scss";
 import axios from "axios";
 import Signup from "./Signup";
-import Cookies from "js-cookie";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Login() {
   const [rememberMe, setRememberMe] = useState(false);
@@ -15,6 +15,7 @@ export default function Login() {
   const [signup, setsignup] = useState(false);
   const [error, seterror] = useState(false);
   const [isflipped, setisflipped] = useState();
+  const { login: setToken } = useContext(AuthContext);
 
   const handleLogin = async () => {
     try {
@@ -30,7 +31,7 @@ export default function Login() {
         data
       );
 
-      Cookies.set("token", response?.data?.token, { expires: 365 });
+      setToken(response?.data?.token);
 
       // Handle the API response here, e.g., set user authentication, redirect, etc.
       console.log("API Response:", response); // You can log the response for debugging

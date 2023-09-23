@@ -70,8 +70,9 @@ const jwtSecretKey = "we-can-do-it";
 
 // Middleware to check if the user is authenticated
 const checkAuth = (req, res, next) => {
-  console.log(req.cookies);
-  const token = req.cookies.token;
+  // console.log(req.headers);
+  const token = req.headers.token;
+  // const token = req.cookie.token;
 
   if (!token) {
     return res.status(401).json({ error: "Unauthorized." });
@@ -132,7 +133,7 @@ app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
     });
 
     // Setting the token as an httpOnly cookie
-    res.cookie("token", token, { httpOnly: true });
+    // res.cookie("token", token, { httpOnly: true });
 
     // Send a comprehensive welcome email to the user
     const mailOptions = {
@@ -158,7 +159,7 @@ We are proud to offer skin diagnosis within seconds, utilizing advanced image pr
       }
     });
 
-    return res.status(201).json({ message: "Registration successful." });
+    return res.status(201).json({ message: "Registration successful.", token });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Server error." });
@@ -189,7 +190,7 @@ app.post("/api/login", async (req, res) => {
       });
 
       // Set the token as a cookie
-      res.cookie("token", token, { httpOnly: true });
+      // res.cookie("token", token, { httpOnly: true });
 
       return res.status(200).json({ message: "Login successful.", token });
     } else {

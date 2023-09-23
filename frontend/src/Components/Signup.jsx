@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Login from "./Login";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
@@ -14,6 +15,7 @@ export default function Signup() {
   const [dob, setDob] = useState(null); // Initialize dob as null
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [isFlipped, setIsFlipped] = useState(false);
+  const { login: setToken } = useContext(AuthContext);
 
   const handleRegister = async () => {
     try {
@@ -25,7 +27,13 @@ export default function Signup() {
       formData.append("dob", dob);
       formData.append("profilePicture", profilePhoto);
 
-      const response = await axios.post("http://localhost:5000/api/register", formData);
+      const response = await axios.post(
+        "http://localhost:5000/api/register",
+        formData
+      );
+
+      // localStorage.setItem("token", response?.data?.token);
+      setToken(response?.data?.token);
 
       console.log("API Response:", response);
       setSignup(false);
@@ -44,7 +52,11 @@ export default function Signup() {
 
   return (
     <Grid container>
-      <div className={`form-parent signup-parent ${isFlipped ? "flip-signup-card" : ""}`}>
+      <div
+        className={`form-parent signup-parent ${
+          isFlipped ? "flip-signup-card" : ""
+        }`}
+      >
         <div className="heading">
           <p>Sign Up</p>
         </div>
@@ -52,7 +64,10 @@ export default function Signup() {
           {/* Google OAuth provider and login button */}
           {/* Add GoogleOAuthProvider and GoogleLogin components here */}
         </div>
-        <div className="signup-row" style={{ borderBottom: "1.5px solid black", padding: "0.5rem" }}>
+        <div
+          className="signup-row"
+          style={{ borderBottom: "1.5px solid black", padding: "0.5rem" }}
+        >
           {/* Your form fields */}
           <div className="row signup-field">
             <label htmlFor="name">Name </label>
