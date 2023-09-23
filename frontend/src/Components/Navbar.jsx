@@ -15,13 +15,32 @@ import Person from "../assets/icons/person.png";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const pages = ["About Us", "History", "Contact-Us"];
-
 export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { isLoggedIn, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const pages = [
+    {
+      title: "About Us",
+      handler: () => {
+        navigate("/about-us");
+      },
+    },
+    {
+      title: "History",
+      handler: () => {
+        navigate("/profile");
+      },
+    },
+    {
+      title: "Contact-Us",
+      handler: () => {
+        navigate("/contact-us");
+      },
+    },
+  ];
 
   const settings = [
     {
@@ -34,6 +53,7 @@ export default function Navbar() {
       title: "Logout",
       handler: () => {
         logout();
+        navigate("/");
       },
     },
   ];
@@ -54,7 +74,7 @@ export default function Navbar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ background: "#FFFEFE" }}>
       <Container maxWidth="xl" sx={{ background: "#FFFEFE" }}>
         <Toolbar disableGutters>
           <Typography
@@ -113,8 +133,14 @@ export default function Navbar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem
+                  key={page.title}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    page.handler();
+                  }}
+                >
+                  <Typography textAlign="center">{page.title}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -148,8 +174,11 @@ export default function Navbar() {
             </Button> */}
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.title}
+                onClick={() => {
+                  handleCloseNavMenu();
+                  page.handler();
+                }}
                 sx={{
                   my: 2,
                   color: "black",
@@ -161,7 +190,7 @@ export default function Navbar() {
                   "&:hover": { backgroundColor: "#C8E1D3" },
                 }}
               >
-                {page}
+                {page.title}
               </Button>
             ))}
           </Box>
@@ -190,10 +219,14 @@ export default function Navbar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center" onClick={setting.handler}>
-                      {setting.title}
-                    </Typography>
+                  <MenuItem
+                    key={setting}
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      setting.handler();
+                    }}
+                  >
+                    <Typography textAlign="center">{setting.title}</Typography>
                   </MenuItem>
                 ))}
               </Menu>

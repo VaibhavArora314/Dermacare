@@ -18,6 +18,9 @@ const port = 5000; // Backend Server at port 5000
 
 const reactServerURL = "http://localhost:3000"; // Replace with your actual React server URL
 
+const expiresInDays = 30; // Set the expiration time to 30 days
+const expirationInSeconds = expiresInDays * 24 * 60 * 60; // Convert days to seconds
+
 app.use(
   cors({
     origin: reactServerURL,
@@ -122,9 +125,11 @@ app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Upload the profile picture to Cloudinary
-    let profilePictureUrl = '';
+    let profilePictureUrl = "";
     if (req.file) {
-      const cloudinaryResponse = await cloudinary.uploader.upload(req.file.path);
+      const cloudinaryResponse = await cloudinary.uploader.upload(
+        req.file.path
+      );
       profilePictureUrl = cloudinaryResponse.secure_url;
     }
 
@@ -142,7 +147,7 @@ app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
 
     // Generate a JWT token with user ID
     const token = jwt.sign({ userId: newUser._id }, jwtSecretKey, {
-      expiresIn: "1h",
+      expiresIn: expirationInSeconds,
     });
 
     // Send a comprehensive welcome email to the user
@@ -187,8 +192,8 @@ app.post("/api/login", async (req, res) => {
     // If passwords match Setting JWT token
     if (passwordMatch) {
       // Generate a JWT token with user ID
-      const token = jwt.sign({ userId: user._id }, jwtSecretKey, {
-        expiresIn: "1h",
+      const token = jwt.sign({ userId: newUser._id }, jwtSecretKey, {
+        expiresIn: expirationInSeconds,
       });
 
       // Set the token as a cookie
@@ -234,10 +239,15 @@ app.post("/api/upload", checkAuth, upload.single("image"), async (req, res) => {
 
       return res
         .status(201)
-        .json({ message: "Image uploaded successfully.", imageUrl: cloudinaryResponse.secure_url });
+        .json({
+          message: "Image uploaded successfully.",
+          imageUrl: cloudinaryResponse.secure_url,
+        });
     } else {
       // If the image upload to Cloudinary failed, return an error response
-      return res.status(500).json({ error: "Failed to upload image to Cloudinary." });
+      return res
+        .status(500)
+        .json({ error: "Failed to upload image to Cloudinary." });
     }
   } catch (error) {
     console.error(error);
@@ -403,9 +413,9 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
 
     // Get the directory path of the current module
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    
+
     // Modify the path to the logo image (replace 'logo.png' with your logo file name)
-    const logoPath = path.join(__dirname, 'logo.png'); // Replace 'logo.png' with the actual filename
+    const logoPath = path.join(__dirname, "logo.png"); // Replace 'logo.png' with the actual filename
 
     // Pipe the PDF document to the response
     res.setHeader("Content-Type", "application/pdf");
