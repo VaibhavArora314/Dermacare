@@ -93,7 +93,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Registration API with local image storage
+// Send a welcome email to the user
 app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
   try {
     const { username, email, password, dob, gender } = req.body;
@@ -128,15 +128,23 @@ app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
       expiresIn: "1h",
     });
 
-    // Setting the token
-    res.cookie("token", token, { httpOnly: true }); // Set the token as an httpOnly cookie
+    // Setting the token as an httpOnly cookie
+    res.cookie("token", token, { httpOnly: true });
 
-    // Send a welcome email to the user
+    // Send a comprehensive welcome email to the user
     const mailOptions = {
-      from: 'dermacareofficialmail@gmail.com', // Sender email address
-      to: email, // User's email address
+      from: 'dermacareofficialmail@gmail.com',
+      to: email,
       subject: 'Welcome to Dermacare',
-      text: `Dear ${username},\n\nWelcome to Dermacare! Thank you for registering with us. We hope you find our services helpful.\n\nBest regards,\nThe Dermacare Team`,
+      text: `Dear ${username},\n\nWelcome to Dermacare! Thank you for registering with us. We are thrilled to have you join our skincare community.\n\nDermacare offers a wide range of features to support your skincare journey:\n\n1. Instant Skin Diagnosis: Our cutting-edge AI-driven technology analyzes your skin images within seconds to detect skin conditions accurately.\n
+2. Medication Suggestions: Receive personalized medication recommendations based on your diagnosis, helping you take better care of your skin.\n
+3. Search Any Disease: Explore our vast database to find accurate and high-quality information about various diseases and conditions.\n
+4. Expert Advice: Access a wealth of skincare articles and tips, authored by leading dermatologists and experts in the field.\n
+5. Community Engagement: Join our skincare community forums to connect with fellow enthusiasts, share experiences, and seek advice.\n
+6. Exclusive Discounts: Enjoy exclusive discounts and promotions on top-quality skincare products tailored to your skin's needs.\n
+7. Personalized Product Recommendations: Let us suggest the best skincare products for your unique skin type and concerns.\n
+\n
+We are proud to offer skin diagnosis within seconds, utilizing advanced image processing techniques and AI to provide you with accurate results. Additionally, you can search for any disease or condition to access reliable and comprehensive information.\n\nIf you have any questions or need assistance, please don't hesitate to reach out. We're here to support you on your skincare journey.\n\nBest regards,\nThe Dermacare Team`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -153,6 +161,7 @@ app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
     return res.status(500).json({ error: "Server error." });
   }
 });
+
 // User Login API with JWT token and cookie
 app.post("/api/login", async (req, res) => {
   try {
@@ -347,16 +356,16 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
       return res.status(404).json({ error: 'User not found.' });
     }
 
+    // Use the getDiagnosis API to fetch detailed information about the disease
+    const diseaseInfoPrompt = `Provide detailed information about ${diseaseName}.`;
+    const diseaseInfoResponse = await getDiagnosis(diseaseInfoPrompt);
+
     // Use the getDiagnosis API to fetch 5 medicines to cure the disease
-    const medicinesPrompt = `Provide 5 medicines to cure ${diseaseName}. just 5 names no need of 1 2 3 s.no and just name no description`;
+    const medicinesPrompt = `Provide 5 medicines to cure ${diseaseName}. Just the name nothing else`;
     const medicinesResponse = await getDiagnosis(medicinesPrompt);
 
-    // Use the getDiagnosis API to fetch 5 key points about the disease
-    const pointsPrompt = `Provide 5 key points about ${diseaseName}. just 5 points no numbering required and description`;
-    const pointsResponse = await getDiagnosis(pointsPrompt);
-
     // Ensure that both responses are valid
-    if (!medicinesResponse || !pointsResponse) {
+    if (!diseaseInfoResponse || !medicinesResponse) {
       return res.status(500).json({ error: 'Invalid diagnosis response.' });
     }
 
@@ -380,7 +389,7 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
     const xPosition = (pageWidth - logoWidth) / 2;
 
     doc.image(logoPath, xPosition, 20, { width: logoWidth }); // Place the logo at the top-center
-    
+
     // User Information Section
     doc.fontSize(16).fillColor('#333333').text('User Information', { underline: true });
     doc.fontSize(12).fillColor('#333333').text(`Name: ${user.username}`);
@@ -400,19 +409,35 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
       doc.moveDown(0.5); // Add some space after the image
     }
 
-    // Diagnosis Section - Key Points
-    doc.fontSize(16).fillColor('#333333').text('Diagnosis - Key Points', { underline: true });
-    // Add the key points about the disease from the API response
-    doc.fontSize(12).fillColor('#333333').text(pointsResponse);
+    // Diagnosis Section - Disease Information
+    doc.fontSize(16).fillColor('#333333').text(`Diagnosis - ${diseaseName} Information`, { underline: true });
+    // Add the detailed information about the disease from the API response
+    doc.fontSize(12).fillColor('#333333').text(diseaseInfoResponse);
 
     // Medicines Suggestion Section
     doc.moveDown(0.5); // Add some space between sections
     doc.fontSize(16).fillColor('#333333').text('Medicines Suggestion', { underline: true });
     // Split the medicines response into lines and use them as medicine suggestions
     const medicines = medicinesResponse.split('\n').slice(0, 5);
+    doc.fontSize(12).fillColor('#333333').text('Here are 5 medicines that can help with this condition:');
     medicines.forEach((medicine, index) => {
       doc.fontSize(12).fillColor('#333333').text(`${medicine}`);
     });
+
+    // Recommendations Section
+    doc.moveDown(0.5); // Add some space between sections
+    doc.fontSize(16).fillColor('#333333').text('Recommendations', { underline: true });
+    // Add personalized recommendations or advice for the user here
+    doc.fontSize(12).fillColor('#333333').text('Based on your diagnosis, we recommend the following:');
+    doc.fontSize(12).fillColor('#333333').text('- Maintain a healthy skincare routine.');
+    doc.fontSize(12).fillColor('#333333').text('- Use sunscreen to protect your skin from UV rays.');
+    doc.fontSize(12).fillColor('#333333').text('- Consult a dermatologist for further evaluation.');
+    
+    // Additional Information Section
+    doc.moveDown(0.5); // Add some space between sections
+    doc.fontSize(16).fillColor('#333333').text('Additional Information', { underline: true });
+    // Add any additional information or resources related to the disease here
+    doc.fontSize(12).fillColor('#333333').text('For more information and resources on this condition, you can visit our website or consult with our dermatologists.');
 
     // Copyright Section
     doc.moveDown(0.5); // Add some space before the copyright notice
@@ -430,8 +455,8 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
     const mailOptions = {
       from: 'dermacareofficialmail@gmail.com', // Sender email address
       to: user.email, // User's email address
-      subject: 'Your Dermacare Diagnosis Report',
-      text: `Dear ${user.username},\n\nPlease find attached your Dermacare diagnosis report for ${diseaseName}.\n\nBest regards,\nThe Dermacare Team`,
+      subject: `Your Dermacare Diagnosis Report for ${diseaseName}`,
+      text: `Dear ${user.username},\n\nPlease find attached your Dermacare diagnosis report for ${diseaseName}. This report contains detailed information about the condition, a list of recommended medicines, and personalized skincare advice.\n\nBest regards,\nThe Dermacare Team`,
       attachments: [
         {
           filename: `user_diagnosis_${diseaseName}.pdf`,
