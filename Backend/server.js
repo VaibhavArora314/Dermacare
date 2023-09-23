@@ -10,6 +10,7 @@ import PDFDocument from 'pdfkit'; // Import PDFKit
 import cors from "cors";
 import path from "path"; // Import the 'path' module
 import { fileURLToPath } from 'url';
+import nodemailer from 'nodemailer'; // Import Nodemailer
 
 const app = express();
 const port = 5000;   // Backend Server at port 5000
@@ -83,6 +84,15 @@ const checkAuth = (req, res, next) => {
   }
 };
 
+// Set up Nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'dermacareofficialmail@gmail.com', // Your email address
+    pass: 'bkxq kzwo wocn xxvl', // Your email password or app-specific password
+  },
+});
+
 // Registration API with local image storage
 app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
   try {
@@ -121,13 +131,28 @@ app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
     // Setting the token
     res.cookie("token", token, { httpOnly: true }); // Set the token as an httpOnly cookie
 
+    // Send a welcome email to the user
+    const mailOptions = {
+      from: 'dermacareofficialmail@gmail.com', // Sender email address
+      to: email, // User's email address
+      subject: 'Welcome to Dermacare',
+      text: `Dear ${username},\n\nWelcome to Dermacare! Thank you for registering with us. We hope you find our services helpful.\n\nBest regards,\nThe Dermacare Team`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+
     return res.status(201).json({ message: "Registration successful." });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Server error." });
   }
 });
-
 // User Login API with JWT token and cookie
 app.post("/api/login", async (req, res) => {
   try {
@@ -309,7 +334,7 @@ app.post("/api/logout", (req, res) => {
   return res.status(200).json({ message: "Logout successful." });
 });
 
-// Endpoint to generate a PDF containing user diagnosis
+// Endpoint to generate a PDF containing user diagnosis and send it to the user's Gmail
 app.get('/api/generate-pdf', checkAuth, async (req, res) => {
   try {
     const userId = req.userId;
@@ -393,10 +418,39 @@ app.get('/api/generate-pdf', checkAuth, async (req, res) => {
     doc.moveDown(0.5); // Add some space before the copyright notice
     doc.fontSize(8).fillColor('#333333').text('© 2023 DermaCare. All rights reserved.', { align: 'center' });
 
-    // Finalize the PDF
-    doc.end();
+    // Generate a PDF file and get its buffer
+    const pdfBuffer = await new Promise((resolve, reject) => {
+      const buffers = [];
+      doc.on('data', (buffer) => buffers.push(buffer));
+      doc.on('end', () => resolve(Buffer.concat(buffers)));
+      doc.end();
+    });
 
-    return res.status(200);
+    // Send the PDF as an email attachment to the user's Gmail address
+    const mailOptions = {
+      from: 'dermacareofficialmail@gmail.com', // Sender email address
+      to: user.email, // User's email address
+      subject: 'Your Dermacare Diagnosis Report',
+      text: `Dear ${user.username},\n\nPlease find attached your Dermacare diagnosis report for ${diseaseName}.\n\nBest regards,\nThe Dermacare Team`,
+      attachments: [
+        {
+          filename: `user_diagnosis_${diseaseName}.pdf`,
+          content: pdfBuffer, // Attach the PDF buffer
+        },
+      ],
+    };
+
+    // Send the email
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Failed to send email.' });
+      } else {
+        console.log('Email sent: ' + info.response);
+        // Send a success response to the client
+        return res.status(200).json({ message: 'Email sent successfully.' });
+      }
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Server error.' });
