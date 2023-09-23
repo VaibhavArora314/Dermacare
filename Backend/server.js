@@ -11,6 +11,7 @@ import cors from "cors";
 import path from "path"; // Import the 'path' module
 import { fileURLToPath } from "url";
 import nodemailer from "nodemailer"; // Import Nodemailer
+import cloudinary from "cloudinary"; // Import Cloudinary
 
 const app = express();
 const port = 5000; // Backend Server at port 5000
@@ -42,6 +43,13 @@ mongoose
     console.error("MongoDB connection error:", error);
   });
 
+// Cloudinary configuration
+cloudinary.config({
+  cloud_name: "dtrf1faem",
+  api_key: "819964433322658",
+  api_secret: "VOY7Qa1mSEAdxFK60muN0VZuTHw",
+});
+
 // User schema with 'Gender' added
 const userSchema = new mongoose.Schema({
   username: String,
@@ -70,16 +78,13 @@ const jwtSecretKey = "we-can-do-it";
 
 // Middleware to check if the user is authenticated
 const checkAuth = (req, res, next) => {
-  // console.log(req.headers);
   const token = req.headers.token;
-  // const token = req.cookie.token;
 
   if (!token) {
     return res.status(401).json({ error: "Unauthorized." });
   }
 
   try {
-    // Verify the JWT token
     const decoded = jwt.verify(token, jwtSecretKey);
     req.userId = decoded.userId;
     next();
@@ -112,17 +117,21 @@ app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Save the uploaded profile picture file path
-    const profilePicturePath = req.file ? req.file.path : "";
+    // Upload the profile picture to Cloudinary
+    let profilePictureUrl = '';
+    if (req.file) {
+      const cloudinaryResponse = await cloudinary.uploader.upload(req.file.path);
+      profilePictureUrl = cloudinaryResponse.secure_url;
+    }
 
-    // Create a new user in the DB
+    // Create a new user in the DB with the Cloudinary image link
     const newUser = new User({
       username,
       email,
       password: hashedPassword,
       dob: new Date(dob),
-      gender, // Include 'gender' in the user object
-      profilePicture: profilePicturePath,
+      gender,
+      profilePicture: profilePictureUrl, // Store the Cloudinary link
     });
 
     await newUser.save();
@@ -132,23 +141,12 @@ app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
       expiresIn: "1h",
     });
 
-    // Setting the token as an httpOnly cookie
-    // res.cookie("token", token, { httpOnly: true });
-
     // Send a comprehensive welcome email to the user
     const mailOptions = {
       from: "dermacareofficialmail@gmail.com",
       to: email,
       subject: "Welcome to Dermacare",
-      text: `Dear ${username},\n\nWelcome to Dermacare! Thank you for registering with us. We are thrilled to have you join our skincare community.\n\nDermacare offers a wide range of features to support your skincare journey:\n\n1. Instant Skin Diagnosis: Our cutting-edge AI-driven technology analyzes your skin images within seconds to detect skin conditions accurately.\n
-2. Medication Suggestions: Receive personalized medication recommendations based on your diagnosis, helping you take better care of your skin.\n
-3. Search Any Disease: Explore our vast database to find accurate and high-quality information about various diseases and conditions.\n
-4. Expert Advice: Access a wealth of skincare articles and tips, authored by leading dermatologists and experts in the field.\n
-5. Community Engagement: Join our skincare community forums to connect with fellow enthusiasts, share experiences, and seek advice.\n
-6. Exclusive Discounts: Enjoy exclusive discounts and promotions on top-quality skincare products tailored to your skin's needs.\n
-7. Personalized Product Recommendations: Let us suggest the best skincare products for your unique skin type and concerns.\n
-\n
-We are proud to offer skin diagnosis within seconds, utilizing advanced image processing techniques and AI to provide you with accurate results. Additionally, you can search for any disease or condition to access reliable and comprehensive information.\n\nIf you have any questions or need assistance, please don't hesitate to reach out. We're here to support you on your skincare journey.\n\nBest regards,\nThe Dermacare Team`,
+      text: `Dear ${username},\n\nWelcome to Dermacare! Thank you for registering with us. We are thrilled to have you join our skincare community.\n\nDermacare offers a wide range of features to support your skincare journey:\n\n1. Instant Skin Diagnosis: Our cutting-edge AI-driven technology analyzes your skin images within seconds to detect skin conditions accurately.\n2. Medication Suggestions: Receive personalized medication recommendations based on your diagnosis, helping you take better care of your skin.\n3. Search Any Disease: Explore our vast database to find accurate and high-quality information about various diseases and conditions.\n4. Expert Advice: Access a wealth of skincare articles and tips, authored by leading dermatologists and experts in the field.\n5. Community Engagement: Join our skincare community forums to connect with fellow enthusiasts, share experiences, and seek advice.\n6. Exclusive Discounts: Enjoy exclusive discounts and promotions on top-quality skincare products tailored to your skin's needs.\n7. Personalized Product Recommendations: Let us suggest the best skincare products for your unique skin type and concerns.\n\nWe are proud to offer skin diagnosis within seconds, utilizing advanced image processing techniques and AI to provide you with accurate results. Additionally, you can search for any disease or condition to access reliable and comprehensive information.\n\nIf you have any questions or need assistance, please don't hesitate to reach out. We're here to support you on your skincare journey.\n\nBest regards,\nThe Dermacare Team`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -202,25 +200,36 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-// Image Upload API
+// Update the /api/upload endpoint
 app.post("/api/upload", checkAuth, upload.single("image"), async (req, res) => {
   try {
     // Save the uploaded image file path to the user's profile
-    const userId = req.userId; //(this userId is from middleware)
+    const userId = req.userId;
     const imagePath = req.file ? req.file.path : "";
 
-    // Adding the uploaded image path to the user array to maintain history
-    await User.findByIdAndUpdate(userId, {
-      $push: { uploadedImages: imagePath },
-    });
+    // Upload the image to Cloudinary
+    let cloudinaryResponse = null;
+    if (req.file) {
+      cloudinaryResponse = await cloudinary.uploader.upload(req.file.path);
+    }
 
-    return res.status(201).json({ message: "Image uploaded successfully." });
+    // Check if the image was successfully uploaded to Cloudinary
+    if (cloudinaryResponse && cloudinaryResponse.secure_url) {
+      // Add the Cloudinary image URL to the user's uploadedImages array
+      await User.findByIdAndUpdate(userId, {
+        $push: { uploadedImages: cloudinaryResponse.secure_url },
+      });
+
+      return res.status(201).json({ message: "Image uploaded successfully.", imageUrl: cloudinaryResponse.secure_url });
+    } else {
+      // If the image upload to Cloudinary failed, return an error response
+      return res.status(500).json({ error: "Failed to upload image to Cloudinary." });
+    }
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Server error." });
   }
 });
-
 // Diagnosis API
 app.post("/api/diagnose", checkAuth, async (req, res) => {
   try {
@@ -347,6 +356,7 @@ app.post("/api/logout", (req, res) => {
   return res.status(200).json({ message: "Logout successful." });
 });
 
+// Endpoint to generate a PDF containing user diagnosis and send it to the user's Gmail
 // Endpoint to generate a PDF containing user diagnosis and send it to the user's Gmail
 app.get("/api/generate-pdf", checkAuth, async (req, res) => {
   try {
