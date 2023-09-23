@@ -39,7 +39,8 @@ def predict():
         # Make prediction on preprocessed image
         pred = model.predict(img)[0]
         predicted_class_index = np.argmax(pred)
-        predicted_class_name = class_names[predicted_class_index]
+        predicted_class_name = class_names[predicted_class_index-1]
+        print(pred,predicted_class_index,predicted_class_name)
 
         # Delete the temporary image file
         os.remove(temp_image_path)
