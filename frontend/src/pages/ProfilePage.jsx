@@ -18,7 +18,8 @@ const ProfilePage = () => {
         "http://localhost:5000/api/user/profile",
         config
       );
-      console.log(res);
+      //   console.log(res);
+      setProfile(res.data.user);
     } catch (ex) {
       console.log(ex);
     }
@@ -28,7 +29,17 @@ const ProfilePage = () => {
     getProfile();
   }, []);
 
-  return <div>Profile</div>;
+  if (!profile) return null;
+
+  return (
+    <div>
+      <h1>{profile.username}</h1>
+      <p>{profile.email}</p>
+      <p>{profile.dob}</p>
+      <p>{profile.gender}</p>
+      {profile.profilePicture && <img src={profile.profilePicture} alt="" />}
+    </div>
+  );
 };
 
 export default ProfilePage;

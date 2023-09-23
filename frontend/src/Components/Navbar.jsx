@@ -13,6 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Logo from "../assets/icons/logo.png";
 import Person from "../assets/icons/person.png";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const pages = ["About Us", "History", "Contact-Us"];
 
@@ -20,9 +21,15 @@ export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const { isLoggedIn, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const settings = [
-    { title: "Profile", handler: () => {} },
+    {
+      title: "Profile",
+      handler: () => {
+        navigate("/profile");
+      },
+    },
     {
       title: "Logout",
       handler: () => {
