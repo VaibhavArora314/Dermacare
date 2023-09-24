@@ -12,6 +12,8 @@ import path from "path"; // Import the 'path' module
 import { fileURLToPath } from "url";
 import nodemailer from "nodemailer"; // Import Nodemailer
 import cloudinary from "cloudinary"; // Import Cloudinary
+import axios from "axios";
+import fs from 'fs';
 
 const app = express();
 const port = 5000; // Backend Server at port 5000
@@ -444,19 +446,27 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
     doc.fontSize(12).fillColor("#333333").text(`Email: ${user.email}`);
 
     // Display the last uploaded image from Cloudinary in the PDF
-    if (user.uploadedImages.length > 0) {
-      const lastImage = user.uploadedImages[user.uploadedImages.length - 1];
-      console.log(lastImage);
-      const imageWidth = 200; // Set the image width
-      const xImagePosition = (pageWidth - imageWidth) / 2; // Center-align the image
+    // if (user.uploadedImages.length > 0) {
+    //   const lastImage = user.uploadedImages[user.uploadedImages.length - 1];
 
-      doc.moveDown(1); // Add some space before the image
+    //   // Download the image from the Cloudinary URL
+    //   const imagePath = path.join(__dirname, 'downloaded_image.png'); // Replace with a suitable filename
+    //   const response = await axios.get(lastImage.imageUrl, { responseType: 'stream' });
 
-      // Display the Cloudinary image directly in the PDF using the Cloudinary URL
-      doc.image(lastImage, xImagePosition, doc.y, { width: imageWidth });
+    //   response.data.pipe(fs.createWriteStream(imagePath)); // Save the image locally
 
-      doc.moveDown(0.5); // Add some space after the image
-    }
+    //   response.data.on('end', () => {
+    //     const imageWidth = 200; // Set the image width
+    //     const xImagePosition = (pageWidth - imageWidth) / 2; // Center-align the image
+
+    //     doc.moveDown(1); // Add some space before the image
+
+    //     // Display the locally saved image in the PDF
+    //     doc.image(imagePath, xImagePosition, doc.y, { width: imageWidth });
+
+    //     doc.moveDown(0.5); // Add some space after the image
+    //   });
+    // }
 
     // Diagnosis Section - Disease Information
     doc
@@ -550,12 +560,18 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
     };
 
     // Send the email with the PDF attachment
-    await sendEmail(mailOptions);
-
-    res.status(200).json({ message: "PDF generated and sent successfully." });
+    await transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Email sending error." });
+      } else {
+        console.log("Email sent: " + info.response);
+        return res.status(200).json({ message: "PDF generated and sent successfully." });
+      }
+    });
   } catch (error) {
     console.error("Error generating PDF and sending email:", error);
-    res.status(500).json({ error: "Internal server error." });
+    return res.status(500).json({ error: "Internal server error." });
   }
 });
 
