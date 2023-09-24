@@ -14,6 +14,7 @@ import nodemailer from "nodemailer"; // Import Nodemailer
 import cloudinary from "cloudinary"; // Import Cloudinary
 import axios from "axios";
 import fs from "fs";
+import { downloadImage } from "./image_extraction.js";
 
 const app = express();
 const port = 5000; // Backend Server at port 5000
@@ -456,19 +457,32 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
     // -----------------------------------------------------------------------------------------------------------------------------------------------------
 
     // Display the last uploaded image from Cloudinary in the PDF
-    // if (user.uploadedImages.length > 0) {
-    //   const lastImage = user.uploadedImages[user.uploadedImages.length - 1];
+    if (user.uploadedImages.length > 0) {
+      const lastImage = user.uploadedImages[user.uploadedImages.length - 1];
 
-    //   // Extract the image format from the imageUrl
-    //   const imageUrl = lastImage.imageUrl;
-    //   const imageFormat = imageUrl.split('.').pop(); // Extract the extension
+      // Extract the image format from the imageUrl
+      const imageUrl = lastImage.imageUrl;
+      console.log(imageUrl);
+      downloadImage(imageUrl).then((downloadedImagePath) => {
+        if (downloadedImagePath) {
+          console.log('Downloaded image path:', downloadedImagePath);
+          const imageWidth = 200; // Set the image width
+        const xImagePosition = (pageWidth - imageWidth) / 2; // Center-align the image
 
-    //   // Check if the image format is valid (e.g., png or jpeg)
-    //   if (imageFormat !== 'png' && imageFormat !== 'jpg' && imageFormat !== 'jpeg') {
-    //     console.error('Invalid image format:', imageFormat);
-    //     // Handle the error, e.g., return a response indicating an issue with the image format
-    //     return res.status(500).json({ error: 'Invalid image format.' });
-    //   }
+        doc.moveDown(1); // Add some space before the image
+
+    //     // Display the locally saved image in the PDF
+        doc.image(downloadedImagePath, xImagePosition, doc.y, { width: imageWidth });
+        } else {
+          console.log('Image download failed.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+    
 
     //   // Download the image from the Cloudinary URL
     //   const imagePath = path.join(__dirname, `downloaded_image.${imageFormat}`); // Use the extracted image format
