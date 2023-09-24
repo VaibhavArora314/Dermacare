@@ -42,16 +42,16 @@ const History = () => {
 
   const handleEmailSend = async (index) => {
     try {
-      // const config = {
-      //   headers: {
-      //     token, // Replace 'your_token_value_here' with the actual token value you want to send.
-      //   },
-      // };
-      //   const res = await axios.get(
-      //     `http://localhost:5000/api/generate-pdf?index=${index}`,
-      //     config
-      //   );
-      //   console.log(res);
+      const config = {
+        headers: {
+          token, // Replace 'your_token_value_here' with the actual token value you want to send.
+        },
+      };
+      const res = await axios.get(
+        `http://localhost:5000/api/generate-pdf?index=${index}`,
+        config
+      );
+      console.log(res);
     } catch (ex) {
       console.log(ex);
     }
@@ -82,7 +82,7 @@ const History = () => {
           <button
             style={{ height: "50px" }}
             onClick={() => {
-              handleEmailSend(h.index);
+              handleEmailSend(index);
             }}
           >
             Send Report via Email

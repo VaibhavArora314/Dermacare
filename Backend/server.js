@@ -13,7 +13,7 @@ import { fileURLToPath } from "url";
 import nodemailer from "nodemailer"; // Import Nodemailer
 import cloudinary from "cloudinary"; // Import Cloudinary
 import axios from "axios";
-import fs from 'fs';
+import fs from "fs";
 
 const app = express();
 const port = 5000; // Backend Server at port 5000
@@ -217,8 +217,15 @@ app.post("/api/upload", checkAuth, upload.single("image"), async (req, res) => {
     // Save the uploaded image file path to the user's profile
     const userId = req.userId;
     const imagePath = req.file ? req.file.path : "";
+
+    const diseaseNames = ["acne", "vitilgo", "psorasis", "eczema", "atopic"];
     // const diseaseName = "ml-model"; // Get the disease name from the model
-    const diseaseName = "acne"; // Get the disease name from the request body
+
+    // Generate a random index between 0 and the length of the array
+    const randomIndex = Math.floor(Math.random() * diseaseNames.length);
+
+    // Get the random disease name
+    const diseaseName = diseaseNames[randomIndex];
 
     // Upload the image to Cloudinary
     let cloudinaryResponse = null;
@@ -386,10 +393,12 @@ app.post("/api/logout", (req, res) => {
 app.get("/api/generate-pdf", checkAuth, async (req, res) => {
   try {
     const userId = req.userId;
-    const diseaseName = req.query.disease; // Get the disease name from the query parameter
+    const index = req.query.index; // Get the disease name from the query parameter
 
     // Retrieve user profile from DB
     const user = await User.findById(userId);
+
+    const diseaseName = user.uploadedImages[index].diseaseName;
 
     if (!user) {
       return res.status(404).json({ error: "User not found." });
@@ -444,43 +453,43 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
       .text(`Age: ${calculateAge(user.dob)}`);
     doc.fontSize(12).fillColor("#333333").text(`Gender: ${user.gender}`);
     doc.fontSize(12).fillColor("#333333").text(`Email: ${user.email}`);
-// -----------------------------------------------------------------------------------------------------------------------------------------------------
-
-// Display the last uploaded image from Cloudinary in the PDF
-// if (user.uploadedImages.length > 0) {
-//   const lastImage = user.uploadedImages[user.uploadedImages.length - 1];
-
-//   // Extract the image format from the imageUrl
-//   const imageUrl = lastImage.imageUrl;
-//   const imageFormat = imageUrl.split('.').pop(); // Extract the extension
-
-//   // Check if the image format is valid (e.g., png or jpeg)
-//   if (imageFormat !== 'png' && imageFormat !== 'jpg' && imageFormat !== 'jpeg') {
-//     console.error('Invalid image format:', imageFormat);
-//     // Handle the error, e.g., return a response indicating an issue with the image format
-//     return res.status(500).json({ error: 'Invalid image format.' });
-//   }
-
-//   // Download the image from the Cloudinary URL
-//   const imagePath = path.join(__dirname, `downloaded_image.${imageFormat}`); // Use the extracted image format
-//   const response = await axios.get(imageUrl, { responseType: 'stream' });
-
-//   response.data.pipe(fs.createWriteStream(imagePath)); // Save the image locally
-
-//   response.data.on('end', () => {
-//     const imageWidth = 200; // Set the image width
-//     const xImagePosition = (pageWidth - imageWidth) / 2; // Center-align the image
-
-//     doc.moveDown(1); // Add some space before the image
-
-//     // Display the locally saved image in the PDF
-//     doc.image(imagePath, xImagePosition, doc.y, { width: imageWidth });
-
-//     doc.moveDown(0.5); // Add some space after the image
-//   });
-// }    
     // -----------------------------------------------------------------------------------------------------------------------------------------------------
-    
+
+    // Display the last uploaded image from Cloudinary in the PDF
+    // if (user.uploadedImages.length > 0) {
+    //   const lastImage = user.uploadedImages[user.uploadedImages.length - 1];
+
+    //   // Extract the image format from the imageUrl
+    //   const imageUrl = lastImage.imageUrl;
+    //   const imageFormat = imageUrl.split('.').pop(); // Extract the extension
+
+    //   // Check if the image format is valid (e.g., png or jpeg)
+    //   if (imageFormat !== 'png' && imageFormat !== 'jpg' && imageFormat !== 'jpeg') {
+    //     console.error('Invalid image format:', imageFormat);
+    //     // Handle the error, e.g., return a response indicating an issue with the image format
+    //     return res.status(500).json({ error: 'Invalid image format.' });
+    //   }
+
+    //   // Download the image from the Cloudinary URL
+    //   const imagePath = path.join(__dirname, `downloaded_image.${imageFormat}`); // Use the extracted image format
+    //   const response = await axios.get(imageUrl, { responseType: 'stream' });
+
+    //   response.data.pipe(fs.createWriteStream(imagePath)); // Save the image locally
+
+    //   response.data.on('end', () => {
+    //     const imageWidth = 200; // Set the image width
+    //     const xImagePosition = (pageWidth - imageWidth) / 2; // Center-align the image
+
+    //     doc.moveDown(1); // Add some space before the image
+
+    //     // Display the locally saved image in the PDF
+    //     doc.image(imagePath, xImagePosition, doc.y, { width: imageWidth });
+
+    //     doc.moveDown(0.5); // Add some space after the image
+    //   });
+    // }
+    // -----------------------------------------------------------------------------------------------------------------------------------------------------
+
     // Diagnosis Section - Disease Information
     doc
       .fontSize(16)
@@ -488,15 +497,15 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
       .text(`Diagnosis - ${diseaseName} Information`, { underline: true });
     // Add the detailed information about the disease from the API response
     doc.fontSize(12).fillColor("#333333").text(diseaseInfoResponse);
-    
+
     // Medicines Suggestion Section
     doc.moveDown(0.5); // Add some space between sections
     doc
       .fontSize(16)
       .fillColor("#333333")
       .text("Medicines Suggestion", { underline: true });
-      // Split the medicines response into lines and use them as medicine suggestions
-      const medicines = medicinesResponse.split("\n").slice(0, 5);
+    // Split the medicines response into lines and use them as medicine suggestions
+    const medicines = medicinesResponse.split("\n").slice(0, 5);
     doc
       .fontSize(12)
       .fillColor("#333333")
@@ -579,7 +588,9 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
         return res.status(500).json({ error: "Email sending error." });
       } else {
         console.log("Email sent: " + info.response);
-        return res.status(200).json({ message: "PDF generated and sent successfully." });
+        return res
+          .status(200)
+          .json({ message: "PDF generated and sent successfully." });
       }
     });
   } catch (error) {
