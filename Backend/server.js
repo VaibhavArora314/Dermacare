@@ -444,30 +444,43 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
       .text(`Age: ${calculateAge(user.dob)}`);
     doc.fontSize(12).fillColor("#333333").text(`Gender: ${user.gender}`);
     doc.fontSize(12).fillColor("#333333").text(`Email: ${user.email}`);
+// -----------------------------------------------------------------------------------------------------------------------------------------------------
 
-    // Display the last uploaded image from Cloudinary in the PDF
-    // if (user.uploadedImages.length > 0) {
-    //   const lastImage = user.uploadedImages[user.uploadedImages.length - 1];
+// Display the last uploaded image from Cloudinary in the PDF
+// if (user.uploadedImages.length > 0) {
+//   const lastImage = user.uploadedImages[user.uploadedImages.length - 1];
 
-    //   // Download the image from the Cloudinary URL
-    //   const imagePath = path.join(__dirname, 'downloaded_image.png'); // Replace with a suitable filename
-    //   const response = await axios.get(lastImage.imageUrl, { responseType: 'stream' });
+//   // Extract the image format from the imageUrl
+//   const imageUrl = lastImage.imageUrl;
+//   const imageFormat = imageUrl.split('.').pop(); // Extract the extension
 
-    //   response.data.pipe(fs.createWriteStream(imagePath)); // Save the image locally
+//   // Check if the image format is valid (e.g., png or jpeg)
+//   if (imageFormat !== 'png' && imageFormat !== 'jpg' && imageFormat !== 'jpeg') {
+//     console.error('Invalid image format:', imageFormat);
+//     // Handle the error, e.g., return a response indicating an issue with the image format
+//     return res.status(500).json({ error: 'Invalid image format.' });
+//   }
 
-    //   response.data.on('end', () => {
-    //     const imageWidth = 200; // Set the image width
-    //     const xImagePosition = (pageWidth - imageWidth) / 2; // Center-align the image
+//   // Download the image from the Cloudinary URL
+//   const imagePath = path.join(__dirname, `downloaded_image.${imageFormat}`); // Use the extracted image format
+//   const response = await axios.get(imageUrl, { responseType: 'stream' });
 
-    //     doc.moveDown(1); // Add some space before the image
+//   response.data.pipe(fs.createWriteStream(imagePath)); // Save the image locally
 
-    //     // Display the locally saved image in the PDF
-    //     doc.image(imagePath, xImagePosition, doc.y, { width: imageWidth });
+//   response.data.on('end', () => {
+//     const imageWidth = 200; // Set the image width
+//     const xImagePosition = (pageWidth - imageWidth) / 2; // Center-align the image
 
-    //     doc.moveDown(0.5); // Add some space after the image
-    //   });
-    // }
+//     doc.moveDown(1); // Add some space before the image
 
+//     // Display the locally saved image in the PDF
+//     doc.image(imagePath, xImagePosition, doc.y, { width: imageWidth });
+
+//     doc.moveDown(0.5); // Add some space after the image
+//   });
+// }    
+    // -----------------------------------------------------------------------------------------------------------------------------------------------------
+    
     // Diagnosis Section - Disease Information
     doc
       .fontSize(16)
@@ -475,15 +488,15 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
       .text(`Diagnosis - ${diseaseName} Information`, { underline: true });
     // Add the detailed information about the disease from the API response
     doc.fontSize(12).fillColor("#333333").text(diseaseInfoResponse);
-
+    
     // Medicines Suggestion Section
     doc.moveDown(0.5); // Add some space between sections
     doc
       .fontSize(16)
       .fillColor("#333333")
       .text("Medicines Suggestion", { underline: true });
-    // Split the medicines response into lines and use them as medicine suggestions
-    const medicines = medicinesResponse.split("\n").slice(0, 5);
+      // Split the medicines response into lines and use them as medicine suggestions
+      const medicines = medicinesResponse.split("\n").slice(0, 5);
     doc
       .fontSize(12)
       .fillColor("#333333")
