@@ -1,15 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 import "../assets/css/UploadImage.scss";
 import uploadIcon from "../assets/icons/Upload.png";
 import imageVector from "../assets/icons/image-vector.png";
 
 export default function UploadImage() {
-  const [picture, setPicture] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [message, setMessage] = useState("");
+  const { token } = useContext(AuthContext);
 
-  const handleProfilePictureChange = (event) => {
-    const selectedFile = event.target.files[0];
-    if (selectedFile) {
-      setPicture(selectedFile);
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("image", selectedFile);
+
+      const config = {
+        headers: {
+          token, // Replace 'your_token_value_here' with the actual token value you want to send.
+        },
+      };
+
+      // Replace 'YOUR_SERVER_URL' with the actual server endpoint to handle the image upload
+      const response = await axios.post(
+        "http://localhost:5000/api/upload",
+        formData,
+        config
+      );
+
+      console.log("Image uploaded successfully:", response.data);
+      setMessage("Image uploaded successfully");
+      // You can add additional logic here, such as displaying a success message.
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      // Handle error, e.g., show an error message to the user.
     }
   };
 
@@ -19,7 +47,7 @@ export default function UploadImage() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleImageChange = (event) => {
-    const selectedFile = event.target.file && event.target.files[0];
+    const selectedFile = event.target.files && event.target.files[0];
     if (currentIndex < 3) {
       const newImages = [...images];
       newImages[currentIndex] = selectedFile;
@@ -50,7 +78,6 @@ export default function UploadImage() {
     }
   }, [uploading, trackers]);
 
-  console.log(picture);
   console.log(images, trackers);
   return (
     <>
@@ -66,7 +93,7 @@ export default function UploadImage() {
                   type="file"
                   id="profile-picture"
                   accept=".pdf, .jpeg, .png"
-                  onChange={handleProfilePictureChange}
+                  onChange={handleFileChange}
                   style={{ display: "none" }}
                   required
                 />
@@ -85,9 +112,10 @@ export default function UploadImage() {
                     onClick={() => {
                       document.getElementById("profile-picture").click();
                     }}
-                    onChange={(e) => handleImageChange(0, e)}
+                    // onChange={(e) => handleImageChange(e)}
                   >
                     Browse
+                    {/* {message ? { message } : "Browse"} */}
                   </button>
                 </p>
                 <p
@@ -99,20 +127,21 @@ export default function UploadImage() {
               </div>
             </div>
           </div>
+          {images.map((image, index) => (
+            <div key={index} className="progress-tracker">
+              <p>Uploading Image {index + 1}</p>
+              {trackers[index] && (
+                <div className="progress-bar">
+                  <div className="progress" style={{ width: "100%" }}></div>
+                </div>
+              )}
+            </div>
+          ))}
+          <button onClick={handleUpload}>Upload File</button>
         </div>
         <div className="par-container__img-section">
           <img src={imageVector} alt="" className="img-vector" />
         </div>
-        {images.map((image, index) => (
-          <div key={index} className="progress-tracker">
-            <p>Uploading Image {index + 1}</p>
-            {trackers[index] && (
-              <div className="progress-bar">
-                <div className="progress" style={{ width: "100%" }}></div>
-              </div>
-            )}
-          </div>
-        ))}
       </div>
     </>
   );

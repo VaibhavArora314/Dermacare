@@ -1,4 +1,4 @@
-  @import url('https://fonts.googleapis.com/css2?family=Lato&family=Roboto:wght@300&display=swap');
+  @import "../App.css";
 
 // signup styling
 
@@ -16,8 +16,8 @@ $myCustomInputStyles:(
 }
 
 $myCustomTextStyles: (
-  font-family: 'Lato',
-  font-size: 1em,
+  font-family: 'poppins',
+  font-size: 1.2em,
   font-weight: 600,
 //   line-height: 44px,
   letter-spacing: 0,
