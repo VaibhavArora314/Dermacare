@@ -137,7 +137,7 @@ export default function UploadImage() {
               )}
             </div>
           ))}
-          <button onClick={handleUpload}>Upload File</button>
+          <button onClick={handleUpload}>Generate Report</button>
         </div>
         <div className="par-container__img-section">
           <img src={imageVector} alt="" className="img-vector" />
