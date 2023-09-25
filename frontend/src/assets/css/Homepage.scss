@@ -71,6 +71,7 @@
 }
 
 .procedureContainer{
+  padding-top: 70px;
   display: flex;
   flex-direction: row;
   gap: 15px;
@@ -82,11 +83,11 @@
   &__Image {
     flex:3;
     border-radius: 50%;
+    height:350px;
+    width:500px;
     color: #191B1B;
     border: solid;
-     padding:0;
-     
-      height:inherit;
+     padding-top:10px;
       // width:60% !important;
       
       >.one-section{
@@ -122,15 +123,15 @@
   flex-direction: column;
   gap: 15px ;
 
-  &__Image {
+  &__TwoImage {
     flex:3;
     border-radius: 50%;
+    height:350px;
+    width:500px;
     color: #191B1B;
     border: solid;
      padding:0;
-     
-      height:inherit;
-      // width:60% !important;
+
       
       >.two-section{
           transform: scale(0.5);
@@ -141,16 +142,16 @@
         }
   }
 
-  &__Heading p{
+  &__TwoHeading p{
   color: #088586; 
   font-size: 40px; 
   font-family: Montserrat; 
-  font-weight: 500; 
+  font-weight: 500;
   word-wrap: break-word
 }
-  &__Content p{
+  &__TwoContent p{
   width: 100%; 
-  height: 100%; 
+  height: 0px; 
   text-align: center;
   color: black; 
   font-size: 25px; 
@@ -165,18 +166,18 @@
   flex-direction: column;
   gap: 15px ;
 
-  &__Image {
+  &__ThreeImage {
     flex:3;
     border-radius: 50%;
+    height:350px;
+    width:500px;
     color: #191B1B;
     border: solid;
      padding:0;
-     
-      height:inherit;
-      // width:60% !important;
       
       >.three-section{
-          transform: scale(0.5);
+          align-items: center;
+          transform: scale(0.4);
           margin-top: -5rem;
           margin-left:5%;
           align-items: end;
@@ -184,16 +185,16 @@
         }
   }
 
-  &__Heading p{
+  &__ThreeHeading p{
   color: #088586; 
   font-size: 40px; 
   font-family: Montserrat; 
   font-weight: 500; 
   word-wrap: break-word
 }
-  &__Content p{
+  &__ThreeContent p{
   width: 100%; 
-  height: 100%; 
+  height: 80px; 
   text-align: center;
   color: black; 
   font-size: 25px; 
