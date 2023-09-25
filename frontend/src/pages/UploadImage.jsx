@@ -33,7 +33,7 @@ LinearProgressWithLabel.propTypes = {
 };
 
 export default function UploadImage() {
-  const [progress, setProgress] = useState(Array(2).fill(10));
+  const [progress, setProgress] = useState(Array(3).fill(10));
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [message, setMessage] = useState("");
@@ -149,8 +149,8 @@ export default function UploadImage() {
                   <button
                     className="input-btn"
                     onClick={() => {
-                      if (currentIndex === 2)
-                        return alert("Only 2 image uploads allowed");
+                      if (currentIndex === 3)
+                        return alert("Only 3 image uploads allowed");
 
                       document.getElementById("profile-picture").click();
                     }}
@@ -194,7 +194,7 @@ export default function UploadImage() {
 
           <button
             className={`generate-btn ${
-              images.length !== 2 ? "gen-inactive" : ""
+              images.length !== 3 ? "gen-inactive" : ""
             }`}
             onClick={handleUpload}
           >

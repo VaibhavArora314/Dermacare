@@ -22,10 +22,10 @@ $myCustomTextStyles: (
   display: flex;
   flex-direction: row;
   // gap:5px;
-  // padding:1.5rem 1rem ;
+  padding:1.5rem 1rem ;
   // width:100vw;
-  // height:100vh;
-  width:100%;
+  min-height:110vh;
+  // width:100%;
   overflow-x:hidden;
 
   &__upload-section{
@@ -119,6 +119,7 @@ $myCustomTextStyles: (
           >.progress-tracker{
             
             >.progress-bar{
+              margin-top:-10px;
               padding: 10px;
               padding-bottom:0px;
               border-radius: 4px;
@@ -141,13 +142,13 @@ $myCustomTextStyles: (
   flex:3;
    padding:0;
    
-    // height:100vh;
+    height:inherit;
     // width:60% !important;
     
     >.img-vector{
         transform: scale(0.75);
         margin-top: -5rem;
-        margin-left:10%;
+        margin-left:5%;
         align-items: end;
 
       }
