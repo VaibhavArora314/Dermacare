@@ -399,7 +399,10 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
     // Retrieve user profile from DB
     const user = await User.findById(userId);
 
+    console.log("generating report for user ", user.username);
+
     const diseaseName = user.uploadedImages[index].diseaseName;
+    const imageUrl = user.uploadedImages[index].imageUrl;
 
     if (!user) {
       return res.status(404).json({ error: "User not found." });
@@ -427,6 +430,22 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
     // Modify the path to the logo image (replace 'logo.png' with your logo file name)
     const logoPath = path.join(__dirname, "logo.png"); // Replace 'logo.png' with the actual filename
 
+    let validFile = false,
+      downloadedImagePath;
+    if (imageUrl) {
+      try {
+        const downloadImageName = await downloadImage(imageUrl);
+        downloadedImagePath = path.join(__dirname, downloadImageName);
+
+        fs.accessSync(downloadedImagePath, fs.constants.F_OK);
+        validFile = true;
+        console.log("Valid Path!");
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    // PDF Generation
     // Pipe the PDF document to the response
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
@@ -454,57 +473,23 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
       .text(`Age: ${calculateAge(user.dob)}`);
     doc.fontSize(12).fillColor("#333333").text(`Gender: ${user.gender}`);
     doc.fontSize(12).fillColor("#333333").text(`Email: ${user.email}`);
-    // -----------------------------------------------------------------------------------------------------------------------------------------------------
 
-    // Display the last uploaded image from Cloudinary in the PDF
-    if (user.uploadedImages.length > 0) {
-      const lastImage = user.uploadedImages[user.uploadedImages.length - 1];
+    const imageWidth = 200; // Set the image width
+    const xImagePosition = (pageWidth - imageWidth) / 2; // Center-align the image
 
-      // Extract the image format from the imageUrl
-      const imageUrl = lastImage.imageUrl;
-      console.log(imageUrl);
-      downloadImage(imageUrl).then((downloadedImagePath) => {
-        if (downloadedImagePath) {
-          console.log('Downloaded image path:', downloadedImagePath);
-          const imageWidth = 200; // Set the image width
-        const xImagePosition = (pageWidth - imageWidth) / 2; // Center-align the image
+    if (validFile) {
+      doc.moveDown(1); // Add some space before the image
 
-        doc.moveDown(1); // Add some space before the image
-
-    //     // Display the locally saved image in the PDF
-        doc.image(downloadedImagePath, xImagePosition, doc.y, { width: imageWidth });
-        } else {
-          console.log('Image download failed.');
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
+      //     // Display the locally saved image in the PDF
+      doc.image(downloadedImagePath, xImagePosition, doc.y, {
+        width: imageWidth,
       });
-  }
 
-    
+      doc.moveDown(1);
 
-    //   // Download the image from the Cloudinary URL
-    //   const imagePath = path.join(__dirname, `downloaded_image.${imageFormat}`); // Use the extracted image format
-    //   const response = await axios.get(imageUrl, { responseType: 'stream' });
+      console.log("File attached");
+    }
 
-    //   response.data.pipe(fs.createWriteStream(imagePath)); // Save the image locally
-
-    //   response.data.on('end', () => {
-    //     const imageWidth = 200; // Set the image width
-    //     const xImagePosition = (pageWidth - imageWidth) / 2; // Center-align the image
-
-    //     doc.moveDown(1); // Add some space before the image
-
-    //     // Display the locally saved image in the PDF
-    //     doc.image(imagePath, xImagePosition, doc.y, { width: imageWidth });
-
-    //     doc.moveDown(0.5); // Add some space after the image
-    //   });
-    // }
-    // -----------------------------------------------------------------------------------------------------------------------------------------------------
-
-    // Diagnosis Section - Disease Information
     doc
       .fontSize(16)
       .fillColor("#333333")

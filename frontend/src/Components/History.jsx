@@ -5,6 +5,7 @@ import axios from "axios";
 const History = () => {
   const [history, setHistory] = useState(null);
   const { token } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
   const getHistory = async () => {
     try {
@@ -18,18 +19,7 @@ const History = () => {
         "http://localhost:5000/api/user/images",
         config
       );
-      //   console.log(res);
-
       const history = res.data.uploadedImages;
-
-      // setHistory(
-      //   images.map((image) => {
-      //     return {
-      //       image: image,
-      //       disease: "Acne",
-      //     };
-      //   })
-      // );
       setHistory(history);
     } catch (ex) {
       console.log(ex);
@@ -41,6 +31,13 @@ const History = () => {
   }, [token]);
 
   const handleEmailSend = async (index) => {
+    if (loading) {
+      alert("Generating a PDF. Please Wait!");
+      return;
+    }
+
+    setLoading(true);
+
     try {
       const config = {
         headers: {
@@ -52,8 +49,27 @@ const History = () => {
         config
       );
       console.log(res);
+      // const pdfData = new Uint8Array(res.data);
+
+      // const blob = new Blob([pdfData], { type: "application/pdf" });
+
+      // // Create a URL for the Blob
+      // const url = URL.createObjectURL(blob);
+      // // window.open(url, "_blank");
+
+      // const a = document.createElement("a");
+      // a.href = url;
+      // a.download = "report.pdf"; // Set the desired file name.
+      // a.style.display = "none";
+      // document.body.appendChild(a);
+      // a.click();
+      // document.body.removeChild(a);
+
+      // URL.revokeObjectURL(url);
+      setLoading(false);
     } catch (ex) {
       console.log(ex);
+      setLoading(false);
     }
   };
 
