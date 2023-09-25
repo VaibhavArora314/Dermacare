@@ -149,7 +149,7 @@ export default function UploadImage() {
                   <button
                     className="input-btn"
                     onClick={() => {
-                      if (currentIndex === 3)
+                      if (currentIndex === 1)
                         return alert("Only 3 image uploads allowed");
 
                       document.getElementById("profile-picture").click();
@@ -174,10 +174,10 @@ export default function UploadImage() {
               {progress[index] === 100 ? (
                 <>
                   <p className="upload ">Uploaded</p>
-                  <div className="progress-bar">
+                  <div className="progress-bar" style={{ padding: "10px" }}>
                     <b style={{ color: "gray" }}>File: </b>
                     {uploadedFileName[index]}
-                    <LinearProgressWithLabel value={progress[index]} />
+                    {/* <LinearProgressWithLabel value={progress[index]} /> */}
                   </div>
                 </>
               ) : (
@@ -194,7 +194,7 @@ export default function UploadImage() {
 
           <button
             className={`generate-btn ${
-              images.length !== 3 ? "gen-inactive" : ""
+              images.length !== 1 ? "gen-inactive" : ""
             }`}
             onClick={handleUpload}
           >
