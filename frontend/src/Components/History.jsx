@@ -11,6 +11,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const History = () => {
   const [history, setHistory] = useState(null);
@@ -124,14 +125,15 @@ const History = () => {
                 </TableCell>
                 <TableCell align="left">{h.diseaseName}</TableCell>
                 <TableCell align="left">
-                  <button
+                  {/* <button
                     style={{ height: "50px" }}
                     onClick={() => {
                       handleEmailSend(index);
                     }}
                   >
                     Send Report
-                  </button>
+                  </button> */}
+                  <Link to={`/report/${index}`}>Report</Link>
                 </TableCell>
               </TableRow>
             ))}

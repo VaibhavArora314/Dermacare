@@ -67,8 +67,8 @@ const userSchema = new mongoose.Schema({
     {
       imageUrl: String, // Store the image URL
       diseaseName: String, // Store the disease name
-      diseaseInfoPrompt :String,
-      medicinesPrompt: String
+      diseaseInfoPrompt: String,
+      medicinesPrompt: String,
     },
   ],
 });
@@ -90,6 +90,7 @@ const jwtSecretKey = `${process.env.JWT_SECRET_KEY}`;
 // Middleware to check if the user is authenticated
 const checkAuth = (req, res, next) => {
   const token = req.headers.token;
+  console.log(token);
 
   if (!token) {
     return res.status(401).json({ error: "Unauthorized." });
@@ -170,7 +171,9 @@ app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
       }
     });
 
-    return res.status(201).json({ message: "Registration successful.", token });
+    return res
+      .status(201)
+      .json({ message: "Registration successful.", token, username });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Server error." });
@@ -200,7 +203,9 @@ app.post("/api/login", async (req, res) => {
         expiresIn: expirationInSeconds,
       });
 
-      return res.status(200).json({ message: "Login successful.", token });
+      return res
+        .status(200)
+        .json({ message: "Login successful.", token, username: user.username });
     } else {
       return res.status(401).json({ error: "Incorrect password." });
     }
@@ -236,18 +241,22 @@ app.post("/api/upload", checkAuth, upload.single("image"), async (req, res) => {
     // Check if the image was successfully uploaded to Cloudinary
     if (cloudinaryResponse && cloudinaryResponse.secure_url) {
       // Create an object with image URL and disease name
-      const diseaseInfoPrompt = `Provide detailed information about ${diseaseName} to a person having age ${calculateAge(user.dob)}`;
+      const diseaseInfoPrompt = `Provide detailed information about ${diseaseName} to a person having age ${calculateAge(
+        user.dob
+      )}`;
       const diseaseInfoResponse = await getDiagnosis(diseaseInfoPrompt);
-      
+
       // Use the getDiagnosis API to fetch 5 medicines to cure the disease
-      const medicinesPrompt = `Provide 5 medicines to cure ${diseaseName} to a person having age ${calculateAge(user.dob)}. Just the name nothing else`;
+      const medicinesPrompt = `Provide 5 medicines to cure ${diseaseName} to a person having age ${calculateAge(
+        user.dob
+      )}. Just the name nothing else`;
       const medicinesResponse = await getDiagnosis(medicinesPrompt);
-      
+
       const uploadedImage = {
         imageUrl: cloudinaryResponse.secure_url,
         diseaseName: diseaseName,
         diseaseInfoPrompt: diseaseInfoResponse,
-        medicinesPrompt: medicinesResponse
+        medicinesPrompt: medicinesResponse,
       };
 
       // Add the image object to the user's uploadedImages array
@@ -411,16 +420,18 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
     }
 
     if (!user.username) {
-      return res.status(400).json({ error: "Username not found in user profile." });
+      return res
+        .status(400)
+        .json({ error: "Username not found in user profile." });
     }
 
     const diseaseName = user.uploadedImages[index].diseaseName;
     const imageUrl = user.uploadedImages[index].imageUrl;
     const diseaseInfoResponse = user.uploadedImages[index].diseaseInfoPrompt;
     const medicinesResponse = user.uploadedImages[index].medicinesPrompt;
-    console.log(diseaseInfoResponse)
-    console.log(medicinesResponse)
-    
+    console.log(diseaseInfoResponse);
+    console.log(medicinesResponse);
+
     if (!user) {
       return res.status(404).json({ error: "User not found." });
     }
@@ -456,12 +467,6 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
 
     // PDF Generation
     // Pipe the PDF document to the response
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename=user_diagnosis_${diseaseName}.pdf`
-    );
-    doc.pipe(res);
 
     // Add a professional title with logo and bold heading
     const logoWidth = 200; // Adjust the logo width as needed
@@ -566,6 +571,16 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
       .fillColor("#333333")
       .text("© 2023 DermaCare. All rights reserved.", { align: "center" });
 
+    // doc.end();
+
+    // res.setHeader("Content-Type", "application/pdf");
+    // res.setHeader(
+    //   "Content-Disposition",
+    //   `attachment; filename=user_diagnosis_${diseaseName}.pdf`
+    // );
+    // // res.pipe(doc);
+    // doc.pipe(res);
+
     // Generate a PDF file and get its buffer
     const pdfBuffer = await new Promise((resolve, reject) => {
       const buffers = [];
@@ -597,7 +612,10 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
         console.log("Email sent: " + info.response);
         return res
           .status(200)
-          .json({ message: "PDF generated and sent successfully." });
+          .json({
+            message: "PDF generated and sent successfully.",
+            pdf: pdfBuffer.toString("base64"),
+          });
       }
     });
   } catch (error) {
@@ -621,6 +639,14 @@ function calculateAge(dob) {
   }
   return age;
 }
+
+app.get("/api/team", async (req, res) => {
+  const team = process.env.DEVS.split(" ");
+
+  return res.status(200).json({
+    team,
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

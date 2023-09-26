@@ -5,6 +5,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import UploadImage from "./pages/UploadImage";
 import ProfilePage from "./pages/ProfilePage";
 import { AuthProvider } from "./context/AuthContext";
+import TeamPage from "./pages/TeamPage";
+import ContactPage from "./pages/ContactPage";
+import ReportPage from "./pages/ReportPage";
 
 function App() {
   return (
@@ -17,6 +20,9 @@ function App() {
               <Route path="/" element={<Homepage />} />
               <Route path="/image" element={<UploadImage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/team" element={<TeamPage />} />
+              <Route path="/contact-us" element={<ContactPage />} />
+              <Route path="/report/:id" element={<ReportPage />} />
             </Routes>
           </Router>
         </AuthProvider>
