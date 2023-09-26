@@ -39,15 +39,18 @@ $myCustomTextStyles: (
   width:35% !important;
    right:3% !important;
    top:5% !important;
+   position: relative;
    perspective: 1000px;
-   transition: transform 0.5s; /* Add a smooth transition effect */
-   transform-style: preserve-3d; 
-
    
+   .flip-signup{
+    transform-style: preserve-3d;
+   transition: transform 0.5s;
+   }
+
    .heading{
         display: flex!important;
         justify-content: center!important;
-        font-size: 1.2em;
+        font-size: 1.4em;
    }
   .row-1{
     border-bottom: none !important;
@@ -77,9 +80,12 @@ $myCustomTextStyles: (
       border-radius:4px;
 
     }
-    >#dob{
-      width:auto !important;
-      padding:1rem !important;
+    #dob{
+      width: 85%;
+      padding: 1rem;
+      border: 1px solid #000000;
+      border-radius:4px;
+      cursor: pointer;
     }
     >#gender{
       border: 1px solid #000000;
@@ -129,6 +135,7 @@ $myCustomTextStyles: (
     top:5rem;
     display: flex;
     flex-direction: column;
+    perspective: 1000px;
 
     // flip-card animation
       

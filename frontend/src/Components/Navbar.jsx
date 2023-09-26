@@ -84,7 +84,7 @@ export default function Navbar() {
             href="/"
             sx={{
               mr: 2,
-              display: { xs: "none", md: "flex" },
+              // display: { xs: "none", md: "flex" },
               fontFamily: "lato",
               fontWeight: "600",
               letterSpacing: ".3rem",
@@ -150,8 +150,10 @@ export default function Navbar() {
             sx={{
               flexGrow: 1,
               display: { xs: "none", md: "flex" },
-              marginLeft: "55%",
+              // marginLeft: "auto",
+              justifyContent: "flex-end",
               gap: "2rem",
+              marginRight: 1,
             }}
           >
             {/* <Button

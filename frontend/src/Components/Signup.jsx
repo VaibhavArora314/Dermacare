@@ -17,6 +17,7 @@ export default function Signup() {
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [isFlipped, setIsFlipped] = useState(false);
   const { login: setToken } = useContext(AuthContext);
+  const [uploadedFileName, setUploadedFileName] = useState();
 
   const handleRegister = async () => {
     try {
@@ -38,7 +39,7 @@ export default function Signup() {
 
       console.log("API Response:", response);
       setSignup(false);
-      setIsFlipped(!isFlipped);
+      setIsFlipped(true);
     } catch (error) {
       console.error("Registration failed:", error);
     }
@@ -49,6 +50,7 @@ export default function Signup() {
 
     if (img) {
       setProfilePhoto(img);
+      setUploadedFileName(img.name);
     }
   };
 
@@ -85,12 +87,12 @@ export default function Signup() {
                 />
               </div>
               <div className="row signup-field">
-                <label htmlFor="dob">Dob</label>
+                <label htmlFor="dob">DOB</label>
                 <DatePicker
                   id="dob"
                   dateFormat="yyyy-MM-dd"
                   selected={dob}
-                  placeholderText="Select a date"
+                  placeholderText="Select"
                   showYearDropdown
                   showMonthDropdown
                   scrollableYearDropdown
@@ -146,11 +148,11 @@ export default function Signup() {
                   className="custom-upload-pic"
                   onClick={() => document.getElementById("prof-photo").click()}
                 >
-                  Upload Image
+                  {!uploadedFileName ? <>Upload Image</> : uploadedFileName}
                 </p>
               </div>
             </div>
-            <button className="login-btn" onClick={handleRegister}>
+            <button onClick={handleRegister} className="login-btn">
               Register
             </button>
           </>
