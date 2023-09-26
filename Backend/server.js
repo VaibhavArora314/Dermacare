@@ -68,6 +68,8 @@ const userSchema = new mongoose.Schema({
     {
       imageUrl: String, // Store the image URL
       diseaseName: String, // Store the disease name
+      diseaseInfoPrompt :String,
+      medicinesPrompt: String
     },
   ],
 });
@@ -218,6 +220,7 @@ app.post("/api/upload", checkAuth, upload.single("image"), async (req, res) => {
     // Save the uploaded image file path to the user's profile
     const userId = req.userId;
     const imagePath = req.file ? req.file.path : "";
+    const user = await User.findById(userId);
 
     const diseaseNames = ["acne", "vitilgo", "psorasis", "eczema", "atopic"];
     // const diseaseName = "ml-model"; // Get the disease name from the model
@@ -237,9 +240,18 @@ app.post("/api/upload", checkAuth, upload.single("image"), async (req, res) => {
     // Check if the image was successfully uploaded to Cloudinary
     if (cloudinaryResponse && cloudinaryResponse.secure_url) {
       // Create an object with image URL and disease name
+      const diseaseInfoPrompt = `Provide detailed information about ${diseaseName} to a person having age ${calculateAge(user.dob)}`;
+      const diseaseInfoResponse = await getDiagnosis(diseaseInfoPrompt);
+      
+      // Use the getDiagnosis API to fetch 5 medicines to cure the disease
+      const medicinesPrompt = `Provide 5 medicines to cure ${diseaseName} to a person having age ${calculateAge(user.dob)}. Just the name nothing else`;
+      const medicinesResponse = await getDiagnosis(medicinesPrompt);
+      
       const uploadedImage = {
         imageUrl: cloudinaryResponse.secure_url,
         diseaseName: diseaseName,
+        diseaseInfoPrompt: diseaseInfoResponse,
+        medicinesPrompt: medicinesResponse
       };
 
       // Add the image object to the user's uploadedImages array
@@ -403,18 +415,20 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
 
     const diseaseName = user.uploadedImages[index].diseaseName;
     const imageUrl = user.uploadedImages[index].imageUrl;
-
+    const diseaseInfoResponse = user.uploadedImages[index].diseaseInfoPrompt;
+    const medicinesResponse = user.uploadedImages[index].medicinesPrompt;
+    
     if (!user) {
       return res.status(404).json({ error: "User not found." });
     }
 
-    // Use the getDiagnosis API to fetch detailed information about the disease
-    const diseaseInfoPrompt = `Provide detailed information about ${diseaseName}.`;
-    const diseaseInfoResponse = await getDiagnosis(diseaseInfoPrompt);
+    // // Use the getDiagnosis API to fetch detailed information about the disease
+    // const diseaseInfoPrompt = `Provide detailed information about ${diseaseName} to a person having age ${calculateAge(user.dob)}`;
+    // const diseaseInfoResponse = await getDiagnosis(diseaseInfoPrompt);
 
-    // Use the getDiagnosis API to fetch 5 medicines to cure the disease
-    const medicinesPrompt = `Provide 5 medicines to cure ${diseaseName}. Just the name nothing else`;
-    const medicinesResponse = await getDiagnosis(medicinesPrompt);
+    // // Use the getDiagnosis API to fetch 5 medicines to cure the disease
+    // const medicinesPrompt = `Provide 5 medicines to cure ${diseaseName} to a personnhaving age ${calculateAge(user.dob)}. Just the name nothing else`;
+    // const medicinesResponse = await getDiagnosis(medicinesPrompt);
 
     // Ensure that both responses are valid
     if (!diseaseInfoResponse || !medicinesResponse) {
