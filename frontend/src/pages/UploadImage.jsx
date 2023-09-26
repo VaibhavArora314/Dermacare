@@ -8,6 +8,8 @@ import PropTypes from "prop-types";
 import LinearProgress from "@mui/material/LinearProgress";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
+import Loader from "../Components/Loader";
 
 function LinearProgressWithLabel(props) {
   return (
@@ -44,6 +46,9 @@ export default function UploadImage() {
   const [uploadingImageIndex, setUploadingImageIndex] = useState(-1);
   const [uploadedFileName, setUploadedFileName] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
 
@@ -64,6 +69,7 @@ export default function UploadImage() {
     try {
       const formData = new FormData();
       formData.append("image", selectedFile);
+      setLoading(true);
 
       const config = {
         headers: {
@@ -80,9 +86,12 @@ export default function UploadImage() {
 
       console.log("Image uploaded successfully:", response.data);
       setMessage("Image uploaded successfully");
+
+      navigate(`/report/${response.data.index}`);
       // You can add additional logic here, such as displaying a success message.
     } catch (error) {
       console.error("Error uploading image:", error);
+      setLoading(false);
       // Handle error, e.g., show an error message to the user.
     }
   };
@@ -117,6 +126,8 @@ export default function UploadImage() {
     progress,
     uploadedFileName,
   ]);
+
+  if (loading) return <Loader />;
 
   return (
     <>

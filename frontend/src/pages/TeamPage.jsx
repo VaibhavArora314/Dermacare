@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
+import Loader from "../Components/Loader";
 
 function TeamMemberCard({ name, profileUrl, image }) {
   const cardStyle = {
@@ -49,6 +50,7 @@ function TeamMemberCard({ name, profileUrl, image }) {
 
 const Team = () => {
   const [teamMembers, setTeamMembers] = useState(null);
+  const [error, setError] = useState(null);
 
   const loadTeamMembers = async () => {
     try {
@@ -69,6 +71,7 @@ const Team = () => {
     } catch (error) {
       console.log(error);
       setTeamMembers(null);
+      setError("Error retrieving team members");
     }
   };
 
@@ -94,10 +97,14 @@ const Team = () => {
     event.target.style.transform = "scale(1)";
   };
 
-  if (!teamMembers) return <h3>Loading...</h3>;
+  if (error)
+    return <h1 style={{ textAlign: "center", marginTop: "2rem" }}>{error}</h1>;
+
+  if (!teamMembers) return <Loader />;
 
   return (
     <div style={gridContainerStyle}>
+      <h1 style={{ textAlign: "center", marginTop: "2rem" }}>Our Team</h1>
       <Grid container justifyContent="center" spacing={2}>
         {teamMembers.map((member) => (
           <Grid

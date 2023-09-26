@@ -221,7 +221,7 @@ app.post("/api/upload", checkAuth, upload.single("image"), async (req, res) => {
     // Save the uploaded image file path to the user's profile
     const userId = req.userId;
     const imagePath = req.file ? req.file.path : "";
-    const user = await User.findById(userId);
+    let user = await User.findById(userId);
 
     const diseaseNames = ["acne", "vitilgo", "psorasis", "eczema", "atopic"];
     // const diseaseName = "ml-model"; // Get the disease name from the model
@@ -260,13 +260,14 @@ app.post("/api/upload", checkAuth, upload.single("image"), async (req, res) => {
       };
 
       // Add the image object to the user's uploadedImages array
-      await User.findByIdAndUpdate(userId, {
+      user = await User.findByIdAndUpdate(userId, {
         $push: { uploadedImages: uploadedImage },
       });
 
       return res.status(201).json({
         message: "Image uploaded successfully.",
         imageUrl: cloudinaryResponse.secure_url,
+        index: user.uploadedImages.length - 1,
       });
     } else {
       // If the image upload to Cloudinary failed, return an error response
@@ -610,12 +611,10 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
         return res.status(500).json({ error: "Email sending error." });
       } else {
         console.log("Email sent: " + info.response);
-        return res
-          .status(200)
-          .json({
-            message: "PDF generated and sent successfully.",
-            pdf: pdfBuffer.toString("base64"),
-          });
+        return res.status(200).json({
+          message: "PDF generated and sent successfully.",
+          pdf: pdfBuffer.toString("base64"),
+        });
       }
     });
   } catch (error) {

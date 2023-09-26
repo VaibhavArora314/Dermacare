@@ -13,6 +13,9 @@ function PdfViewer({ pdfData }) {
         title="PDF Viewer"
         width="90%"
         height="600px"
+        // id="user_report"
+        // download="user_report.pdf"
+        // name="user_report"
       ></iframe>
     </div>
   );
