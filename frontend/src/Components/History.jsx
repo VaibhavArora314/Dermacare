@@ -1,6 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
+import {
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 const History = () => {
   const [history, setHistory] = useState(null);
@@ -73,39 +83,62 @@ const History = () => {
     }
   };
 
-  if (!history) return null;
+  if (!history || history.length === 0) return null;
 
   return (
-    <div>
+    <Box
+      sx={{
+        flexDirection: "column",
+        marginLeft: 10,
+        marginRight: 10,
+        marginTop: 5,
+      }}
+    >
       <h2>History</h2>
-      {history.map((h, index) => (
-        <div
-          key={h._id}
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-          }}
-        >
-          <p>{index + 1}</p>
-          <img
-            src={h.imageUrl}
-            alt=""
-            style={{ height: "100px", width: "100px", objectFit: "cover" }}
-          />
-          <h4>{h.diseaseName}</h4>
-          <button
-            style={{ height: "50px" }}
-            onClick={() => {
-              handleEmailSend(index);
-            }}
-          >
-            Send Report via Email
-          </button>
-        </div>
-      ))}
-    </div>
+      <TableContainer>
+        <Table sx={{ maxWidth: 1500 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>S.No.</TableCell>
+              <TableCell align="left">Image</TableCell>
+              <TableCell align="left">Disease Name</TableCell>
+              <TableCell align="left">Email</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {history.map((h, index) => (
+              <TableRow>
+                <TableCell component="th" scope="row">
+                  {index + 1}
+                </TableCell>
+                <TableCell align="left">
+                  <img
+                    src={h.imageUrl}
+                    alt=""
+                    style={{
+                      height: "100px",
+                      width: "100px",
+                      objectFit: "cover",
+                    }}
+                  />
+                </TableCell>
+                <TableCell align="left">{h.diseaseName}</TableCell>
+                <TableCell align="left">
+                  <button
+                    style={{ height: "50px" }}
+                    onClick={() => {
+                      handleEmailSend(index);
+                    }}
+                  >
+                    Send Report
+                  </button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 };
 
