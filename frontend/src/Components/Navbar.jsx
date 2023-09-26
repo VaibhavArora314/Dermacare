@@ -14,31 +14,35 @@ import Logo from "../assets/icons/logo.png";
 import Person from "../assets/icons/person.png";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { Avatar } from "@mui/material";
 
 export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const { isLoggedIn, logout } = useContext(AuthContext);
+  const { isLoggedIn, username, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const pages = [
     {
-      title: "About Us",
+      title: "Checkup",
       handler: () => {
-        navigate("/about-us");
+        navigate("/image");
       },
-    },
-    {
-      title: "History",
-      handler: () => {
-        navigate("/profile");
-      },
+      mustBeLoggedIn: true,
     },
     {
       title: "Contact-Us",
       handler: () => {
         navigate("/contact-us");
       },
+      mustBeLoggedIn: false,
+    },
+    {
+      title: "Our team",
+      handler: () => {
+        navigate("/team");
+      },
+      mustBeLoggedIn: false,
     },
   ];
 
@@ -132,17 +136,21 @@ export default function Navbar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page.title}
-                  onClick={() => {
-                    handleCloseNavMenu();
-                    page.handler();
-                  }}
-                >
-                  <Typography textAlign="center">{page.title}</Typography>
-                </MenuItem>
-              ))}
+              {pages.map((page) => {
+                if (page.mustBeLoggedIn && !isLoggedIn) return null;
+
+                return (
+                  <MenuItem
+                    key={page.title}
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      page.handler();
+                    }}
+                  >
+                    <Typography textAlign="center">{page.title}</Typography>
+                  </MenuItem>
+                );
+              })}
             </Menu>
           </Box>
 
@@ -153,7 +161,7 @@ export default function Navbar() {
               // marginLeft: "auto",
               justifyContent: "flex-end",
               gap: "2rem",
-              marginRight: 1,
+              marginRight: 4,
             }}
           >
             {/* <Button
@@ -174,34 +182,48 @@ export default function Navbar() {
             >
               Home
             </Button> */}
-            {pages.map((page) => (
-              <Button
-                key={page.title}
-                onClick={() => {
-                  handleCloseNavMenu();
-                  page.handler();
-                }}
-                sx={{
-                  my: 2,
-                  color: "black",
-                  display: "block",
-                  fontWeight: "600",
-                  //   fontFamily: "Monteserrat",
-                  fontSize: "1em",
-                  textTransform: "capitalize",
-                  "&:hover": { backgroundColor: "#C8E1D3" },
-                }}
-              >
-                {page.title}
-              </Button>
-            ))}
+            {pages.map((page) => {
+              if (page.mustBeLoggedIn && !isLoggedIn) return null;
+
+              return (
+                <Button
+                  key={page.title}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    page.handler();
+                  }}
+                  sx={{
+                    my: 2,
+                    color: "black",
+                    display: "block",
+                    fontWeight: "600",
+                    //   fontFamily: "Monteserrat",
+                    fontSize: "1em",
+                    textTransform: "capitalize",
+                    "&:hover": { backgroundColor: "#C8E1D3" },
+                  }}
+                >
+                  {page.title}
+                </Button>
+              );
+            })}
           </Box>
 
           {isLoggedIn && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <img src={Person} alt="icon" height="35px" />
+                  {/* <img src={Person} alt="icon" height="35px" /> */}
+                  <Avatar
+                    sx={{
+                      bgcolor: "#038c13",
+                      width: 50,
+                      height: 50,
+                      fontSize: 40,
+                    }}
+                  >
+                    {username[0]}
+                  </Avatar>
                 </IconButton>
               </Tooltip>
               <Menu

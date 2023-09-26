@@ -15,7 +15,7 @@ export default function Login() {
   const [signup, setsignup] = useState(false);
   const [error, seterror] = useState(false);
   const [isflipped, setisflipped] = useState();
-  const { login: setToken } = useContext(AuthContext);
+  const { login: setDetails } = useContext(AuthContext);
 
   const handleLogin = async () => {
     try {
@@ -31,7 +31,7 @@ export default function Login() {
         data
       );
 
-      setToken(response?.data?.token);
+      setDetails(response?.data?.token, response?.data?.username);
 
       // Handle the API response here, e.g., set user authentication, redirect, etc.
       console.log("API Response:", response); // You can log the response for debugging
