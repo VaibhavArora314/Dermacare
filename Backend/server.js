@@ -12,14 +12,13 @@ import path from "path"; // Import the 'path' module
 import { fileURLToPath } from "url";
 import nodemailer from "nodemailer"; // Import Nodemailer
 import cloudinary from "cloudinary"; // Import Cloudinary
-import axios from "axios";
 import fs from "fs";
 import { downloadImage } from "./image_extraction.js";
 
 const app = express();
-const port = 5000; // Backend Server at port 5000
+const port = `${process.env.BACKEND_SERVER}`; // Backend Server at port 5000
 
-const reactServerURL = "http://localhost:3000"; // Replace with your actual React server URL
+const reactServerURL = `${process.env.REACT_SERVER_URL}`; // Replace with your actual React server URL
 
 const expiresInDays = 30; // Set the expiration time to 30 days
 const expirationInSeconds = expiresInDays * 24 * 60 * 60; // Convert days to seconds
@@ -38,7 +37,7 @@ app.use(cookieParser());
 
 // MongoDB setup
 mongoose
-  .connect("mongodb://127.0.0.1:27017/Dermacare", {
+  .connect(`${process.env.MONGO_DB_URI}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -51,9 +50,9 @@ mongoose
 
 // Cloudinary configuration
 cloudinary.config({
-  cloud_name: "dtrf1faem",
-  api_key: "819964433322658",
-  api_secret: "VOY7Qa1mSEAdxFK60muN0VZuTHw",
+  cloud_name: `${process.env.CLOUDINARY_CLOUD_NAME}`,
+  api_key: `${process.env.CLOUDINARY_API_KEY}`,
+  api_secret: `${process.env.CLOUDINARY_API_SECRET}`,
 });
 
 // User schema with 'Gender' added
@@ -86,7 +85,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // JWT secret key
-const jwtSecretKey = "we-can-do-it";
+const jwtSecretKey = `${process.env.JWT_SECRET_KEY}`;
 
 // Middleware to check if the user is authenticated
 const checkAuth = (req, res, next) => {
@@ -109,8 +108,8 @@ const checkAuth = (req, res, next) => {
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "dermacareofficialmail@gmail.com", // Your email address
-    pass: "bkxq kzwo wocn xxvl", // Your email password or app-specific password
+    user: `${process.env.OFFICIAL_MAIL}`, // Your email address
+    pass: `${process.env.OFFICIAL_MAIL_PASS_KEY}`, // Your email password or app-specific password
   },
 });
 
@@ -157,7 +156,7 @@ app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
 
     // Send a comprehensive welcome email to the user
     const mailOptions = {
-      from: "dermacareofficialmail@gmail.com",
+      from: `${process.env.OFFICIAL_MAIL}`,
       to: email,
       subject: "Welcome to Dermacare",
       text: `Dear ${username},\n\nWelcome to Dermacare! Thank you for registering with us. We are thrilled to have you join our skincare community.\n\nDermacare offers a wide range of features to support your skincare journey:\n\n1. Instant Skin Diagnosis: Our cutting-edge AI-driven technology analyzes your skin images within seconds to detect skin conditions accurately.\n2. Medication Suggestions: Receive personalized medication recommendations based on your diagnosis, helping you take better care of your skin.\n3. Search Any Disease: Explore our vast database to find accurate and high-quality information about various diseases and conditions.\n4. Expert Advice: Access a wealth of skincare articles and tips, authored by leading dermatologists and experts in the field.\n5. Community Engagement: Join our skincare community forums to connect with fellow enthusiasts, share experiences, and seek advice.\n6. Exclusive Discounts: Enjoy exclusive discounts and promotions on top-quality skincare products tailored to your skin's needs.\n7. Personalized Product Recommendations: Let us suggest the best skincare products for your unique skin type and concerns.\n\nWe are proud to offer skin diagnosis within seconds, utilizing advanced image processing techniques and AI to provide you with accurate results. Additionally, you can search for any disease or condition to access reliable and comprehensive information.\n\nIf you have any questions or need assistance, please don't hesitate to reach out. We're here to support you on your skincare journey.\n\nBest regards,\nThe Dermacare Team`,
@@ -200,9 +199,6 @@ app.post("/api/login", async (req, res) => {
       const token = jwt.sign({ userId: user._id }, jwtSecretKey, {
         expiresIn: expirationInSeconds,
       });
-
-      // Set the token as a cookie
-      // res.cookie("token", token, { httpOnly: true });
 
       return res.status(200).json({ message: "Login successful.", token });
     } else {
@@ -402,33 +398,32 @@ app.post("/api/logout", (req, res) => {
 });
 
 // Endpoint to generate a PDF containing user diagnosis and send it to the user's Gmail
-// Endpoint to generate a PDF containing user diagnosis and send it to the user's Gmail
+
 app.get("/api/generate-pdf", checkAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const index = req.query.index; // Get the disease name from the query parameter
 
-    // Retrieve user profile from DB
     const user = await User.findById(userId);
 
-    console.log("generating report for user ", user.username);
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    if (!user.username) {
+      return res.status(400).json({ error: "Username not found in user profile." });
+    }
 
     const diseaseName = user.uploadedImages[index].diseaseName;
     const imageUrl = user.uploadedImages[index].imageUrl;
     const diseaseInfoResponse = user.uploadedImages[index].diseaseInfoPrompt;
     const medicinesResponse = user.uploadedImages[index].medicinesPrompt;
+    console.log(diseaseInfoResponse)
+    console.log(medicinesResponse)
     
     if (!user) {
       return res.status(404).json({ error: "User not found." });
     }
-
-    // // Use the getDiagnosis API to fetch detailed information about the disease
-    // const diseaseInfoPrompt = `Provide detailed information about ${diseaseName} to a person having age ${calculateAge(user.dob)}`;
-    // const diseaseInfoResponse = await getDiagnosis(diseaseInfoPrompt);
-
-    // // Use the getDiagnosis API to fetch 5 medicines to cure the disease
-    // const medicinesPrompt = `Provide 5 medicines to cure ${diseaseName} to a personnhaving age ${calculateAge(user.dob)}. Just the name nothing else`;
-    // const medicinesResponse = await getDiagnosis(medicinesPrompt);
 
     // Ensure that both responses are valid
     if (!diseaseInfoResponse || !medicinesResponse) {
@@ -494,13 +489,12 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
     if (validFile) {
       doc.moveDown(1); // Add some space before the image
 
-      //     // Display the locally saved image in the PDF
+      // Display the locally saved image in the PDF
       doc.image(downloadedImagePath, xImagePosition, doc.y, {
         width: imageWidth,
       });
 
       doc.moveDown(1);
-
       console.log("File attached");
     }
 
@@ -582,7 +576,7 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
 
     // Send the PDF as an email attachment to the user's Gmail address
     const mailOptions = {
-      from: "dermacareofficialmail@gmail.com", // Sender email address
+      from: `${process.env.OFFICIAL_MAIL}`, // Sender email address
       to: user.email, // User's email address
       subject: `Your Dermacare Diagnosis Report for ${diseaseName}`,
       text: `Dear ${user.username},\n\nPlease find attached your Dermacare diagnosis report for ${diseaseName}. This report contains detailed information about the condition, a list of recommended medicines, and personalized skincare advice.\n\nBest regards,\nThe Dermacare Team`,
