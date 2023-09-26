@@ -402,21 +402,33 @@ app.post("/api/logout", (req, res) => {
 });
 
 // Endpoint to generate a PDF containing user diagnosis and send it to the user's Gmail
-// Endpoint to generate a PDF containing user diagnosis and send it to the user's Gmail
+
 app.get("/api/generate-pdf", checkAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const index = req.query.index; // Get the disease name from the query parameter
 
     // Retrieve user profile from DB
+    // const user = await User.findById(userId);
+
+    // console.log("generating report for user ", user.username);
+    // Retrieve user profile from DB
     const user = await User.findById(userId);
 
-    console.log("generating report for user ", user.username);
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    if (!user.username) {
+      return res.status(400).json({ error: "Username not found in user profile." });
+    }
 
     const diseaseName = user.uploadedImages[index].diseaseName;
     const imageUrl = user.uploadedImages[index].imageUrl;
     const diseaseInfoResponse = user.uploadedImages[index].diseaseInfoPrompt;
     const medicinesResponse = user.uploadedImages[index].medicinesPrompt;
+    console.log(diseaseInfoResponse)
+    console.log(medicinesResponse)
     
     if (!user) {
       return res.status(404).json({ error: "User not found." });
