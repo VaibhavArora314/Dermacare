@@ -1,0 +1,183 @@
+@import  "../App.css";
+
+$myCustomHeadingStyles: (
+    color: #088586 ,
+    font-size: 40px ,
+    font-family: Montserrat, 
+    font-weight: 500,
+    word-wrap: break-word,
+);
+
+@mixin applyCustomHeadingStyles {
+  @each $property, $value in $myCustomHeadingStyles {
+    #{$property}: $value;
+  }
+}
+
+$myDivAlignment:(
+    display: grid,
+    grid-template-rows:repeat(2,40% 60%),
+    padding:1rem,
+    width: min-content,
+);
+
+@mixin applymyDivAlignment {
+    @each $property, $value in $myDivAlignment {
+      #{$property}: $value;
+    }
+  }
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+.procedure{
+    margin:1rem;
+    padding: 1rem;
+    // flex-direction: row;
+    // gap:5px;
+    // width:100vw;
+    min-height:110vh;
+    // width:100%;
+    // overflow-x:hidden;
+   
+    &__heading {
+      text-align:center;
+      
+        >h4{
+            font-size: 4rem;
+            font-family: 'montserrat';
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+    }  
+  &__heading{
+    font-size:2.5rem ;
+    color: #118480;
+    font-family: 'montserrat';
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+
+  
+  &__heading hr{
+    margin:0 auto 0 auto;
+    width: 40%; 
+    height: 100%; 
+    border: 1.5px;
+    color: #655353;
+    border: solid;
+  }
+  
+  }
+  
+  .procedureContainer{
+    padding: 4rem;
+    display: grid;
+    grid-template-columns: repeat(3,30% 40% 30%);
+    gap: 1rem;
+    
+    &__div1{
+      @include applymyDivAlignment;
+        
+      &__Image {
+        // margin: auto 12rem auto 12rem;
+        height:300px;
+        width:300px;
+        border-radius: 50%;
+        color: #191B1B;
+        border: solid;
+        background:url("../assets/icons/one.png");
+        background-position: center;
+        background-size:70% 70%;
+        background-repeat: no-repeat;
+      
+      }
+  
+      &__Content {
+        >.content-head{
+         @include applyCustomHeadingStyles;
+        }
+         >p{
+            text-align: center;
+            color: black; 
+            font-size: 1.6em; 
+            font-family: Montserrat; 
+            font-weight: 400; 
+         }
+      }
+  
+    }
+  
+   &__div2{
+margin-left:6rem;
+    @include applymyDivAlignment;
+  
+     &__TwoImage {
+        height:300px;
+        width:300px;
+        border-radius: 50%;
+        color: #191B1B;
+        border: solid;
+        background:url("../assets/icons/two.png");
+        background-position: center;
+        background-size:70% 70%;
+        background-repeat: no-repeat;
+  
+     }
+  
+     &__TwoContent{
+        margin-top:110%;
+
+      .content-head{
+         @include applyCustomHeadingStyles;
+       }
+        >p{
+       
+            text-align: center;
+            color: black; 
+            font-size: 1.6em; 
+            font-family: "Montserrat"; 
+            font-weight: 400; 
+        }
+     }
+   }
+  
+   &__div3{
+   
+     @include applymyDivAlignment;
+      
+     &__ThreeImage {
+        height:300px;
+        width:300px;
+        border-radius: 50%;
+        color: #191B1B;
+        border: solid;
+        background:url("../assets/icons/three.png");
+        background-position: center;
+        background-size:70% 70%;
+        background-repeat: no-repeat;
+        
+     }
+   
+     &__ThreeContent {
+     
+        margin-top:110%;
+
+        .content-head{
+            @include applyCustomHeadingStyles;
+        }
+        >p{
+            text-align: center;
+            color: black; 
+            font-size: 1.6em; 
+            font-family: Montserrat; 
+            font-weight: 400; 
+        }
+     }
+  
+   }
+  
+  }
+  

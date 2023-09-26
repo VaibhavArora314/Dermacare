@@ -12,7 +12,7 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [gender, setGender] = useState("");
-  const [signup, setSignup] = useState(false);
+  const [signup, setsignup] = useState(false);
   const [dob, setDob] = useState(null); // Initialize dob as null
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -38,7 +38,7 @@ export default function Signup() {
       setToken(response?.data?.token);
 
       console.log("API Response:", response);
-      setSignup(false);
+      setsignup(false);
       setIsFlipped(true);
     } catch (error) {
       console.error("Registration failed:", error);
@@ -54,7 +54,7 @@ export default function Signup() {
     }
   };
 
-  return (
+  return !signup ? (
     <Grid container>
       <div
         className={`form-parent signup-parent ${
@@ -68,10 +68,10 @@ export default function Signup() {
             <div className="heading">
               <p>Sign Up</p>
             </div>
-            <div className="row-1">
-              {/* Google OAuth provider and login button */}
-              {/* Add GoogleOAuthProvider and GoogleLogin components here */}
-            </div>
+            {/* <div className="row-1"> */}
+            {/* Google OAuth provider and login button */}
+            {/* Add GoogleOAuthProvider and GoogleLogin components here */}
+            {/* </div> */}
             <div
               className="signup-row"
               style={{ borderBottom: "1.5px solid black", padding: "0.5rem" }}
@@ -155,9 +155,18 @@ export default function Signup() {
             <button onClick={handleRegister} className="login-btn">
               Register
             </button>
+            <div className="signup">
+              <p>Already have an account ?</p>
+
+              <button className="signup-btn" onClick={() => setsignup(!signup)}>
+                Log In
+              </button>
+            </div>
           </>
         )}
       </div>
     </Grid>
+  ) : (
+    <Login />
   );
 }

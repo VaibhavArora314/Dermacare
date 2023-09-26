@@ -17,7 +17,7 @@ $myCustomInputStyles:(
 
 $myCustomTextStyles: (
   font-family: 'poppins',
-  font-size: 1.2em,
+  font-size: 1em,
   font-weight: 600,
 //   line-height: 44px,
   letter-spacing: 0,
@@ -36,8 +36,8 @@ $myCustomTextStyles: (
 }
 
 .signup-parent{
-  width:35% !important;
-   right:3% !important;
+  width:32% !important;
+   right:5% !important;
    top:5% !important;
    position: relative;
    perspective: 1000px;
@@ -95,17 +95,18 @@ $myCustomTextStyles: (
     }
    
     >.custom-upload-pic {
-      padding:4px;
       cursor: pointer;
-      display: flex;
+      // display: flex;
       justify-content: center;
       background: #b5f3ee;
       border-radius: 5px;
       text-align: center;
-      width: 100%;
-      margin-right: 10px;
+      width: 85%;
+      // margin-right: 10px;
       color: black;
+      padding: 0.9rem;
       font-weight:500;
+      margin:0;
     }
     }
    
@@ -200,8 +201,10 @@ $myCustomTextStyles: (
         text-align: center;
         border-top: 1px solid #000000;
         display:flex;
-        flex-direction: column;
+        flex-direction:row ;
+        justify-content: center;
         .signup-btn{
+          margin-top:4px;
             background:transparent;
             border:none;
             cursor: pointer;
