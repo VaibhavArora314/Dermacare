@@ -33,11 +33,12 @@ $mycustomTitleStyles:(
 
 
 .parent-container{
-    margin:1rem;
-    padding: 2rem;
+    margin:5rem;
+    padding: 1rem;
     min-height:100vh;
-     &__first{
-        padding: 1rem;
+
+    &__first{
+        padding: 2rem;
         display: grid;
         grid-template-columns: repeat(2,35% 65%);
         // flex-direction:row;
@@ -73,7 +74,7 @@ $mycustomTitleStyles:(
      }
 
      .disease-section{
-        padding: 1rem;
+        padding: 2rem;
         margin:1rem;
         display: grid;
         grid-template-columns:repeat(3,35% 30% 35%);
@@ -86,85 +87,207 @@ $mycustomTitleStyles:(
         }
         
       >.div-1{
-        >.a{
+          >.a{
+            &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(103, 187, 207, 0.8); /* Adjust the color and opacity as desired */
+                z-index: 2; /* Place the overlay above the content */
+              }
+
+            position: relative;
             padding:2rem;
-            background: #67BBCF;
+            background-color: #67BBCF;
             width: 80%;
-            height:45vh;
+            height:35vh;
+            position: relative;
+            z-index: 1;
+            
+            &:hover{
+                background-color: rgba(103, 187, 207, 1); 
+                filter: brightness(0.9);
+                &::before {
+                  display: none; /* Nullify the ::before effect on hover */
+                }
+              }
+           
+           
             >.head{
                 @include applyCustomTitleStyles;
+                height: 50%;
             }
             >.description{
                 @include applyCustomContentStyles;
-                margin-top:40%;
 
             }
         }
+        
         >.b{
+
+            &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color:rgba(213, 138, 150, 0.8);
+                 /* Adjust the color and opacity as desired */
+                z-index: 2; /* Place the overlay above the content */
+              }
+            position:relative;
             padding:2rem;
-            background: #D58A75;
+            background-color: #D58A75;
             width: 80%;
-            height:45vh;
+            height:35vh;
+            z-index:1; 
+            &:hover{
+                background-color:rgba(213, 138, 117,1);
+                filter: brightness(0.9);
+
+               
+        /* Adjust the color and opacity as desired */
+                &::before {
+                  display: none; /* Nullify the ::before effect on hover */
+                }
+              }
             >.head{
                 @include applyCustomTitleStyles;
+                height: 50%;
+
             }
             >.description{
                 @include applyCustomContentStyles;
-                margin-top:40%;
 
             }
         }
        }
        >.div-2{
-        padding:2rem;
-
-        background: #AA7B97;
-        height:102vh;
-       width:80%;
-       >.head{
-        @include applyCustomTitleStyles;
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color:rgba(170, 123, 181,0.8);
+             /* Adjust the color and opacity as desired */
+            z-index: 2; /* Place the overlay above the content */
+          }
+          padding:2rem;
+          position:relative;
+          background: #AA7B97;
+          height:81vh;
+          width:80%;
+          z-index:2;
+         
+          &:hover{
+            background-color:rgba(170, 123, 151,1);
+            filter: brightness(0.9);
+           
+           
+            &::before {
+              display: none; 
+            }
+          }
+          >.head{
+              @include applyCustomTitleStyles;
+              height: 40%;
+              
     }
     >.description{
         @include applyCustomContentStyles;
-        margin-top:125%;
     }
        }
        
        >.div-3{
         
             >.c{
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color:rgba(213, 138, 150, 0.8);
+                    
+                    z-index: 2; /* Place the overlay above the content */
+                  }
+
+            position: relative;
             padding:2rem;
-            background: #D58A75;
+            background-color: #D58A75;
             width: 80%;
-            height:45vh;
- 
+            height:35vh;
+            z-index: 1;
+             
+            &:hover{
+              background-color:rgba(213, 138, 117, 1);
+              filter: brightness(0.9);
+
+                   &::before {
+                display: none; 
+              }
+            }
+             
             >.head{
                 @include applyCustomTitleStyles;
+                height: 45%;
+
             }
             >.description{
                 @include applyCustomContentStyles;
-                 margin-top:40%;
 
             }
-            }
+        }
             >.d{
-                padding:2rem;
-            background: #67BBCF;
                 
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(103, 187, 207, 0.8); /* Adjust the color and opacity as desired */
+                   z-index: 2; /* Place the overlay above the content */
+                  }
+                  
+                  position: relative;
+                padding:2rem;
+                background: #67BBCF;
+                z-index: 1;
                 width: 80%;
-                height:45vh;
+                height:35vh;
+               
+                &:hover{
+                background-color: rgba(103, 187, 207, 1); 
+                filter: brightness(0.9);
+
+                   &::before{
+                      display: none; 
+                    }
+                }
+
                 >.head{
                 @include applyCustomTitleStyles;
+                height: 45%;
+
              }
              >.description{
                 @include applyCustomContentStyles;
-                margin-top:40%;
                 
-            }
+             }
             }
            }
        
     
         
      }
+    
 }

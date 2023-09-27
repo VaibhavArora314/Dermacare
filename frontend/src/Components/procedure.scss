@@ -2,10 +2,11 @@
 
 $myCustomHeadingStyles: (
     color: #088586 ,
-    font-size: 40px ,
+    font-size: 1.8em ,
     font-family: Montserrat, 
     font-weight: 500,
     word-wrap: break-word,
+    
 );
 
 @mixin applyCustomHeadingStyles {
@@ -16,9 +17,11 @@ $myCustomHeadingStyles: (
 
 $myDivAlignment:(
     display: grid,
-    grid-template-rows:repeat(2,40% 60%),
+    grid-template-rows:repeat(3,25% 20% 55%),
+    gap:10px,
     padding:1rem,
     width: min-content,
+    justify-content:center,
 );
 
 @mixin applymyDivAlignment {
@@ -32,18 +35,14 @@ $myDivAlignment:(
 }
 
 .procedure{
-    margin:1rem;
-    padding: 1rem;
-    // flex-direction: row;
-    // gap:5px;
-    // width:100vw;
+    margin:6rem;
     min-height:110vh;
-    // width:100%;
-    // overflow-x:hidden;
+    
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
    
     &__heading {
       text-align:center;
-      
+      padding-top:0;
         >h4{
             font-size: 4rem;
             font-family: 'montserrat';
@@ -52,8 +51,9 @@ $myDivAlignment:(
         }
     }  
   &__heading{
+    padding: 1rem;
     font-size:2.5rem ;
-    color: #118480;
+    color:black;
     font-family: 'montserrat';
     font-weight: 600;
     text-transform: uppercase;
@@ -63,7 +63,7 @@ $myDivAlignment:(
   
   &__heading hr{
     margin:0 auto 0 auto;
-    width: 40%; 
+    width: 46%; 
     height: 100%; 
     border: 1.5px;
     color: #655353;
@@ -73,18 +73,22 @@ $myDivAlignment:(
   }
   
   .procedureContainer{
-    padding: 4rem;
+    width:100%;
+    // height:min-content;
+    padding: 3rem ;
+    padding-left:7rem;
     display: grid;
-    grid-template-columns: repeat(3,30% 40% 30%);
-    gap: 1rem;
+    grid-template-columns: repeat(3,1fr);
+    // gap: 1rem;
     
     &__div1{
       @include applymyDivAlignment;
         
       &__Image {
-        // margin: auto 12rem auto 12rem;
-        height:300px;
-        width:300px;
+        margin:0;
+        padding:0;
+        height:200px;
+        width:200px;
         border-radius: 50%;
         color: #191B1B;
         border: solid;
@@ -95,28 +99,37 @@ $myDivAlignment:(
       
       }
   
+      &__content-head{
+       @include applyCustomHeadingStyles;
+       >p{
+        text-align: center;
+       }
+      }
       &__Content {
-        >.content-head{
-         @include applyCustomHeadingStyles;
-        }
-         >p{
-            text-align: center;
+        width:100%;
+        justify-content: start;
+        >.details{
+          box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+          height:auto;
+          padding:1rem;
+          border-radius: 10px;
+          text-align: center;
             color: black; 
-            font-size: 1.6em; 
+            font-size: 1.3em; 
             font-family: Montserrat; 
             font-weight: 400; 
+           
          }
       }
   
     }
   
    &__div2{
-margin-left:6rem;
     @include applymyDivAlignment;
-  
+    
      &__TwoImage {
-        height:300px;
-        width:300px;
+      height:200px;
+      width:200px;
         border-radius: 50%;
         color: #191B1B;
         border: solid;
@@ -124,22 +137,31 @@ margin-left:6rem;
         background-position: center;
         background-size:70% 70%;
         background-repeat: no-repeat;
+        margin:0;
   
      }
   
-     &__TwoContent{
-        margin-top:110%;
-
-      .content-head{
-         @include applyCustomHeadingStyles;
-       }
+     &__content-head{
+        @include applyCustomHeadingStyles;
         >p{
-       
+          text-align: center;
+         }
+      }
+     &__TwoContent{
+        width:100%;
+        
+        .details{
+          height:auto;
+            box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+            padding:1rem;
             text-align: center;
             color: black; 
-            font-size: 1.6em; 
+            font-size: 1.3em; 
+            
             font-family: "Montserrat"; 
             font-weight: 400; 
+          border-radius: 10px;
+
         }
      }
    }
@@ -147,10 +169,14 @@ margin-left:6rem;
    &__div3{
    
      @include applymyDivAlignment;
-      
+     >p{
+      text-align: center;
+     }
      &__ThreeImage {
-        height:300px;
-        width:300px;
+      height:200px;
+
+      width:200px;
+
         border-radius: 50%;
         color: #191B1B;
         border: solid;
@@ -158,22 +184,31 @@ margin-left:6rem;
         background-position: center;
         background-size:70% 70%;
         background-repeat: no-repeat;
-        
+        margin:0;
      }
    
-     &__ThreeContent {
-     
-        margin-top:110%;
-
-        .content-head{
+        &__content-head{
             @include applyCustomHeadingStyles;
+            >p{
+              text-align: center;
+             }
         }
-        >p{
+     &__ThreeContent {
+       width:100%;
+       
+       >.details{
+         box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+         height:auto;
+
+            padding: 1rem;
             text-align: center;
             color: black; 
-            font-size: 1.6em; 
+            font-size: 1.3em; 
+           
             font-family: Montserrat; 
             font-weight: 400; 
+          border-radius: 10px;
+
         }
      }
   
