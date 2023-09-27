@@ -7,6 +7,7 @@ import CheckupCard from "../Components/CheckupCard";
 import Procedure from "../Components/Procedure";
 import CommonDiseases from "../Components/CommonDiseases";
 import Loader from "../Components/Loader";
+import FAQ from "../Components/FAQ";
 // import bgi from "../assets/icons/mainBG.png";
 function Homepage() {
   const { isLoggedIn } = useContext(AuthContext);
@@ -33,6 +34,7 @@ function Homepage() {
       {/* </div> */}
       {/* <div> */}
       <CommonDiseases />
+      <FAQ />
       {/* </div> */}
     </>
   );
