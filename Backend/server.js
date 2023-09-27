@@ -16,7 +16,7 @@ import fs from "fs";
 import { downloadImage } from "./image_extraction.js";
 import { checkAuth,jwtSecretKey } from "./Middleware/Authentication.js";
 import { expirationInSeconds, expiresInDays } from "./Utility/Constants.js";
-import User from "./DB/userSchema.js";
+import {User} from "./DB/userSchema.js";
 
 
 const app = express();
@@ -142,7 +142,7 @@ app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
   }
 });
 
-// // User Login API with JWT token and cookie
+// User Login API with JWT token and cookie
 app.post("/api/login", async (req, res) => {
   try {
     const { email, password } = req.body;
