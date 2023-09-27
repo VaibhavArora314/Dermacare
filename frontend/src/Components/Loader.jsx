@@ -1,7 +1,7 @@
 import React from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 
-function Loader({ message }) {
+function Loader({ message, color }) {
   return (
     <div
       style={{
@@ -13,7 +13,10 @@ function Loader({ message }) {
       }}
     >
       <CircularProgress />
-      <p>{message ? message : "Loading..."}</p> {/* Add your message here */}
+      <p style={{ color: color ? color : "initial", zIndex: 100 }}>
+        {message ? message : "Loading..."}
+      </p>
+      {/* Add your message here */}
     </div>
   );
 }

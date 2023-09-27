@@ -76,7 +76,10 @@ export default function Signup({ setLoading }) {
             {/* </div> */}
             <div
               className="signup-row"
-              style={{ borderBottom: "1.5px solid black", padding: "0.5rem" }}
+              style={{
+                // borderBottom: "1.5px solid black",
+                padding: "0.5rem",
+              }}
             >
               {/* Your form fields */}
               <div className="row signup-field">

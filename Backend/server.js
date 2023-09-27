@@ -14,6 +14,7 @@ import nodemailer from "nodemailer"; // Import Nodemailer
 import cloudinary from "cloudinary"; // Import Cloudinary
 import fs from "fs";
 import { downloadImage } from "./image_extraction.js";
+import axios from "axios";
 
 const app = express();
 const port = `${process.env.BACKEND_SERVER}`; // Backend Server at port 5000
@@ -220,17 +221,42 @@ app.post("/api/upload", checkAuth, upload.single("image"), async (req, res) => {
   try {
     // Save the uploaded image file path to the user's profile
     const userId = req.userId;
+
+    // console.log(req.file, req.body);
+
     const imagePath = req.file ? req.file.path : "";
     let user = await User.findById(userId);
 
-    const diseaseNames = ["acne", "vitilgo", "psorasis", "eczema", "atopic"];
-    // const diseaseName = "ml-model"; // Get the disease name from the model
+    // const diseaseNames = ["acne", "vitilgo", "psorasis", "eczema", "atopic"];
+    // // const diseaseName = "ml-model"; // Get the disease name from the model
 
-    // Generate a random index between 0 and the length of the array
-    const randomIndex = Math.floor(Math.random() * diseaseNames.length);
+    // // Generate a random index between 0 and the length of the array
+    // const randomIndex = Math.floor(Math.random() * diseaseNames.length);
 
-    // Get the random disease name
-    const diseaseName = diseaseNames[randomIndex];
+    // // Get the random disease name
+    // const diseaseName = diseaseNames[randomIndex];
+    const diseaseName = req.body.diseaseName;
+
+    // let diseaseName = "Error predicting disease";
+
+    // try {
+    //   const formData = new FormData();
+    //   formData.append("image", req.file); // Ensure req.file contains the image file
+
+    //   const res = await axios.post("http://127.0.0.1:7000/predict", formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data", // Set the correct content type
+    //     },
+    //   });
+
+    //   console.log("Success", res.data);
+
+    //   if (res.data.prediction) {
+    //     diseaseName = res.data.prediction;
+    //   }
+    // } catch (error) {
+    //   console.log("Error", error);
+    // }
 
     // Upload the image to Cloudinary
     let cloudinaryResponse = null;

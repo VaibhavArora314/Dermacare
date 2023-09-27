@@ -17,7 +17,16 @@ function Homepage() {
   return (
     <>
       <div className="parent">
-        {!isLoggedIn ? <Login setLoading={setLoading} /> : <CheckupCard />}
+        {!isLoggedIn ? (
+          !loading ? (
+            <Login setLoading={setLoading} />
+          ) : (
+            <Loader message={"Verifying credentials..."} />
+          )
+        ) : (
+          <CheckupCard />
+        )}
+        {}
       </div>
       {/* <div> */}
       <Procedure />

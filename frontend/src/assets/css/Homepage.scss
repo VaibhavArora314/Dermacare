@@ -4,8 +4,9 @@
     position: relative;
     margin: 0;
     padding: 0;
-    height: 100vh;
-    // width: 100%;
+    height: fit-content;
+    min-height:100vh;
+    width: 100%;
     position: relative;
     overflow-x: hidden; /* Ensure child content doesn't extend outside */
   
@@ -33,5 +34,8 @@
       pointer-events: none; /* Allow clicks to pass through the overlay */
       z-index: 1; /* Adjust the z-index as needed */
   }
+    @media (max-height: 650px) {
+      height: 130vh;
+    }
 }
 

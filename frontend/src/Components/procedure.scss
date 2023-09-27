@@ -87,8 +87,8 @@ $myDivAlignment:(
       &__Image {
         margin:0;
         padding:0;
-        height:200px;
-        width:200px;
+        height:220px;
+        width:220px;
         border-radius: 50%;
         color: #191B1B;
         border: solid;
@@ -128,8 +128,8 @@ $myDivAlignment:(
     @include applymyDivAlignment;
     
      &__TwoImage {
-      height:200px;
-      width:200px;
+      height:220px;
+      width:220px;
         border-radius: 50%;
         color: #191B1B;
         border: solid;
@@ -173,9 +173,9 @@ $myDivAlignment:(
       text-align: center;
      }
      &__ThreeImage {
-      height:200px;
+      height:220px;
 
-      width:200px;
+      width:220px;
 
         border-radius: 50%;
         color: #191B1B;
