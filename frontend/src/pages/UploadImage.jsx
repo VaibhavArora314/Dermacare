@@ -70,6 +70,17 @@ export default function UploadImage() {
       formData.append("image", selectedFile);
       setLoading(true);
 
+      try {
+        const res = await axios.post("http://127.0.0.1:7000/predict", formData);
+        console.log(res);
+        formData.append(
+          "diseaseName",
+          res.data.prediction ? res.data.prediction : "Model error"
+        );
+      } catch (error) {
+        formData.append("diseaseName", "model is not connected");
+      }
+
       const config = {
         headers: {
           token, // Replace 'your_token_value_here' with the actual token value you want to send.
