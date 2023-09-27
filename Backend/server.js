@@ -14,15 +14,15 @@ import nodemailer from "nodemailer"; // Import Nodemailer
 import cloudinary from "cloudinary"; // Import Cloudinary
 import fs from "fs";
 import { downloadImage } from "./image_extraction.js";
-import axios from "axios";
+import { checkAuth,jwtSecretKey } from "./Middleware/Authentication.js";
+import { expirationInSeconds, expiresInDays } from "./Utility/Constants.js";
+import User from "./DB/userSchema.js";
+
 
 const app = express();
 const port = `${process.env.BACKEND_SERVER}`; // Backend Server at port 5000
 
 const reactServerURL = `${process.env.REACT_SERVER_URL}`; // Replace with your actual React server URL
-
-const expiresInDays = 30; // Set the expiration time to 30 days
-const expirationInSeconds = expiresInDays * 24 * 60 * 60; // Convert days to seconds
 
 app.use(
   cors({
@@ -56,25 +56,6 @@ cloudinary.config({
   api_secret: `${process.env.CLOUDINARY_API_SECRET}`,
 });
 
-// User schema with 'Gender' added
-const userSchema = new mongoose.Schema({
-  username: String,
-  email: String,
-  password: String,
-  dob: Date,
-  gender: String,
-  profilePicture: String,
-  uploadedImages: [
-    {
-      imageUrl: String, // Store the image URL
-      diseaseName: String, // Store the disease name
-      diseaseInfoPrompt: String,
-      medicinesPrompt: String,
-    },
-  ],
-});
-const User = mongoose.model("User", userSchema);
-
 // Multer setup for handling file uploads
 const storage = multer.diskStorage({
   destination: "./uploads",
@@ -85,26 +66,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// JWT secret key
-const jwtSecretKey = `${process.env.JWT_SECRET_KEY}`;
-
-// Middleware to check if the user is authenticated
-const checkAuth = (req, res, next) => {
-  const token = req.headers.token;
-  // console.log(token);
-
-  if (!token) {
-    return res.status(401).json({ error: "Unauthorized." });
-  }
-
-  try {
-    const decoded = jwt.verify(token, jwtSecretKey);
-    req.userId = decoded.userId;
-    next();
-  } catch (error) {
-    return res.status(401).json({ error: "Unauthorized." });
-  }
-};
 
 // Set up Nodemailer transporter
 const transporter = nodemailer.createTransport({
@@ -181,7 +142,7 @@ app.post("/api/register", upload.single("profilePicture"), async (req, res) => {
   }
 });
 
-// User Login API with JWT token and cookie
+// // User Login API with JWT token and cookie
 app.post("/api/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -215,6 +176,9 @@ app.post("/api/login", async (req, res) => {
     return res.status(500).json({ error: "Server error." });
   }
 });
+
+// User Login API with JWT token and cookie
+// app.post("/api/login",loginRouter);
 
 // Update the /api/upload endpoint
 app.post("/api/upload", checkAuth, upload.single("image"), async (req, res) => {
