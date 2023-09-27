@@ -15,6 +15,8 @@ import Person from "../assets/icons/person.png";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import SearchIcon from "@mui/icons-material/Search";
 
 export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -182,6 +184,17 @@ export default function Navbar() {
             >
               Home
             </Button> */}
+            <TextField
+              id="search"
+              placeholder="Search"
+              variant="outlined"
+              size="large"
+              InputProps={{
+                startAdornment: <SearchIcon sx={{ color: "gray" }} />,
+              }}
+              sx={{ margin: "1%" }}
+              onChange={(e) => navigate("/disease/name")}
+            />
             {pages.map((page) => {
               if (page.mustBeLoggedIn && !isLoggedIn) return null;
 

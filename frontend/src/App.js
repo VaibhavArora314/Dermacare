@@ -8,6 +8,7 @@ import { AuthProvider } from "./context/AuthContext";
 import TeamPage from "./pages/TeamPage";
 import ContactPage from "./pages/ContactPage";
 import ReportPage from "./pages/ReportPage";
+import SkinDisease from "./pages/SkinDisease";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <Route path="/team" element={<TeamPage />} />
               <Route path="/contact-us" element={<ContactPage />} />
               <Route path="/report/:id" element={<ReportPage />} />
+              <Route path="/disease/name" element={<SkinDisease />}></Route>
             </Routes>
           </Router>
         </AuthProvider>

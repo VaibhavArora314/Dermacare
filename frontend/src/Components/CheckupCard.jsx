@@ -9,7 +9,7 @@ const CheckupCard = () => {
   return (
     <>
       <Grid container>
-        <div className={`form-parent`}>
+        <div className="form-parent" style={{ width: "35%" }}>
           <Box display="flex" sx={{ flexDirection: "column" }}>
             <h4 style={{ marginBottom: 0 }}>Hi, {username}</h4>
             <p>

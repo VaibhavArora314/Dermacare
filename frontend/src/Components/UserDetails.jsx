@@ -44,17 +44,30 @@ const UserDetails = () => {
         marginTop: 2,
       }}
     >
-      <Box sx={{ flexDirection: "column" }}>
-        <h2>{profile.username}</h2>
-        <p>{profile.email}</p>
-        <p>{profile.dob}</p>
-        <p>{profile.gender}</p>
+      <Box
+        sx={{
+          flexDirection: "column",
+          fontFamily: "montserrat",
+        }}
+      >
+        <h2>
+          <b>Username:</b> {profile.username}
+        </h2>
+        <p>
+          <b>Email:</b> {profile.email}
+        </p>
+        <p>
+          <b>DOB:</b> {profile.dob}
+        </p>
+        <p>
+          <b>Gender:</b> {profile.gender}
+        </p>
       </Box>
       {profile.profilePicture ? (
         <Avatar
           alt={profile.username}
           src={profile.profilePicture}
-          sx={{ width: 100, height: 100 }}
+          sx={{ width: 100, height: 100, borderRadius: "50%" }}
         />
       ) : (
         <Avatar
@@ -63,6 +76,7 @@ const UserDetails = () => {
             width: 100,
             height: 100,
             fontSize: 75,
+            borderRadius: "50%",
           }}
         >
           {profile.username[0]}

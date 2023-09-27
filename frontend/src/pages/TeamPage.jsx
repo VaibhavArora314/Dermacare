@@ -104,8 +104,17 @@ const Team = () => {
 
   return (
     <div style={gridContainerStyle}>
-      <h1 style={{ textAlign: "center", marginTop: "2rem" }}>Our Team</h1>
-      <Grid container justifyContent="center" spacing={2}>
+      <h1
+        style={{
+          textAlign: "center",
+          margin: "2rem",
+          fontFamily: "montserrat",
+          fontSize: "2.5em",
+        }}
+      >
+        Meet <span style={{ color: "#088586" }}>our</span> Team
+      </h1>
+      <Grid container justifyContent="center" spacing={3}>
         {teamMembers.map((member) => (
           <Grid
             item
@@ -118,6 +127,7 @@ const Team = () => {
               name={member.name}
               image={member.avatar_url}
               profileUrl={member.html_url}
+              style={{ height: "50%" }}
             />
           </Grid>
         ))}
