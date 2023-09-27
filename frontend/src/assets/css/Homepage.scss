@@ -4,7 +4,8 @@
     position: relative;
     margin: 0;
     padding: 0;
-    height: 100vh;
+    height: fit-content;
+    min-height: 100vh;
     width: 100%;
     position: relative;
     overflow: hidden; /* Ensure child content doesn't extend outside */
@@ -22,5 +23,8 @@
       opacity: 0.95; /* Adjust the opacity as needed */
     }
    
+    @media (max-height: 650px) {
+      height: 130vh;
+    }
 }
 

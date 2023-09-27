@@ -41,7 +41,18 @@ $myCustomTextStyles: (
    top:5% !important;
    position: relative;
    perspective: 1000px;
-   
+
+   @media (max-width: 1200px) { /* Adjust the max-width value as needed */
+    width: 60vw !important;
+    left: 50% !important;
+    right: unset !important;
+    transform: translate(-50%,0);
+  }
+
+   @media (max-width: 768px) { /* Adjust the max-width value as needed */
+    width: 90vw !important;
+  }
+
    .flip-signup{
     transform-style: preserve-3d;
    transition: transform 0.5s;
@@ -118,13 +129,13 @@ $myCustomTextStyles: (
 //  login styling
 
 
- 
+
 
 
   
 }
 .form-parent{
-    width: 22%;
+    min-width: 22%;
     min-height:50vh;
     display:flex;
     background:white;
@@ -215,4 +226,16 @@ $myCustomTextStyles: (
         }
     }  
     
+
+
+    @media (max-width: 1200px) { /* Adjust the max-width value as needed */
+      min-width: 40%;
+      left: 50%;
+      right: unset;
+      transform: translate(-50%,0);
+    }
+  
+     @media (max-width: 768px) { /* Adjust the max-width value as needed */
+      min-width: 50%;
+    }
 }
