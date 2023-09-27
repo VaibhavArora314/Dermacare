@@ -1,16 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
-import PdfViewer from "../Components/PdfViewer";
+import PdfViewer from "../Components/PdfButtons";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Loader from "../Components/Loader";
+import { Box } from "@mui/material";
+import UserDetails from "../Components/UserDetails";
+import Divider from "@mui/material/Divider";
+import ReportContents from "../Components/ReportContents";
 
 function App() {
   const params = useParams();
-  console.log(params);
   const index = params.id;
 
-  const [pdfData, setPdfData] = useState(null);
+  const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const { token } = useContext(AuthContext);
 
@@ -29,8 +32,8 @@ function App() {
           `http://localhost:5000/api/generate-pdf?index=${index}`,
           config
         );
-        const data = await res.data.pdf;
-        setPdfData(data);
+        const d = await res.data;
+        setData(d);
       } catch (error) {
         setError("Error generating pdf");
         console.error("Error fetching PDF data:", error);
@@ -43,13 +46,34 @@ function App() {
   if (error)
     return <h1 style={{ textAlign: "center", marginTop: "2rem" }}>{error}</h1>;
 
-  if (!pdfData) return <Loader />;
+  if (!data) return <Loader />;
 
   return (
-    <div>
+    <Box sx={{ marginBottom: 5 }}>
       <h1 style={{ textAlign: "center", marginTop: "2rem" }}>Your Report</h1>
-      {pdfData && <PdfViewer pdfData={pdfData} />}
-    </div>
+      {data.pdf && (
+        <Box
+          sx={{
+            display: "flex",
+            width: "100vw",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <UserDetails />
+          <Divider sx={{ width: 0.8, marginTop: 2, marginBottom: 2 }} />
+          <ReportContents
+            diseaseName={data.diseaseName}
+            imageUrl={data.imageUrl}
+            diseaseInfoResponse={data.diseaseInfoResponse}
+            medicinesResponse={data.medicinesResponse}
+            pdfData={data.pdf}
+            emailUrl={`http://localhost:5000/api/generate-pdf?index=${index}&needEmail=1`}
+          />
+        </Box>
+      )}
+    </Box>
   );
 }
 

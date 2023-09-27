@@ -35,7 +35,7 @@ export default function Signup() {
       );
 
       // localStorage.setItem("token", response?.data?.token);
-      setToken(response?.data?.token);
+      setToken(response?.data?.token, response?.data?.username);
 
       console.log("API Response:", response);
       setsignup(false);

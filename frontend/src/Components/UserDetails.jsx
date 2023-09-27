@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { Avatar, Box } from "@mui/material";
-import { green } from "@mui/material/colors";
 
 const UserDetails = () => {
   const [profile, setProfile] = useState(null);

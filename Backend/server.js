@@ -90,7 +90,7 @@ const jwtSecretKey = `${process.env.JWT_SECRET_KEY}`;
 // Middleware to check if the user is authenticated
 const checkAuth = (req, res, next) => {
   const token = req.headers.token;
-  console.log(token);
+  // console.log(token);
 
   if (!token) {
     return res.status(401).json({ error: "Unauthorized." });
@@ -267,7 +267,7 @@ app.post("/api/upload", checkAuth, upload.single("image"), async (req, res) => {
       return res.status(201).json({
         message: "Image uploaded successfully.",
         imageUrl: cloudinaryResponse.secure_url,
-        index: user.uploadedImages.length - 1,
+        index: user.uploadedImages.length,
       });
     } else {
       // If the image upload to Cloudinary failed, return an error response
@@ -413,6 +413,7 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
   try {
     const userId = req.userId;
     const index = req.query.index; // Get the disease name from the query parameter
+    const needEmail = req.query.needEmail;
 
     const user = await User.findById(userId);
 
@@ -430,8 +431,8 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
     const imageUrl = user.uploadedImages[index].imageUrl;
     const diseaseInfoResponse = user.uploadedImages[index].diseaseInfoPrompt;
     const medicinesResponse = user.uploadedImages[index].medicinesPrompt;
-    console.log(diseaseInfoResponse);
-    console.log(medicinesResponse);
+    // console.log(diseaseInfoResponse);
+    // console.log(medicinesResponse);
 
     if (!user) {
       return res.status(404).json({ error: "User not found." });
@@ -591,32 +592,47 @@ app.get("/api/generate-pdf", checkAuth, async (req, res) => {
     });
 
     // Send the PDF as an email attachment to the user's Gmail address
-    const mailOptions = {
-      from: `${process.env.OFFICIAL_MAIL}`, // Sender email address
-      to: user.email, // User's email address
-      subject: `Your Dermacare Diagnosis Report for ${diseaseName}`,
-      text: `Dear ${user.username},\n\nPlease find attached your Dermacare diagnosis report for ${diseaseName}. This report contains detailed information about the condition, a list of recommended medicines, and personalized skincare advice.\n\nBest regards,\nThe Dermacare Team`,
-      attachments: [
-        {
-          filename: `user_diagnosis_${diseaseName}.pdf`,
-          content: pdfBuffer,
-        },
-      ],
-    };
+    if (needEmail) {
+      const mailOptions = {
+        from: `${process.env.OFFICIAL_MAIL}`, // Sender email address
+        to: user.email, // User's email address
+        subject: `Your Dermacare Diagnosis Report for ${diseaseName}`,
+        text: `Dear ${user.username},\n\nPlease find attached your Dermacare diagnosis report for ${diseaseName}. This report contains detailed information about the condition, a list of recommended medicines, and personalized skincare advice.\n\nBest regards,\nThe Dermacare Team`,
+        attachments: [
+          {
+            filename: `user_diagnosis_${diseaseName}.pdf`,
+            content: pdfBuffer,
+          },
+        ],
+      };
 
-    // Send the email with the PDF attachment
-    await transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error(error);
-        return res.status(500).json({ error: "Email sending error." });
-      } else {
-        console.log("Email sent: " + info.response);
-        return res.status(200).json({
-          message: "PDF generated and sent successfully.",
-          pdf: pdfBuffer.toString("base64"),
-        });
-      }
-    });
+      // Send the email with the PDF attachment
+      await transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).json({ error: "Email sending error." });
+        } else {
+          console.log("Email sent: " + info.response);
+          return res.status(200).json({
+            message: "PDF generated and sent successfully.",
+            // pdf: pdfBuffer.toString("base64"),
+            // diseaseName,
+            // imageUrl,
+            // diseaseInfoResponse,
+            // medicinesResponse,
+          });
+        }
+      });
+    } else {
+      return res.status(200).json({
+        message: "PDF generated and sent successfully.",
+        pdf: pdfBuffer.toString("base64"),
+        diseaseName,
+        imageUrl,
+        diseaseInfoResponse,
+        medicinesResponse,
+      });
+    }
   } catch (error) {
     console.error("Error generating PDF and sending email:", error);
     return res.status(500).json({ error: "Internal server error." });

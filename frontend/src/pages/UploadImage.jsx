@@ -87,6 +87,8 @@ export default function UploadImage() {
       console.log("Image uploaded successfully:", response.data);
       setMessage("Image uploaded successfully");
 
+      console.log(response);
+
       navigate(`/report/${response.data.index}`);
       // You can add additional logic here, such as displaying a success message.
     } catch (error) {
