@@ -21,12 +21,12 @@ const CheckupCard = () => {
               and take the first step towards healthier skin.
             </p>
 
-            <p>Why choose DermaCare?</p>
-            <ul>
+            <p style={{ marginBottom: 1 }}>Why choose DermaCare?</p>
+            <ul style={{ marginBottom: 1 }}>
               <li>Accurate and quick diagnosis of skin conditions</li>
               <li>Personalized treatment plans tailored to your needs</li>
-              <li>Access to a network of experienced dermatologists</li>
-              <li>Track your skin health progress with our app</li>
+              {/* <li>Access to a network of experienced dermatologists</li>
+              <li>Track your skin health progress with our app</li> */}
             </ul>
             <p>Ready to get started?</p>
             <Button

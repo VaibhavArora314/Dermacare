@@ -10,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Components/Loader";
-
 function LinearProgressWithLabel(props) {
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -214,9 +213,18 @@ export default function UploadImage() {
             Generate Report
           </button>
         </div>
-        <div className="par-container__img-section">
+
+        <Box
+          className="par-container__img-section"
+          sx={{
+            display: "none",
+            "@media (min-width: 960px)": {
+              display: "initial",
+            },
+          }}
+        >
           <img src={imageVector} alt="" className="img-vector" />
-        </div>
+        </Box>
       </div>
     </>
   );
