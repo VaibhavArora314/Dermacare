@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import PdfViewer from "../Components/PdfButtons";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -9,7 +8,7 @@ import UserDetails from "../Components/UserDetails";
 import Divider from "@mui/material/Divider";
 import ReportContents from "../Components/ReportContents";
 
-function App() {
+function ReportPage() {
   const params = useParams();
   const index = params.id;
 
@@ -59,6 +58,7 @@ function App() {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
+            marginBottom: 5,
           }}
         >
           <UserDetails />
@@ -77,4 +77,4 @@ function App() {
   );
 }
 
-export default App;
+export default ReportPage;

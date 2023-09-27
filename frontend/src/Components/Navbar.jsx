@@ -244,7 +244,7 @@ export default function Navbar() {
               >
                 {settings.map((setting) => (
                   <MenuItem
-                    key={setting}
+                    key={setting.title}
                     onClick={() => {
                       handleCloseUserMenu();
                       setting.handler();

@@ -144,7 +144,7 @@ export default function UploadImage() {
                 <input
                   type="file"
                   id="profile-picture"
-                  accept=".pdf, .jpeg, .png"
+                  accept=".jpg, .jpeg, .png"
                   onChange={handleFileChange}
                   style={{ display: "none" }}
                   required
@@ -177,7 +177,7 @@ export default function UploadImage() {
                   className="upload-icon"
                   style={{ fontSize: "16px", opacity: "0.5" }}
                 >
-                  (Only pdf, jpeg, png supported)
+                  (Only jpg, jpeg, png supported)
                 </p>
               </div>
             </div>
