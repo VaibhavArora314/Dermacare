@@ -5,6 +5,7 @@ import fs from "fs";
 import { User } from "../DB/userSchema.js";
 import { downloadImage } from "../image_extraction.js";
 import { calculateAge } from "../Utility/calculateAge.js";
+import transporter from "../Configuration/transporter.js";
 
 async function generatePdf (req, res) {
     try {
