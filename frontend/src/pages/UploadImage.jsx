@@ -128,7 +128,7 @@ export default function UploadImage() {
     uploadedFileName,
   ]);
 
-  if (loading) return <Loader />;
+  if (loading) return <Loader message={"Getting Diagnosis..."} />;
 
   return (
     <>

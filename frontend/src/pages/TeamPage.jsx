@@ -100,7 +100,7 @@ const Team = () => {
   if (error)
     return <h1 style={{ textAlign: "center", marginTop: "2rem" }}>{error}</h1>;
 
-  if (!teamMembers) return <Loader />;
+  if (!teamMembers) return <Loader message={"Loading info..."} />;
 
   return (
     <div style={gridContainerStyle}>

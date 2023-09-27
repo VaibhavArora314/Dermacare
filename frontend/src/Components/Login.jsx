@@ -8,7 +8,7 @@ import axios from "axios";
 import Signup from "./Signup";
 import { AuthContext } from "../context/AuthContext";
 
-export default function Login() {
+export default function Login({ setLoading }) {
   const [rememberMe, setRememberMe] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,6 +18,7 @@ export default function Login() {
   const { login: setDetails } = useContext(AuthContext);
 
   const handleLogin = async () => {
+    setLoading(true);
     try {
       // Create an object with email and password
       const data = {
@@ -39,6 +40,8 @@ export default function Login() {
       console.error("Login failed:", error);
       seterror(true);
     }
+
+    setLoading(false);
   };
 
   console.log(email);
@@ -128,6 +131,6 @@ export default function Login() {
       </Grid>
     </>
   ) : (
-    !isflipped && <Signup />
+    !isflipped && <Signup setLoading={setLoading} />
   );
 }

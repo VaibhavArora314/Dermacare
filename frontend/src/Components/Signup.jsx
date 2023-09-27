@@ -7,7 +7,7 @@ import "./login.scss";
 import { AuthContext } from "../context/AuthContext";
 import Login from "./Login";
 
-export default function Signup() {
+export default function Signup({ setLoading }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,6 +20,7 @@ export default function Signup() {
   const [uploadedFileName, setUploadedFileName] = useState();
 
   const handleRegister = async () => {
+    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("username", username);
@@ -43,6 +44,7 @@ export default function Signup() {
     } catch (error) {
       console.error("Registration failed:", error);
     }
+    setLoading(false);
   };
 
   const handleImageChange = (event) => {

@@ -45,7 +45,7 @@ function ReportPage() {
   if (error)
     return <h1 style={{ textAlign: "center", marginTop: "2rem" }}>{error}</h1>;
 
-  if (!data) return <Loader />;
+  if (!data) return <Loader message={"Fetching report..."} />;
 
   return (
     <Box sx={{ marginBottom: 5 }}>
