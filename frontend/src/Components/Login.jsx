@@ -68,7 +68,7 @@ export default function Login({ setLoading }) {
               )}
             </p>
           </div>
-          <div className="row row-1">
+          {/* <div className="row row-1">
             <div className="input-field">
               <GoogleOAuthProvider clientId="521618851477-ge9n1u2p7sdp5m4aklj4i6lso0gob5ru.apps.googleusercontent.com">
                 <GoogleLogin
@@ -84,7 +84,7 @@ export default function Login({ setLoading }) {
                 />
               </GoogleOAuthProvider>
             </div>
-          </div>
+          </div> */}
           <div className="row ">
             <div className="input-field">
               <label htmlFor="title">Email </label>

@@ -16,6 +16,7 @@ $myCustomInputStyles:(
 }
 
 $myCustomTextStyles: (
+  
   font-family: 'poppins',
   font-size: 1em,
   font-weight: 600,
@@ -156,10 +157,11 @@ $myCustomTextStyles: (
     transform-style: preserve-3d; 
 
     .heading{
+    display: flex;
+    justify-content: center;
         >p{
             @include applyCustomTextStyles;
-            font-size:1.4em;
-   
+            font-size:1.5em;
          }
         
       }

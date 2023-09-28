@@ -11,7 +11,16 @@ const CheckupCard = () => {
     <>
       <Grid container>
         <div className="form-parent" style={{ width: "35%" }}>
-          <Box display="flex" sx={{ flexDirection: "column" }}>
+          <Box
+            display="flex"
+            sx={{
+              flexDirection: "column",
+              fontFamily: "lato",
+              letterSpacing: "0.1px",
+              lineHeight: "1.4rem",
+              fontWeight: "500",
+            }}
+          >
             <h4 style={{ marginBottom: 0 }}>Hi, {username}</h4>
             <p>
               Welcome to DermaCare, your one-stop solution for all skin
@@ -42,7 +51,7 @@ const CheckupCard = () => {
                 color: "blue",
                 fontFamily: "poppins",
                 margin: "1rem",
-                fontSize: "0.9em",
+                fontSize: "1em",
               }}
               onClick={(e) => {
                 const procedureSection =
