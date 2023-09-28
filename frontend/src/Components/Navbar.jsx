@@ -186,20 +186,12 @@ export default function Navbar() {
             >
               Home
             </Button> */}
+
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 if (searchQuery) navigate(`/disease/name?name=${searchQuery}`);
               }}
-<<<<<<< HEAD
-              sx={{ margin: "1%" }}
-              onKeyUpCapture={(e) => {
-                if (e.key === "Enter") {
-                  navigate("/disease/name");
-                }
-              }}
-            />
-=======
             >
               <TextField
                 id="search"
@@ -216,7 +208,14 @@ export default function Navbar() {
                 sx={{ margin: "1%" }}
               />
             </form>
->>>>>>> 298580e77b422fd5122f7e950b1f2d61be95b96d
+
+            {/* <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (searchQuery) navigate(`/disease/name?name=${searchQuery}`);
+              }}
+              sx={{ margin: "1%" }}
+            /> */}
             {pages.map((page) => {
               if (page.mustBeLoggedIn && !isLoggedIn) return null;
 
