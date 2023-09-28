@@ -17,9 +17,9 @@ function CommonDiseases() {
         </p>
         <div className="content">
           <p>
-            Whether you have hormonal acne, hair fall, or just want to reduce
-            signs of ageing, we are here for you every step of the way. You get
-            long-term & result-based care for your specific concern or goal.
+            Whether you have hormonal acne, or just want to reduce signs of
+            ageing, we are here for you every step of the way. You get long-term
+            & result-based care for your specific concern or goal.
           </p>
         </div>
       </div>

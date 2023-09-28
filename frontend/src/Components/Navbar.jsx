@@ -205,7 +205,7 @@ export default function Navbar() {
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                 }}
-                sx={{ margin: "1%" }}
+                sx={{ marginTop: "4%", width: "auto" }}
               />
             </form>
 
