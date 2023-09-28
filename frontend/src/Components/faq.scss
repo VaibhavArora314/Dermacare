@@ -22,7 +22,7 @@
 }
 
     >.question-tile{
-        height:9vh;
+        max-height:8vh;
         padding:1rem;
         overflow:hidden ;
         box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
@@ -34,7 +34,13 @@
         display:flex;
         justify-content:space-between;
         cursor: pointer; 
-       
+      transition: smooth;
+
+       &:hover{
+           background:rgb(247, 246, 246) ;
+           transform:scale(1.02);
+           transition:smooth;
+       }       
         &::after{
             font-size:1.5em;
         }
@@ -43,10 +49,10 @@
     
     
     >.answer{
-        height: auto;
+      max-height: 13vh;
       margin:0;
+      transition: smooth;
       overflow: hidden; 
-      transition: max-height 0.3s ease-out;
       padding:10px;
       padding-top:0 ;
       box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;

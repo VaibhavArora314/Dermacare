@@ -3,15 +3,22 @@
 .disease-parent{
     margin:2rem;
     padding:2rem;
+    padding-top:1rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 
     >.images{
+    border:2px solid black;
+    height:20vh;
+    width:auto;
         margin:2rem;
         padding:2rem;
         display:flex;
         flex-direction: row;
         justify-content: space-around;
         >img{
-            transform:scale(0.5);
+            border:2px solid black;
+            transform:scale(1.4);
+            border-radius: 1rem;
         }
 
     }

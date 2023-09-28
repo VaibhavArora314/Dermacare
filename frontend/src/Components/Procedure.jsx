@@ -30,9 +30,9 @@ function Procedure() {
             <div className="procedureContainer__div1__Content">
               <p className="details">
                 Navigate to the upload section through the button placed at the
-                bottom of the login form. Upload atleast 3 images of the
-                affected part of skin of your body. Make sure the images are
-                taken from different angles.
+                bottom of the login form. Upload an image of the affected part
+                of skin of your body. Make sure the images are taken from
+                different angles.
               </p>
             </div>
           </div>
