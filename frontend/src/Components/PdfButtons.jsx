@@ -39,8 +39,10 @@ function PdfButtons({ pdfData, emailUrl }) {
       };
       const res = await axios.get(emailUrl, config);
       console.log("PDF sent", res);
+      alert("email sent!");
     } catch (error) {
       console.error("Error sending PDF", error);
+      alert("An error occured while sending email!");
     }
   };
 

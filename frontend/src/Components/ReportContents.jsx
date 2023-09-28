@@ -73,6 +73,25 @@ const ReportContents = ({
             </p>
           ))}
       </Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          width: 0.75,
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          marginTop: 2,
+        }}
+      >
+        <h4>Note:</h4>
+        <p style={{ color: "#ea0000", margin: 0, marginTop: 1 }}>
+          The results are generated using advanced AI technology, which provides
+          valuable insights. However, it is crucial to prioritize your health
+          and well-being. We strongly recommend consulting a qualified medical
+          professional before making any decisions or taking any additional
+          steps based on these results.
+        </p>
+      </Box>
     </>
   );
 };
