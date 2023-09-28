@@ -117,8 +117,9 @@ function FAQ() {
         <>
           <div className="answer">
             <p>
-              You can contact our support team through [contact information],
-              and we will be happy to assist you with any questions or issues.
+              You can contact our support team at
+              dermacareofficialmail@gmail.com, and we will be happy to assist
+              you with any questions or issues.
             </p>
           </div>
         </>
