@@ -103,7 +103,7 @@ const History = () => {
               <TableCell>S.No.</TableCell>
               <TableCell align="left">Image</TableCell>
               <TableCell align="left">Disease Name</TableCell>
-              <TableCell align="left">Email</TableCell>
+              <TableCell align="left">Report</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
