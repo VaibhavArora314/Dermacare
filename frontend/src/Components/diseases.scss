@@ -120,7 +120,7 @@ $mycustomTitleStyles:(
             
             &:hover{
                 background-color: rgba(103, 187, 207, 1); 
-                transform: scale(1.06);
+                transform: scale(1.05);
                 // &::before {
                 //   display: none; /* Nullify the ::before effect on hover */
                 // }
@@ -129,9 +129,11 @@ $mycustomTitleStyles:(
            
             >.head{
                 @include applyCustomTitleStyles;
-                height: 50%;
+                // height: 50%;
             }
             >.description{
+              margin-top:10%;
+
                 @include applyCustomContentStyles;
 
             }
@@ -159,7 +161,7 @@ $mycustomTitleStyles:(
             border-radius:1rem ;
             &:hover{
                 background-color:rgba(213, 138, 117,1);
-                transform: scale(1.06);
+                transform: scale(1.05);
                
         /* Adjust the color and opacity as desired */
                 // &::before {
@@ -168,27 +170,29 @@ $mycustomTitleStyles:(
               }
             >.head{
                 @include applyCustomTitleStyles;
-                height: 50%;
+                // height: 50%;
 
             }
             >.description{
+              margin-top:10%;
+
                 @include applyCustomContentStyles;
 
             }
         }
        }
        >.div-2{
-        // &::before {
-        //     content: "";
-        //     position: absolute;
-        //     top: 0;
-        //     left: 0;
-        //     width: 100%;
-        //     height: 100%;
-        //     background-color:rgba(170, 123, 181,0.8);
-        //      /* Adjust the color and opacity as desired */
-        //     z-index: 2; /* Place the overlay above the content */
-        //   }
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color:rgba(170, 123, 181,0.4);
+             /* Adjust the color and opacity as desired */
+            z-index: 2; /* Place the overlay above the content */
+          }
           padding:2rem;
           position:relative;
           background: #AA7B97;
@@ -200,7 +204,7 @@ $mycustomTitleStyles:(
          
           &:hover{
             background-color:rgba(170, 123, 151,1);
-            transform: scale(1.06);           
+            transform: scale(1.05);           
            
             // &::before {
             //   display: none; 
@@ -208,10 +212,12 @@ $mycustomTitleStyles:(
           }
           >.head{
               @include applyCustomTitleStyles;
-              height: 40%;
+              // height: 40%;
               
     }
     >.description{
+      margin-top:60%;
+
         @include applyCustomContentStyles;
     }
        }
@@ -241,7 +247,7 @@ $mycustomTitleStyles:(
              
             &:hover{
               background-color:rgba(213, 138, 117, 1);
-              transform: scale(1.06);
+              transform: scale(1.05);
                    &::before {
                 display: none; 
               }
@@ -249,10 +255,11 @@ $mycustomTitleStyles:(
              
             >.head{
                 @include applyCustomTitleStyles;
-                height: 45%;
+                // height: 40%;
 
             }
             >.description{
+              margin-top:10%;
                 @include applyCustomContentStyles;
 
             }
@@ -280,7 +287,7 @@ $mycustomTitleStyles:(
                
                 &:hover{
                 background-color: rgba(103, 187, 207, 1); 
-                transform: scale(1.06);
+                transform: scale(1.05);
                   //  &::before{
                   //     display: none; 
                   //   }
@@ -288,10 +295,12 @@ $mycustomTitleStyles:(
 
                 >.head{
                 @include applyCustomTitleStyles;
-                height: 45%;
+                // height: 45%;
 
              }
              >.description{
+              margin-top:10%;
+
                 @include applyCustomContentStyles;
                 
              }

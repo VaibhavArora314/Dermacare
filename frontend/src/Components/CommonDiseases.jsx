@@ -31,9 +31,10 @@ function CommonDiseases() {
             </div>
             <div className="description">
               <p>
-                Psoriasis is an autoimmune skin disease characterized by rapid
-                skin cell turnover, resulting in thick, scaly patches on the
-                skin's surface.{" "}
+                Psoriasis is known for its silvery scales and often affects
+                joints. Lichen Planus causes shiny, flat-topped bumps on the
+                skin, often affecting the wrists and ankles. Both can be managed
+                with treatments to alleviate symptoms and flare-ups.
               </p>
             </div>
           </div>
@@ -43,9 +44,10 @@ function CommonDiseases() {
             </div>
             <div className="description">
               <p>
-                Vitiligo is a skin disorder characterized by the loss of
-                pigmentation in certain areas of the skin, resulting in white
-                patches.
+                Vitiligo causes white patches due to pigment loss, impacting the
+                skin's appearance. It's thought to be an autoimmune condition
+                affecting melanocytes. Treatments aim to restore color or even
+                skin tone.
               </p>
             </div>
           </div>
@@ -58,11 +60,12 @@ function CommonDiseases() {
           <div className="description">
             <p>
               Acne is a common skin condition that occurs when hair follicles
-              become clogged with oil and dead skin cells. It often results in
-              pimples, blackheads, whiteheads, and in some cases, cysts. Acne
-              can be influenced by factors such as hormones, genetics, and diet.
-              Treatments range from over-the-counter topical products to
-              prescription medications, depending on the severity.
+              become clogged with oil and dead skin cells, leading to pimples,
+              blackheads, and whiteheads. Rosacea, on the other hand, is a
+              chronic skin disorder that primarily affects the face, causing
+              redness, flushing, and in some cases, pimples. Both conditions can
+              have a significant impact on a person's self-confidence and
+              quality of life.
             </p>
           </div>
         </div>
@@ -74,22 +77,24 @@ function CommonDiseases() {
             </div>
             <div className="description">
               <p>
-                Eczema is a chronic skin condition characterized by redness,
-                itching, and inflammation.Eczema is often linked to allergies
-                and can be triggered by environmental factors.
+                Eczema, marked by dry, itchy patches, can worsen with triggers
+                like stress or irritants. Moisturizing regularly, avoiding
+                triggers, and using prescribed treatments can help manage
+                flare-ups and maintain skin health.
               </p>
             </div>
           </div>
           <div className="d">
             {" "}
             <div className="head">
-              <p>Atopic Dermatitis</p>
+              <p> Candidiasis</p>
             </div>
             <div className="description">
               <p>
-                Atopic dermatitis is a specific type of eczema that often begins
-                in childhood. It is associated with intense itching, redness,
-                and dry skin patches.
+                Fungal infections like ringworm and candidiasis cause
+                discomfort, itching, and visible rashes. Maintaining personal
+                hygiene and using antifungal treatments can help eliminate the
+                infection and prevent recurrence.
               </p>
             </div>
           </div>

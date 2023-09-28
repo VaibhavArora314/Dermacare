@@ -158,12 +158,12 @@ export default function UploadImage() {
             <p>Upload Image of affected part of skin:</p>
           </div>
           <div className="image-upload">
-            <div className="upload-container">
-              <div
-                className="upload-box"
-                onDrop={(e) => handleDrop(e)}
-                onDragOver={(e) => e.preventDefault()}
-              >
+            <div
+              className="upload-container"
+              onDrop={(e) => handleDrop(e)}
+              onDragOver={(e) => e.preventDefault()}
+            >
+              <div className="upload-box">
                 <input
                   type="file"
                   id="profile-picture"
