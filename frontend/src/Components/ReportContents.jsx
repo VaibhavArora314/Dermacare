@@ -52,7 +52,9 @@ const ReportContents = ({
           fontFamily: "lato",
         }}
       >
-        <h4>Disease Info:</h4>
+        <h4>
+          <b>Disease Info:</b>
+        </h4>
         {diseaseInfoResponse
           .split("\n")
           //   .slice(0, 5)
@@ -72,7 +74,9 @@ const ReportContents = ({
           marginTop: 2,
         }}
       >
-        <h4>Suggested Medicines:</h4>
+        <h4>
+          <b>Suggested Medicines:</b>
+        </h4>
         {medicinesResponse
           .split("\n")
           //   .slice(0, 5)
@@ -92,7 +96,9 @@ const ReportContents = ({
           marginTop: 2,
         }}
       >
-        <h4>Note:</h4>
+        <h4>
+          <b>Note:</b>
+        </h4>
         <p style={{ color: "#ea0000", margin: 0, marginTop: 1 }}>
           The results are generated using advanced AI technology, which provides
           valuable insights. However, it is crucial to prioritize your health

@@ -51,30 +51,35 @@ const UserDetails = () => {
           fontFamily: "poppins",
         }}
       >
-        <h2>
-          <b>Username:</b> <i>{profile.username}</i>
-        </h2>
-        <p>
-          <b>Email:</b> {profile.email}
-        </p>
-        <p>
-          <b>DOB:</b> {profile.dob.substring(0, 10)}
-        </p>
-        <p>
-          <b>Gender:</b> {profile.gender}
-        </p>
+        <h3>
+          Username: <i style={{ fontWeight: "400" }}>{profile.username}</i>
+        </h3>
+        <h3>
+          Email: <i style={{ fontWeight: "400" }}>{profile.email}</i>
+        </h3>
+        <h3>
+          DOB:{" "}
+          <i style={{ fontWeight: "400" }}>{profile.dob.substring(0, 10)}</i>
+        </h3>
+        <h3>
+          Gender: <i style={{ fontWeight: "400" }}>{profile.gender}</i>
+        </h3>
+
+        <p></p>
+        <p></p>
+        <p></p>
       </Box>
       {profile.profilePicture ? (
         <Avatar
           alt={profile.username}
           src={profile.profilePicture}
           sx={{
-            width: 130,
-            height: 130,
+            width: 160,
+            height: 160,
             borderRadius: "50%",
-            border: "4px outset black",
-            padding: "2rem",
-            backgroundSize: "cover",
+            border: "4px solid black",
+            // padding: "2rem",
+            backgroundSize: "fit",
           }}
         />
       ) : (

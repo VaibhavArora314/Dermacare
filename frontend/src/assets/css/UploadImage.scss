@@ -21,12 +21,9 @@ $myCustomTextStyles: (
 .par-container {
   display: flex;
   flex-direction: row;
-  // gap:5px;
   padding:1.5rem 1rem ;
-  // width:100vw;
-  // min-height:110vh;
-  // width:100%;
-  overflow-y:hidden;
+   height:80vh;
+  overflow:hidden;
 
   &__upload-section{
     flex:7;
@@ -146,7 +143,7 @@ $myCustomTextStyles: (
   flex:3;
    padding:0;
    
-    height:inherit;
+    height:100%;
     // width:60% !important;
     
     >.img-vector{

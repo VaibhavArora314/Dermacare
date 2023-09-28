@@ -198,7 +198,7 @@ export default function Navbar() {
                 id="search"
                 placeholder="Search"
                 variant="outlined"
-                size="large"
+                size="medium"
                 InputProps={{
                   startAdornment: <SearchIcon sx={{ color: "gray" }} />,
                 }}
@@ -206,7 +206,13 @@ export default function Navbar() {
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                 }}
-                sx={{ marginTop: "4%", width: "auto" }}
+                sx={{
+                  marginTop: "5%",
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: "2rem",
+                  border: "none",
+                  boxSizing: "0",
+                }}
               />
             </form>
 
