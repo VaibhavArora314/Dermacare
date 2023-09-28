@@ -71,7 +71,7 @@ app.get("/api/user/profile", checkAuth, getProfile);
 app.get("/api/user/images", checkAuth, imageHistory);
 
 // Search Any disease
-app.get("/api/search-disease", checkAuth, searchDisease);
+app.get("/api/search-disease", searchDisease);
 
 // Logout API
 app.post("/api/logout", logout);
