@@ -164,6 +164,21 @@ async function generatePdf(req, res) {
         "For more information and resources on this condition, you can visit our website or consult with our dermatologists."
       );
 
+      // Note Section
+doc.moveDown(0.5); // Add some space before the note
+doc
+  .fontSize(16)
+  .fillColor("#333333")
+  .text("Note", { underline: true });
+
+// Add the provided disclaimer with red font color
+doc
+  .fontSize(12)
+  .fillColor("red") // Set the font color to red
+  .text(
+    "The results are generated using advanced AI technology, which provides valuable insights. However, it is crucial to prioritize your health and well-being. We strongly recommend consulting a qualified medical professional before making any decisions or taking any additional steps based on these results."
+  );
+
     // Copyright Section
     doc.moveDown(0.5); // Add some space before the copyright notice
     doc

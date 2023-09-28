@@ -21,11 +21,8 @@ function PdfButtons({ pdfData, emailUrl, diseaseName }) {
       type: "application/pdf",
     });
 
-    // Set the custom name for the Blob using a File-like object
-    const pdfFile = new File([blob], { type: "application/pdf" });
-
-    // Create a URL for the File
-    const url = URL.createObjectURL(pdfFile);
+    // Create a URL for the Blob
+    const url = URL.createObjectURL(blob);
 
     // Open the PDF in a new tab
     window.open(url, "_blank");
