@@ -24,7 +24,7 @@ function App() {
               <Route path="/team" element={<TeamPage />} />
               <Route path="/contact-us" element={<ContactPage />} />
               <Route path="/report/:id" element={<ReportPage />} />
-              <Route path="/disease/name" element={<DiseasePage />}></Route>
+              <Route path="/disease-search" element={<DiseasePage />}></Route>
             </Routes>
           </Router>
         </AuthProvider>
