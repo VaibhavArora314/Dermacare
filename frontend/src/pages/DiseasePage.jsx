@@ -3,7 +3,7 @@ import "../assets/css/disease.scss";
 import one from "../assets/icons/one.png";
 import two from "../assets/icons/two.png";
 
-function SkinDisease() {
+function DiseasePage() {
   return (
     <div className="disease-parent">
       <div className="images">
@@ -52,4 +52,4 @@ function SkinDisease() {
   );
 }
 
-export default SkinDisease;
+export default DiseasePage;

@@ -30,7 +30,9 @@ function Homepage() {
         {}
       </div>
       {/* <div> */}
-      <Procedure />
+      <div className="procedure-section">
+        <Procedure />
+      </div>
       {/* </div> */}
       {/* <div> */}
       <CommonDiseases />

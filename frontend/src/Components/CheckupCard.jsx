@@ -2,6 +2,7 @@ import { Box, Grid, Button } from "@mui/material";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import Procedure from "./Procedure";
 
 const CheckupCard = () => {
   const { username } = useContext(AuthContext);
@@ -28,7 +29,31 @@ const CheckupCard = () => {
               {/* <li>Access to a network of experienced dermatologists</li>
               <li>Track your skin health progress with our app</li> */}
             </ul>
-            <p>Ready to get started?</p>
+
+            {/* <p>Ready to get started?</p> */}
+
+            <button
+              style={{
+                display: "flex",
+                justifyContent: "end",
+                background: "transparent",
+                border: "none",
+                textDecoration: "underline",
+                color: "blue",
+                fontFamily: "poppins",
+                margin: "1rem",
+                fontSize: "0.9em",
+              }}
+              onClick={(e) => {
+                const procedureSection =
+                  document.querySelector(".procedure-section");
+                if (procedureSection) {
+                  procedureSection.scrollIntoView({ behavior: "smooth" }); // Scroll to the Procedure section smoothly.
+                }
+              }}
+            >
+              How to Upload
+            </button>
             <Button
               variant="contained"
               color="primary"

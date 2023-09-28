@@ -193,7 +193,11 @@ export default function Navbar() {
                 startAdornment: <SearchIcon sx={{ color: "gray" }} />,
               }}
               sx={{ margin: "1%" }}
-              onChange={(e) => navigate("/disease/name")}
+              onKeyUpCapture={(e) => {
+                if (e.key === "Enter") {
+                  navigate("/disease/name");
+                }
+              }}
             />
             {pages.map((page) => {
               if (page.mustBeLoggedIn && !isLoggedIn) return null;
