@@ -6,6 +6,14 @@ function CommonDiseases() {
       <div className="parent-container__first">
         <p className="title">
           Our <span className="popular"> popular </span>treatments
+          <hr
+            style={{
+              width: "85%",
+              border: "1px solid black",
+              marginRight: "15%",
+              marginTop: "2%",
+            }}
+          />
         </p>
         <div className="content">
           <p>

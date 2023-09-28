@@ -98,16 +98,16 @@ $mycustomTitleStyles:(
         
       >.div-1{
           >.a{
-            &::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(103, 187, 207,0.1); /* Adjust the color and opacity as desired */
-                z-index: 2; /* Place the overlay above the content */
-              }
+            // &::before {
+            //     content: "";
+            //     position: absolute;
+            //     top: 0;
+            //     left: 0;
+            //     width: 100%;
+            //     height: 100%;
+            //     background-color: rgba(103, 187, 207,0.1); /* Adjust the color and opacity as desired */
+            //     z-index: 2; /* Place the overlay above the content */
+            //   }
 
             position: relative;
             padding:2rem;
@@ -116,13 +116,14 @@ $mycustomTitleStyles:(
             height:35vh;
             position: relative;
             z-index: 1;
+            border-radius: 1rem;
             
             &:hover{
                 background-color: rgba(103, 187, 207, 1); 
-                filter: brightness(0.9);
-                &::before {
-                  display: none; /* Nullify the ::before effect on hover */
-                }
+                transform: scale(1.06);
+                // &::before {
+                //   display: none; /* Nullify the ::before effect on hover */
+                // }
               }
            
            
@@ -138,32 +139,32 @@ $mycustomTitleStyles:(
         
         >.b{
 
-            &::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color:rgba(213, 138, 150, 0.8);
-                 /* Adjust the color and opacity as desired */
-                z-index: 2; /* Place the overlay above the content */
-              }
+            // &::before {
+            //     content: "";
+            //     position: absolute;
+            //     top: 0;
+            //     left: 0;
+            //     width: 100%;
+            //     height: 100%;
+            //     background-color:rgba(213, 138, 150, 0.8);
+            //      /* Adjust the color and opacity as desired */
+            //     z-index: 2; /* Place the overlay above the content */
+            //   }
             position:relative;
             padding:2rem;
             background-color: #D58A75;
             width: 80%;
             height:35vh;
             z-index:1; 
+            border-radius:1rem ;
             &:hover{
                 background-color:rgba(213, 138, 117,1);
-                filter: brightness(0.9);
-
+                transform: scale(1.06);
                
         /* Adjust the color and opacity as desired */
-                &::before {
-                  display: none; /* Nullify the ::before effect on hover */
-                }
+                // &::before {
+                //   display: none; /* Nullify the ::before effect on hover */
+                // }
               }
             >.head{
                 @include applyCustomTitleStyles;
@@ -177,32 +178,33 @@ $mycustomTitleStyles:(
         }
        }
        >.div-2{
-        &::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color:rgba(170, 123, 181,0.8);
-             /* Adjust the color and opacity as desired */
-            z-index: 2; /* Place the overlay above the content */
-          }
+        // &::before {
+        //     content: "";
+        //     position: absolute;
+        //     top: 0;
+        //     left: 0;
+        //     width: 100%;
+        //     height: 100%;
+        //     background-color:rgba(170, 123, 181,0.8);
+        //      /* Adjust the color and opacity as desired */
+        //     z-index: 2; /* Place the overlay above the content */
+        //   }
           padding:2rem;
           position:relative;
           background: #AA7B97;
           height:81vh;
           width:80%;
           z-index:2;
+          border-radius:1rem ;
+
          
           &:hover{
             background-color:rgba(170, 123, 151,1);
-            filter: brightness(0.9);
+            transform: scale(1.06);           
            
-           
-            &::before {
-              display: none; 
-            }
+            // &::before {
+            //   display: none; 
+            // }
           }
           >.head{
               @include applyCustomTitleStyles;
@@ -217,17 +219,17 @@ $mycustomTitleStyles:(
        >.div-3{
         
             >.c{
-                &::before {
-                    content: "";
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background-color:rgba(213, 138, 150, 0.8);
+                // &::before {
+                //     content: "";
+                //     position: absolute;
+                //     top: 0;
+                //     left: 0;
+                //     width: 100%;
+                //     height: 100%;
+                //     background-color:rgba(213, 138, 150, 0.8);
                     
-                    z-index: 2; /* Place the overlay above the content */
-                  }
+                //     z-index: 2; /* Place the overlay above the content */
+                //   }
 
             position: relative;
             padding:2rem;
@@ -235,11 +237,11 @@ $mycustomTitleStyles:(
             width: 80%;
             height:35vh;
             z-index: 1;
+            border-radius:1rem ;
              
             &:hover{
               background-color:rgba(213, 138, 117, 1);
-              filter: brightness(0.9);
-
+              transform: scale(1.06);
                    &::before {
                 display: none; 
               }
@@ -257,16 +259,16 @@ $mycustomTitleStyles:(
         }
             >.d{
                 
-                &::before {
-                    content: "";
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background-color: rgba(103, 187, 207, 0.8); /* Adjust the color and opacity as desired */
-                   z-index: 2; /* Place the overlay above the content */
-                  }
+                // &::before {
+                //     content: "";
+                //     position: absolute;
+                //     top: 0;
+                //     left: 0;
+                //     width: 100%;
+                //     height: 100%;
+                //     background-color: rgba(103, 187, 207, 0.8); /* Adjust the color and opacity as desired */
+                //    z-index: 2; /* Place the overlay above the content */
+                //   }
                   
                   position: relative;
                 padding:2rem;
@@ -274,14 +276,14 @@ $mycustomTitleStyles:(
                 z-index: 1;
                 width: 80%;
                 height:35vh;
+                border-radius: 1rem;
                
                 &:hover{
                 background-color: rgba(103, 187, 207, 1); 
-                filter: brightness(0.9);
-
-                   &::before{
-                      display: none; 
-                    }
+                transform: scale(1.06);
+                  //  &::before{
+                  //     display: none; 
+                  //   }
                 }
 
                 >.head{
