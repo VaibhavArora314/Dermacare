@@ -80,7 +80,22 @@ $myDivAlignment:(
     display: grid;
     grid-template-columns: repeat(3,1fr);
     // gap: 1rem;
-    
+    justify-items:left;
+
+    @media screen and (max-width: 1300px) {
+      
+      padding-left: 3rem; /* Reduce left padding for smaller screens */
+      grid-template-columns: repeat(2, 1fr); /* Change to a two-column layout for smaller screens */
+      /* Remove or adjust other properties as needed */
+  }
+
+    @media screen and (max-width: 768px) {
+      padding-left: 3rem; /* Reduce left padding for smaller screens */
+      grid-template-columns: 1fr; /* Change to a single column layout for smaller screens */
+      /* Remove or adjust other properties as needed */
+    }
+
+
     &__div1{
       @include applymyDivAlignment;
         

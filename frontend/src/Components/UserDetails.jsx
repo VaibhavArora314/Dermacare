@@ -57,7 +57,7 @@ const UserDetails = () => {
           <b>Email:</b> {profile.email}
         </p>
         <p>
-          <b>DOB:</b> {profile.dob}
+          <b>DOB:</b> {profile.dob.substring(0, 10)}
         </p>
         <p>
           <b>Gender:</b> {profile.gender}

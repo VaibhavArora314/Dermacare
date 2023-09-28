@@ -24,6 +24,8 @@ export default function Navbar() {
   const { isLoggedIn, username, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const [searchQuery, setSearchQuery] = useState("");
+
   const pages = [
     {
       title: "Checkup",
@@ -184,14 +186,12 @@ export default function Navbar() {
             >
               Home
             </Button> */}
-            <TextField
-              id="search"
-              placeholder="Search"
-              variant="outlined"
-              size="large"
-              InputProps={{
-                startAdornment: <SearchIcon sx={{ color: "gray" }} />,
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (searchQuery) navigate(`/disease/name?name=${searchQuery}`);
               }}
+<<<<<<< HEAD
               sx={{ margin: "1%" }}
               onKeyUpCapture={(e) => {
                 if (e.key === "Enter") {
@@ -199,6 +199,24 @@ export default function Navbar() {
                 }
               }}
             />
+=======
+            >
+              <TextField
+                id="search"
+                placeholder="Search"
+                variant="outlined"
+                size="large"
+                InputProps={{
+                  startAdornment: <SearchIcon sx={{ color: "gray" }} />,
+                }}
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                }}
+                sx={{ margin: "1%" }}
+              />
+            </form>
+>>>>>>> 298580e77b422fd5122f7e950b1f2d61be95b96d
             {pages.map((page) => {
               if (page.mustBeLoggedIn && !isLoggedIn) return null;
 
