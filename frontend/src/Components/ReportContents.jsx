@@ -26,7 +26,11 @@ const ReportContents = ({
         <Box sx={{ flexDirection: "column", gap: 0 }}>
           Disease Name:
           <h4>{diseaseName}</h4>
-          <PdfViewer pdfData={pdfData} emailUrl={emailUrl} />
+          <PdfViewer
+            pdfData={pdfData}
+            emailUrl={emailUrl}
+            diseaseName={diseaseName}
+          />
         </Box>
         {imageUrl && (
           <Avatar alt="" src={imageUrl} sx={{ width: 100, height: 100 }} />

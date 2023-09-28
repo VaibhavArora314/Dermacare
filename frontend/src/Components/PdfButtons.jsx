@@ -3,7 +3,7 @@ import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
-function PdfButtons({ pdfData, emailUrl }) {
+function PdfButtons({ pdfData, emailUrl, diseaseName }) {
   const { token } = useContext(AuthContext);
 
   const viewPdf = () => {
@@ -21,8 +21,11 @@ function PdfButtons({ pdfData, emailUrl }) {
       type: "application/pdf",
     });
 
-    // Create a URL for the Blob
-    const url = URL.createObjectURL(blob);
+    // Set the custom name for the Blob using a File-like object
+    const pdfFile = new File([blob], { type: "application/pdf" });
+
+    // Create a URL for the File
+    const url = URL.createObjectURL(pdfFile);
 
     // Open the PDF in a new tab
     window.open(url, "_blank");
