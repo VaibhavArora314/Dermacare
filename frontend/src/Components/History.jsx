@@ -93,17 +93,33 @@ const History = () => {
         marginLeft: 10,
         marginRight: 10,
         marginTop: 5,
+        display: "flex",
+        alignItems: "center",
       }}
     >
-      <h2>History</h2>
+      <h2 style={{ fontSize: "2em", fontFamily: "montserrat", opacity: "0.8" }}>
+        {" "}
+        Report History
+        <hr
+          style={{ marginTop: 4, border: "1px solid gray", opacity: "0.5" }}
+        />
+      </h2>
       <TableContainer>
         <Table sx={{ maxWidth: 1500 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>S.No.</TableCell>
-              <TableCell align="left">Image</TableCell>
-              <TableCell align="left">Disease Name</TableCell>
-              <TableCell align="left">Report</TableCell>
+              <TableCell>
+                <b>S.No.</b>
+              </TableCell>
+              <TableCell>
+                <b>Image</b>
+              </TableCell>
+              <TableCell>
+                <b>Disease Name</b>
+              </TableCell>
+              <TableCell>
+                <b>Report</b>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

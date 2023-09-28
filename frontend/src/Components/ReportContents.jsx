@@ -23,9 +23,9 @@ const ReportContents = ({
           marginTop: 2,
         }}
       >
-        <Box sx={{ flexDirection: "column", gap: 0 }}>
+        <Box sx={{ flexDirection: "column", gap: 0, fontFamily: "helvetica" }}>
           Disease Name:
-          <h4>{diseaseName}</h4>
+          <h3>{diseaseName}</h3>
           <PdfViewer
             pdfData={pdfData}
             emailUrl={emailUrl}
@@ -33,7 +33,11 @@ const ReportContents = ({
           />
         </Box>
         {imageUrl && (
-          <Avatar alt="" src={imageUrl} sx={{ width: 100, height: 100 }} />
+          <Avatar
+            alt=""
+            src={imageUrl}
+            sx={{ width: 300, height: 300, borderRadius: "6px" }}
+          />
         )}
       </Box>
       <Box
@@ -45,6 +49,7 @@ const ReportContents = ({
           alignItems: "flex-start",
           marginTop: 2,
           gap: 0,
+          fontFamily: "lato",
         }}
       >
         <h4>Disease Info:</h4>

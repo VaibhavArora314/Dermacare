@@ -39,19 +39,20 @@ const UserDetails = () => {
         width: 0.75,
         justifyContent: "space-between",
         alignItems: "center",
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 2,
+        padding: "2rem",
+        margin: "0rem 8rem ",
+        boxShadow:
+          "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 0px 7px -3px",
       }}
     >
       <Box
         sx={{
           flexDirection: "column",
-          fontFamily: "montserrat",
+          fontFamily: "poppins",
         }}
       >
         <h2>
-          <b>Username:</b> {profile.username}
+          <b>Username:</b> <i>{profile.username}</i>
         </h2>
         <p>
           <b>Email:</b> {profile.email}
@@ -67,7 +68,14 @@ const UserDetails = () => {
         <Avatar
           alt={profile.username}
           src={profile.profilePicture}
-          sx={{ width: 100, height: 100, borderRadius: "50%" }}
+          sx={{
+            width: 130,
+            height: 130,
+            borderRadius: "50%",
+            border: "4px outset black",
+            padding: "2rem",
+            backgroundSize: "cover",
+          }}
         />
       ) : (
         <Avatar

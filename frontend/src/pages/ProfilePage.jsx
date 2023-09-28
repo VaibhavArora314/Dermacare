@@ -4,8 +4,17 @@ import UserDetails from "../Components/UserDetails";
 const ProfilePage = () => {
   return (
     <>
-      <UserDetails />
-      <History />
+      <div
+        className="profile-parent"
+        style={{
+          margin: "2rem",
+          padding: "2rem",
+          borderRadius: "10px",
+        }}
+      >
+        <UserDetails />
+        <History />
+      </div>
     </>
   );
 };
