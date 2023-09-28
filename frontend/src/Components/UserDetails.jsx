@@ -78,7 +78,7 @@ const UserDetails = () => {
             height: 160,
             borderRadius: "50%",
             border: "4px solid black",
-            // padding: "2rem",
+            padding: "0.1rem",
             backgroundSize: "fit",
           }}
         />
