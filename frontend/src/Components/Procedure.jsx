@@ -29,10 +29,9 @@ function Procedure() {
             </div>
             <div className="procedureContainer__div1__Content">
               <p className="details">
-                Navigate to the upload section through the button placed at the
-                bottom of the login form. Upload an image of the affected part
-                of skin of your body. Make sure the images are taken from
-                different angles.
+                Navigate to the upload section through the checkup button from
+                the navbar.Upload a sharp and clear image of the affected part
+                of your skin for our model to give you the best results.
               </p>
             </div>
           </div>

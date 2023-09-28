@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import "../assets/css/UploadImage.scss";
@@ -35,7 +35,7 @@ LinearProgressWithLabel.propTypes = {
 
 export default function UploadImage() {
   const [progress, setProgress] = useState(Array(3).fill(10));
-
+  const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [message, setMessage] = useState("");
   const [images, setImages] = useState([]);
@@ -48,9 +48,7 @@ export default function UploadImage() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-
+  const handleFileChange = (file) => {
     if (file && !uploading) {
       setSelectedFile(file);
       setImages((prevImages) => [...prevImages, file]);
@@ -138,8 +136,19 @@ export default function UploadImage() {
     progress,
     uploadedFileName,
   ]);
+  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-  if (loading) return <Loader message={"Getting Diagnosis..."} />;
+  // drag-drop functionality
+  const handleDrop = (e) => {
+    e.preventDefault();
+
+    // Get the dropped files
+    const files = e.dataTransfer.files[0];
+    handleFileChange(files);
+    console.log(files);
+  };
+
+  if (loading) return <Loader message={"Generating Results"} />;
 
   return (
     <>
@@ -150,12 +159,16 @@ export default function UploadImage() {
           </div>
           <div className="image-upload">
             <div className="upload-container">
-              <div className="upload-box">
+              <div
+                className="upload-box"
+                onDrop={(e) => handleDrop(e)}
+                onDragOver={(e) => e.preventDefault()}
+              >
                 <input
                   type="file"
                   id="profile-picture"
                   accept=".jpg, .jpeg, .png"
-                  onChange={handleFileChange}
+                  onChange={(e) => handleFileChange(e.target.files[0])}
                   style={{ display: "none" }}
                   required
                 />
