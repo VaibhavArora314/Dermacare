@@ -44,6 +44,11 @@ $mycustomTitleStyles:(
         // flex-direction:row;
         // gap:2px;
 
+        @media screen and (max-width: 768px) {
+          grid-template-columns: 1fr; /* Change to a single column layout for smaller screens */
+          /* Adjust other properties as needed */
+        }
+
          >.title{
             color: #000;
             font-family: "Montserrat";
@@ -79,6 +84,11 @@ $mycustomTitleStyles:(
         display: grid;
         grid-template-columns:repeat(3,35% 30% 35%);
         gap:1.5rem;
+
+        @media screen and (max-width: 768px) {
+          grid-template-columns: 1fr; /* Change to a single column layout for smaller screens */
+          /* Adjust other properties as needed */
+        }
 
         >.div-1,>.div-3{
             display: grid;
