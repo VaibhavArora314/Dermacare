@@ -190,7 +190,8 @@ export default function Navbar() {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                if (searchQuery) navigate(`/disease/name?name=${searchQuery}`);
+                if (searchQuery)
+                  navigate(`/disease-search?name=${searchQuery}`);
               }}
             >
               <TextField

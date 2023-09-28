@@ -24,11 +24,12 @@
     }
     >.disease-details{
         justify-content: center;
-        text-align: center;
+        text-align: start;
         margin:1rem;
-        display: grid;
-        grid-template-columns: repeat(4,1fr);
-        grid-gap:.3em ;
+        display: flex;
+        flex-direction: column;
+        // grid-template-columns: repeat(4,1fr);
+        // grid-gap:.3em ;
         padding:1rem;
         box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     }
