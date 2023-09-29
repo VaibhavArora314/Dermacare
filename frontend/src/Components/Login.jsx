@@ -131,6 +131,6 @@ export default function Login({ setLoading }) {
       </Grid>
     </>
   ) : (
-    !isflipped && <Signup setLoading={setLoading} />
+    !isflipped && <Signup setLoading={() => {}} />
   );
 }
