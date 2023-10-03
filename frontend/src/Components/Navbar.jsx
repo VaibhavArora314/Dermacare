@@ -1,4 +1,4 @@
-import { React, useContext, useState } from "react";
+import { React, useContext, useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -25,7 +25,6 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const [searchQuery, setSearchQuery] = useState("");
-
   const pages = [
     {
       title: "Checkup",
@@ -186,7 +185,6 @@ export default function Navbar() {
             >
               Home
             </Button> */}
-
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -194,9 +192,27 @@ export default function Navbar() {
                   navigate(`/disease-search?name=${searchQuery}`);
               }}
             >
+              <style>
+                {`
+            @keyframes runningText {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.running-text::placeholder {
+  animation: runningText 5s linear infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+}`}
+              </style>
               <TextField
                 id="search"
                 placeholder="Search"
+                className="running-text"
                 variant="outlined"
                 size="medium"
                 InputProps={{
@@ -216,13 +232,6 @@ export default function Navbar() {
               />
             </form>
 
-            {/* <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (searchQuery) navigate(`/disease/name?name=${searchQuery}`);
-              }}
-              sx={{ margin: "1%" }}
-            /> */}
             {pages.map((page) => {
               if (page.mustBeLoggedIn && !isLoggedIn) return null;
 

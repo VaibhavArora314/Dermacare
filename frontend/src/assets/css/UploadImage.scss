@@ -1,15 +1,12 @@
 @import "../../App.css";
-// @import "../../Components/login.scss";
 
 $myCustomTextStyles: (
-  font-family: 'poppins',
+  font-family: "poppins",
   font-size: 1.1em,
   font-weight: 600,
-//   line-height: 44px,
+  //   line-height: 44px,
   letter-spacing: 0,
 );
-
-
 
 @mixin applyCustomTextStyles {
   @each $property, $value in $myCustomTextStyles {
@@ -17,144 +14,184 @@ $myCustomTextStyles: (
   }
 }
 
+// button animation
+
+$width: 400px;
+$height: 250px;
+$primary_color: #3084ac;
+$border_color--hover: lighten($primary_color, 80);
+$stroke: 2px;
+$border: $stroke solid darken($primary_color, 10);
+$transition_duration: 100ms;
+$pipeline_width: $width + $stroke;
+$pipeline_height: $height + $stroke;
+$pipes: 4;
+
+@function border-pipeline($transition_duration, $pipe) {
+  @return $transition_duration * $pipe;
+}
+
+@mixin border-animation($dimension, $easing, $pipe) {
+  transition: $transition_duration $dimension $easing
+    border-pipeline($transition_duration, $pipe);
+  -web-kit-transition: $transition_duration $dimension $easing
+    border-pipeline($transition_duration, $pipe);
+}
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+// styling
 
 .par-container {
   display: flex;
   flex-direction: row;
-  padding:1.5rem 1rem ;
-   height:80vh;
-  overflow:hidden;
+  padding: 1.5rem 1rem;
+  height: 80vh;
+  overflow: hidden;
 
-  &__upload-section{
-    flex:7;
+  &__upload-section {
+    flex: 7;
     // width:65%;
-    padding:0.5rem;
-    padding-left:4rem;
-    &__heading{
-        margin-top:5%;
+    padding: 0.5rem;
+    padding-left: 4rem;
+    &__heading {
+      margin-top: 5%;
+      color: #000;
+      text-align: left;
+      font-family: Montserrat;
+      font-size: 1.6em;
+      font-style: normal;
+      font-weight: 600;
+    }
+    > .image-upload {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      height: 40%;
+      min-height: fit-content;
+      width: 100%;
+      // width:100%;
+      flex-shrink: 0;
+      padding: 1rem 2rem 1rem 2rem;
+      border-radius: 4px;
+      border: 1px dashed #088586;
+      background: rgba(255, 255, 255, 0.05);
+
+      > .upload-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 8%;
+        font-family: poppins;
+        font-weight: 600;
+        > .upload-box {
+          min-height: 50vh;
+
+          > .img-icon {
+            justify-content: center;
+          }
+          > p {
+            > .input-btn {
+              cursor: pointer;
+              background: transparent;
+              border: none;
+              text-decoration: underline;
+              color: var(--Accent-Color, #088586);
+              font-family: Montserrat;
+              font-size: 1em;
+              font-style: normal;
+              font-weight: 600;
+              line-height: 24px;
+              text-decoration-line: underline;
+            }
+          }
+        }
+      }
+    }
+
+    .generate-btn {
+      @include applyCustomTextStyles;
+      background: #04736f;
+      padding: 1rem;
+      text-align: center;
+      border: none;
+      // border-radius:10px;
+      margin-top: 1rem;
+      color: white;
+      width: 111%;
+      //width: 100%
+      cursor: pointer;
+      border-radius: 4px;
+      background: var(--Accent-Color, #088586);
+      color: #fff;
+      font-family: Montserrat;
+      font-size: 1em;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 18px; /* 105.882% */
+      text-transform: uppercase;
+      transition: ($transition_duration * $pipes) + $transition_duration ease;
+    }
+    &:before {
+      position: absolute;
+      width: 0;
+      height: $stroke;
+      content: "";
+      background: #fff;
+      top: -$stroke;
+      left: -$stroke;
+      @include border-animation(auto, ease, 3);
+    }
+    &:after {
+      position: absolute;
+      width: $stroke;
+      height: 0;
+      content: "";
+      background: #fff;
+      top: -$stroke;
+      right: -$stroke;
+      @include border-animation(auto, ease, 2);
+    }
+
+    .generate-btn:hover {
+      background-color: #04736f;
+    }
+    .gen-inactive {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    > .progress-tracker {
+      > .progress-bar {
+        width: 107%;
+        margin-top: -10px;
+        padding: 10px;
+        padding-bottom: 0px;
+        border-radius: 4px;
+        border: 0.5px solid #000;
+        background: #fff;
+      }
+      > .upload {
         color: #000;
         text-align: left;
         font-family: Montserrat;
-        font-size: 1.6em;
+        font-size: 1.2em;
         font-style: normal;
         font-weight: 600;
-        
-    }
-    >.image-upload{
-        display: flex;
-        justify-content: center;
-        text-align: center;
-        height:40%;
-        min-height: fit-content;
-        width:100%;
-        // width:100%;
-        flex-shrink: 0;
-        padding:1rem 2rem 1rem 2rem;
-        border-radius: 4px;
-        border: 1px dashed #088586;
-        background: rgba(255, 255, 255, 0.05);
-        
-        >.upload-container{
-            display: flex;
-            justify-content: center;
-            margin-top:8%;
-            font-family: poppins;
-            font-weight: 600;
-            >.upload-box{
-              min-height: 50vh;
-
-                >.img-icon{
-                  justify-content: center;
-                }
-                 >p{
-
-                     >.input-btn{
-                         cursor:pointer;
-                         background: transparent;
-                         border:none;
-                         text-decoration: underline;
-                         color: var(--Accent-Color, #088586);
-                         font-family: Montserrat;
-                         font-size: 1em;
-                         font-style: normal;
-                         font-weight: 600;
-                         line-height: 24px;
-                         text-decoration-line: underline;
-                     }
-                 }
-            }
-        }
-    }
-   
-       .generate-btn{
-         @include applyCustomTextStyles;
-            background: #04736f;
-            padding:1rem;
-            text-align: center ;
-            border:none;
-            // border-radius:10px;
-            margin-top:1rem;
-            color:white;
-            width: 111%;
-            //width: 100%
-            cursor:pointer;
-            border-radius: 4px;
-            background: var(--Accent-Color, #088586);
-            color: #FFF;
-            font-family: Montserrat;
-            font-size: 1em;
-            font-style: normal;
-            font-weight: 700;
-            line-height: 18px; /* 105.882% */
-            text-transform: uppercase;
-             
-          }
-          .generate-btn:hover{
-            background-color: #04736f;
-          }
-          .gen-inactive{
-            opacity:0.4;
-          }
-    
-          >.progress-tracker{
-            
-            >.progress-bar{
-              width: 107%;
-              margin-top:-10px;
-              padding: 10px;
-              padding-bottom:0px;
-              border-radius: 4px;
-              border: 0.5px solid #000;
-              background: #FFF;
-            }
-        >.upload{
-          color: #000;
-          text-align: left;
-          font-family: Montserrat;
-          font-size: 1.2em;
-          font-style: normal;
-          font-weight: 600;
-          line-height: normal;
-        }
-    }
-    
-}
-&__img-section {
-  flex:3;
-   padding:0;
-   
-    height:100%;
-    // width:60% !important;
-    
-    >.img-vector{
-        transform: scale(0.75);
-        margin-top: -5rem;
-        margin-left:5%;
-        align-items: end;
-
+        line-height: normal;
       }
+    }
+  }
+  &__img-section {
+    flex: 3;
+    padding: 0;
+
+    height: 100%;
+    // width:60% !important;
+
+    > .img-vector {
+      transform: scale(0.75);
+      margin-top: -5rem;
+      margin-left: 5%;
+      align-items: end;
+    }
+  }
 }
-
-
-}
-

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../assets/css/disease.scss";
+import "../assets/css/diseasepage.scss";
 import one from "../assets/icons/one.png";
 import two from "../assets/icons/two.png";
 import Loader from "../Components/Loader";
@@ -77,18 +77,39 @@ function DiseasePage() {
             eveniet illum explicabo doloremque?
           </p>
         </div> */}
-        <div className="key-points">
-          <h4>Disease name {searchQuery}</h4>
+        <div
+          className="key-points"
+          style={{
+            padding: "1rem",
+          }}
+        >
+          <h3>
+            Disease name : <i>{searchQuery}</i>
+          </h3>
         </div>
-        <div className="key-points">
-          <h5>Main Points</h5>
+        <div
+          className="key-points"
+          style={{
+            padding: "2rem",
+          }}
+        >
+          <h4>
+            <strong>Main Points</strong>
+          </h4>
           {searchResult["Key Points"].split("\n").map((k, i) => (
             <p key={i}>{k}</p>
           ))}
         </div>
-
-        <div className="key-points">
-          <h5>Solutions</h5>
+        <hr style={{ width: "95%" }} />
+        <div
+          className="key-points"
+          style={{
+            padding: "2rem",
+          }}
+        >
+          <h4>
+            <strong>Solutions</strong>
+          </h4>
           {searchResult["Common Symptoms"].split("\n").map((k, i) => (
             <p key={i}>{k}</p>
           ))}

@@ -1,316 +1,304 @@
 @import url("../App.css");
 
-
-$mycustomContentStyles:(
-    color: #FFF,
-font-family: "Montserrat",
-font-size: 1.2em,
-font-style: normal,
-font-weight: 600,
-line-height: normal,
+$mycustomContentStyles: (
+  color: #fff,
+  font-family: "Montserrat",
+  font-size: 1.2em,
+  font-style: normal,
+  font-weight: 600,
+  line-height: normal,
 );
 
 @mixin applyCustomContentStyles {
-    @each $property, $value in $mycustomContentStyles {
-      #{$property}: $value;
-    }
+  @each $property, $value in $mycustomContentStyles {
+    #{$property}: $value;
   }
+}
 
-$mycustomTitleStyles:(
-    color: #000,
-    font-family: "Montserrat",
-    font-size: 2em,
-    font-style: normal,
-    font-weight: 600,
-    line-height: normal,
+$mycustomTitleStyles: (
+  color: #000,
+  font-family: "Montserrat",
+  font-size: 2em,
+  font-style: normal,
+  font-weight: 600,
+  line-height: normal,
 );
 
 @mixin applyCustomTitleStyles {
-    @each $property, $value in $mycustomTitleStyles {
-      #{$property}: $value;
+  @each $property, $value in $mycustomTitleStyles {
+    #{$property}: $value;
+  }
+}
+
+.parent-container {
+  margin: 5rem;
+  padding: 1rem;
+  min-height: 100vh;
+
+  &__first {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: repeat(2, 35% 65%);
+    // flex-direction:row;
+    // gap:2px;
+
+    @media screen and (max-width: 768px) {
+      grid-template-columns: 1fr; /* Change to a single column layout for smaller screens */
+      /* Adjust other properties as needed */
+    }
+
+    > .title {
+      color: #000;
+      font-family: "Montserrat";
+      font-size: 1.6em;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      text-transform: uppercase;
+
+      > .popular {
+        color: #088586;
+        font-family: "Montserrat";
+        font-size: 1em;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        text-transform: uppercase;
+      }
+    }
+    > .content {
+      color: #000;
+      font-family: Montserrat;
+      font-size: 1.4em;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
     }
   }
 
+  .disease-section {
+    padding: 2rem;
+    margin: 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, 35% 30% 35%);
+    gap: 1.5rem;
 
-.parent-container{
-    margin:5rem;
-    padding: 1rem;
-    min-height:100vh;
+    @media screen and (max-width: 768px) {
+      grid-template-columns: 1fr; /* Change to a single column layout for smaller screens */
+      /* Adjust other properties as needed */
+    }
 
-    &__first{
+    > .div-1,
+    > .div-3 {
+      display: grid;
+      grid-template-rows: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    > .div-1 {
+      > .a {
+        // &::before {
+        //   content: "";
+        //   position: absolute;
+        //   top: 0;
+        //   left: 0;
+        //   width: 100%;
+        //   height: 100%;
+        //   background-color: rgba(
+        //     103,
+        //     187,
+        //     207,
+        //     0.4
+        //   ); /* Adjust the color and opacity as desired */
+        //   z-index: 2; /* Place the overlay above the content */
+        //   border-radius: 1rem;
+        // }
+
+        position: relative;
         padding: 2rem;
-        display: grid;
-        grid-template-columns: repeat(2,35% 65%);
-        // flex-direction:row;
-        // gap:2px;
+        background-color: #67bbcf;
+        width: 80%;
+        height: 35vh;
+        position: relative;
+        z-index: 1;
+        border-radius: 1rem;
 
-        @media screen and (max-width: 768px) {
-          grid-template-columns: 1fr; /* Change to a single column layout for smaller screens */
-          /* Adjust other properties as needed */
+        &:hover {
+          background-color: rgba(103, 187, 207, 1);
+          transform: scale(1.05);
+          // &::before {
+          //   display: none; /* Nullify the ::before effect on hover */
+          // }
         }
 
-         >.title{
-            color: #000;
-            font-family: "Montserrat";
-            font-size: 1.6em;
-            font-style: normal;
-            font-weight: 600;
-            line-height: normal;
-            text-transform: uppercase;
-
-            >.popular{
-                color: #088586;
-                font-family: "Montserrat";
-                font-size: 1em;
-                font-style: normal;
-                font-weight: 600;
-                line-height: normal;
-                text-transform: uppercase;
-            }
+        > .head {
+          @include applyCustomTitleStyles;
+          // height: 50%;
         }
-        >.content{
-            color: #000;
-            font-family: Montserrat;
-            font-size: 1.4em;
-            font-style: normal;
-            font-weight: 400;
-            line-height: normal;
+        > .description {
+          margin-top: 10%;
+
+          @include applyCustomContentStyles;
         }
-     }
+      }
 
-     .disease-section{
-        padding: 2rem;
-        margin:1rem;
-        display: grid;
-        grid-template-columns:repeat(3,35% 30% 35%);
-        gap:1.5rem;
-
-        @media screen and (max-width: 768px) {
-          grid-template-columns: 1fr; /* Change to a single column layout for smaller screens */
-          /* Adjust other properties as needed */
-        }
-
-        >.div-1,>.div-3{
-            display: grid;
-            grid-template-rows: repeat(2,1fr);
-            gap:1.5rem;
-        }
-        
-      >.div-1{
-          >.a{
-            // &::before {
-            //     content: "";
-            //     position: absolute;
-            //     top: 0;
-            //     left: 0;
-            //     width: 100%;
-            //     height: 100%;
-            //     background-color: rgba(103, 187, 207,0.1); /* Adjust the color and opacity as desired */
-            //     z-index: 2; /* Place the overlay above the content */
-            //   }
-
-            position: relative;
-            padding:2rem;
-            background-color: #67BBCF;
-            width: 80%;
-            height:35vh;
-            position: relative;
-            z-index: 1;
-            border-radius: 1rem;
-            
-            &:hover{
-                background-color: rgba(103, 187, 207, 1); 
-                transform: scale(1.05);
-                // &::before {
-                //   display: none; /* Nullify the ::before effect on hover */
-                // }
-              }
-           
-           
-            >.head{
-                @include applyCustomTitleStyles;
-                // height: 50%;
-            }
-            >.description{
-              margin-top:10%;
-
-                @include applyCustomContentStyles;
-
-            }
-        }
-        
-        >.b{
-
-            // &::before {
-            //     content: "";
-            //     position: absolute;
-            //     top: 0;
-            //     left: 0;
-            //     width: 100%;
-            //     height: 100%;
-            //     background-color:rgba(213, 138, 150, 0.8);
-            //      /* Adjust the color and opacity as desired */
-            //     z-index: 2; /* Place the overlay above the content */
-            //   }
-            position:relative;
-            padding:2rem;
-            background-color: #D58A75;
-            width: 80%;
-            height:35vh;
-            z-index:1; 
-            border-radius:1rem ;
-            &:hover{
-                background-color:rgba(213, 138, 117,1);
-                transform: scale(1.05);
-               
-        /* Adjust the color and opacity as desired */
-                // &::before {
-                //   display: none; /* Nullify the ::before effect on hover */
-                // }
-              }
-            >.head{
-                @include applyCustomTitleStyles;
-                // height: 50%;
-
-            }
-            >.description{
-              margin-top:10%;
-
-                @include applyCustomContentStyles;
-
-            }
-        }
-       }
-       >.div-2{
+      > .b {
         // &::before {
         //     content: "";
         //     position: absolute;
         //     top: 0;
         //     left: 0;
-        //   border-radius:1rem ;
-
         //     width: 100%;
         //     height: 100%;
-        //     background-color:rgba(170, 123, 181,0.5);
+        //     background-color:rgba(213, 138, 150, 0.8);
         //      /* Adjust the color and opacity as desired */
         //     z-index: 2; /* Place the overlay above the content */
         //   }
-          padding:2rem;
-          position:relative;
-          background: #AA7B97;
-          height:81vh;
-          width:80%;
-          z-index:2;
-          border-radius:1rem ;
+        position: relative;
+        padding: 2rem;
+        background-color: #d58a75;
+        width: 80%;
+        height: 35vh;
+        z-index: 1;
+        border-radius: 1rem;
+        &:hover {
+          background-color: rgba(213, 138, 117, 1);
+          transform: scale(1.05);
 
-         
-          &:hover{
-            background-color:rgba(170, 123, 151,1);
-            transform: scale(1.05);           
-           
-            &::before {
-              display: none; 
-            }
-          }
-          >.head{
-              @include applyCustomTitleStyles;
-              // height: 40%;
-              
+          /* Adjust the color and opacity as desired */
+          // &::before {
+          //   display: none; /* Nullify the ::before effect on hover */
+          // }
+        }
+        > .head {
+          @include applyCustomTitleStyles;
+          // height: 50%;
+        }
+        > .description {
+          margin-top: 10%;
+
+          @include applyCustomContentStyles;
+        }
+      }
     }
-    >.description{
-      margin-top:60%;
+    > .div-2 {
+      // &::before {
+      //     content: "";
+      //     position: absolute;
+      //     top: 0;
+      //     left: 0;
+      //   border-radius:1rem ;
+
+      //     width: 100%;
+      //     height: 100%;
+      //     background-color:rgba(170, 123, 181,0.5);
+      //      /* Adjust the color and opacity as desired */
+      //     z-index: 2; /* Place the overlay above the content */
+      //   }
+      padding: 2rem;
+      position: relative;
+      background: #aa7b97;
+      height: 81vh;
+      width: 80%;
+      z-index: 2;
+      border-radius: 1rem;
+
+      &:hover {
+        background-color: rgba(170, 123, 151, 1);
+        transform: scale(1.05);
+
+        &::before {
+          display: none;
+        }
+      }
+      > .head {
+        @include applyCustomTitleStyles;
+        // height: 40%;
+      }
+      > .description {
+        margin-top: 60%;
 
         @include applyCustomContentStyles;
+      }
     }
-       }
-       
-       >.div-3{
-        
-            >.c{
-                // &::before {
-                //     content: "";
-                //     position: absolute;
-                //     top: 0;
-                //     left: 0;
-                //     width: 100%;
-                //     height: 100%;
-                //     background-color:rgba(213, 138, 150, 0.8);
-                    
-                //     z-index: 2; /* Place the overlay above the content */
-                //   }
 
-            position: relative;
-            padding:2rem;
-            background-color: #D58A75;
-            width: 80%;
-            height:35vh;
-            z-index: 1;
-            border-radius:1rem ;
-             
-            &:hover{
-              background-color:rgba(213, 138, 117, 1);
-              transform: scale(1.05);
-                   &::before {
-                display: none; 
-              }
-            }
-             
-            >.head{
-                @include applyCustomTitleStyles;
-                // height: 40%;
+    > .div-3 {
+      > .c {
+        // &::before {
+        //     content: "";
+        //     position: absolute;
+        //     top: 0;
+        //     left: 0;
+        //     width: 100%;
+        //     height: 100%;
+        //     background-color:rgba(213, 138, 150, 0.8);
 
-            }
-            >.description{
-              margin-top:10%;
-                @include applyCustomContentStyles;
+        //     z-index: 2; /* Place the overlay above the content */
+        //   }
 
-            }
+        position: relative;
+        padding: 2rem;
+        background-color: #d58a75;
+        width: 80%;
+        height: 35vh;
+        z-index: 1;
+        border-radius: 1rem;
+
+        &:hover {
+          background-color: rgba(213, 138, 117, 1);
+          transform: scale(1.05);
+          &::before {
+            display: none;
+          }
         }
-            >.d{
-                
-                // &::before {
-                //     content: "";
-                //     position: absolute;
-                //     top: 0;
-                //     left: 0;
-                //     width: 100%;
-                //     height: 100%;
-                //     background-color: rgba(103, 187, 207, 0.8); /* Adjust the color and opacity as desired */
-                //    z-index: 2; /* Place the overlay above the content */
-                //   }
-                  
-                  position: relative;
-                padding:2rem;
-                background: #67BBCF;
-                z-index: 1;
-                width: 80%;
-                height:35vh;
-                border-radius: 1rem;
-               
-                &:hover{
-                background-color: rgba(103, 187, 207, 1); 
-                transform: scale(1.05);
-                  //  &::before{
-                  //     display: none; 
-                  //   }
-                }
 
-                >.head{
-                @include applyCustomTitleStyles;
-                // height: 45%;
+        > .head {
+          @include applyCustomTitleStyles;
+          // height: 40%;
+        }
+        > .description {
+          margin-top: 10%;
+          @include applyCustomContentStyles;
+        }
+      }
+      > .d {
+        // &::before {
+        //     content: "";
+        //     position: absolute;
+        //     top: 0;
+        //     left: 0;
+        //     width: 100%;
+        //     height: 100%;
+        //     background-color: rgba(103, 187, 207, 0.8); /* Adjust the color and opacity as desired */
+        //    z-index: 2; /* Place the overlay above the content */
+        //   }
 
-             }
-             >.description{
-              margin-top:10%;
+        position: relative;
+        padding: 2rem;
+        background: #67bbcf;
+        z-index: 1;
+        width: 80%;
+        height: 35vh;
+        border-radius: 1rem;
 
-                @include applyCustomContentStyles;
-                
-             }
-            }
-           }
-       
-    
-        
-     }
-    
+        &:hover {
+          background-color: rgba(103, 187, 207, 1);
+          transform: scale(1.05);
+          //  &::before{
+          //     display: none;
+          //   }
+        }
+
+        > .head {
+          @include applyCustomTitleStyles;
+          // height: 45%;
+        }
+        > .description {
+          margin-top: 10%;
+
+          @include applyCustomContentStyles;
+        }
+      }
+    }
+  }
 }

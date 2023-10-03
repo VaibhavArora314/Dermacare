@@ -232,7 +232,9 @@ export default function UploadImage() {
             className={`generate-btn ${
               images.length !== 1 ? "gen-inactive" : ""
             }`}
-            onClick={handleUpload}
+            onClick={() => {
+              if (document.querySelector !== "gen-inactive") handleUpload();
+            }}
           >
             Generate Report
           </button>

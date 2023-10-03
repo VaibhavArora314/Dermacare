@@ -1,12 +1,11 @@
-@import  "../App.css";
+@import "../App.css";
 
 $myCustomHeadingStyles: (
-    color: #088586 ,
-    font-size: 1.8em ,
-    font-family: Montserrat, 
-    font-weight: 500,
-    word-wrap: break-word,
-    
+  color: #088586,
+  font-size: 1.8em,
+  font-family: Montserrat,
+  font-weight: 500,
+  word-wrap: break-word,
 );
 
 @mixin applyCustomHeadingStyles {
@@ -15,226 +14,221 @@ $myCustomHeadingStyles: (
   }
 }
 
-$myDivAlignment:(
-    display: grid,
-    grid-template-rows:repeat(3,25% 20% 55%),
-    gap:10px,
-    padding:1rem,
-    width: min-content,
-    justify-content:center,
+$myDivAlignment: (
+  display: grid,
+  grid-template-rows: repeat(3, 25% 20% 55%),
+  gap: 10px,
+  padding: 1rem,
+  width: min-content,
+  justify-content: center,
 );
 
 @mixin applymyDivAlignment {
-    @each $property, $value in $myDivAlignment {
-      #{$property}: $value;
-    }
+  @each $property, $value in $myDivAlignment {
+    #{$property}: $value;
   }
-
-::-webkit-scrollbar{
-    display: none;
 }
 
-.procedure{
-    margin:6rem;
-    min-height:110vh;
-    
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-   
-    &__heading {
-      text-align:center;
-      padding-top:0;
-        >h4{
-            font-size: 4rem;
-            font-family: 'montserrat';
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-    }  
-  &__heading{
-    padding: 1rem;
-    font-size:2.5rem ;
-    color:black;
-    font-family: 'montserrat';
+::-webkit-scrollbar {
+  display: none;
+}
+
+.procedure {
+  margin: 6rem;
+  min-height: 110vh;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  animation: glow 2s ease-in-out infinite alternate;
+
+  &__heading {
+    text-align: center;
+    padding: 2rem;
+    font-size: 2.5rem;
+    color: black;
+    font-family: "montserrat";
     font-weight: 600;
     text-transform: uppercase;
   }
-  
 
-  
-  &__heading hr{
-    margin:0 auto 0 auto;
-    width: 46%; 
-    height: 100%; 
+  &__heading hr {
+    margin: 0 auto 0 auto;
+    width: 46%;
+    height: 100%;
     border: 1.5px;
     color: #655353;
     border: solid;
   }
-  
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
-  
-  .procedureContainer{
-    width:100%;
-    // height:min-content;
-    padding: 3rem ;
-    padding-left:7rem;
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    // gap: 1rem;
-    justify-items:left;
+  100% {
+    box-shadow: 0 0 15px 8px rgba(30, 30, 26, 0.7);
+  }
+}
 
-    @media screen and (max-width: 1300px) {
-      
-      padding-left: 3rem; /* Reduce left padding for smaller screens */
-      grid-template-columns: repeat(2, 1fr); /* Change to a two-column layout for smaller screens */
-      /* Remove or adjust other properties as needed */
+.procedureContainer {
+  width: 100%;
+  // height:min-content;
+  padding: 3rem;
+  padding-left: 7rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  // gap: 1rem;
+  justify-items: left;
+
+  @media screen and (max-width: 1300px) {
+    padding-left: 3rem; /* Reduce left padding for smaller screens */
+    grid-template-columns: repeat(
+      2,
+      1fr
+    ); /* Change to a two-column layout for smaller screens */
+    /* Remove or adjust other properties as needed */
   }
 
-    @media screen and (max-width: 768px) {
-      padding-left: 3rem; /* Reduce left padding for smaller screens */
-      grid-template-columns: 1fr; /* Change to a single column layout for smaller screens */
-      /* Remove or adjust other properties as needed */
-    }
+  @media screen and (max-width: 768px) {
+    padding-left: 3rem; /* Reduce left padding for smaller screens */
+    grid-template-columns: 1fr; /* Change to a single column layout for smaller screens */
+    /* Remove or adjust other properties as needed */
+  }
 
-
-    &__div1{
-      @include applymyDivAlignment;
-        
-      &__Image {
-        margin:0;
-        padding:0;
-        height:220px;
-        width:220px;
-        border-radius: 50%;
-        color: #191B1B;
-        border: solid;
-        background:url("../assets/icons/one.png");
-        background-position: center;
-        background-size:70% 70%;
-        background-repeat: no-repeat;
-      
-      }
-  
-      &__content-head{
-       @include applyCustomHeadingStyles;
-       >p{
-        text-align: center;
-       }
-      }
-      &__Content {
-      margin-left:-10%;
-
-        width:125%;
-        justify-content: start;
-        >.details{
-          box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
-          height:auto;
-          padding:1rem;
-          border-radius: 10px;
-          text-align: center;
-            color: black; 
-            font-size: 1.3em; 
-            font-family: Montserrat; 
-            font-weight: 400; 
-           
-         }
-      }
-  
-    }
-  
-   &__div2{
+  &__div1 {
     @include applymyDivAlignment;
-    
-     &__TwoImage {
-      height:220px;
-      width:220px;
-        border-radius: 50%;
-        color: #191B1B;
-        border: solid;
-        background:url("../assets/icons/two.png");
-        background-position: center;
-        background-size:70% 70%;
-        background-repeat: no-repeat;
-        margin:0;
-  
-     }
-  
-     &__content-head{
-        @include applyCustomHeadingStyles;
-        >p{
-          text-align: center;
-         }
+
+    &__Image {
+      margin: 0;
+      padding: 0;
+      height: 220px;
+      width: 220px;
+      border-radius: 50%;
+      color: #191b1b;
+      border: solid;
+      background: url("../assets/icons/one.png");
+      background-position: center;
+      background-size: 70% 70%;
+      background-repeat: no-repeat;
+    }
+
+    &__content-head {
+      @include applyCustomHeadingStyles;
+      > p {
+        margin-top: 20%;
+        text-align: center;
       }
-     &__TwoContent{
-      margin-left:-10%;
+    }
+    &__Content {
+      margin-left: -10%;
 
-      width:125%;
-       
-        
-        .details{
-          height:auto;
-            box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
-            padding:1rem;
-            text-align: center;
-            color: black; 
-            font-size: 1.3em; 
-            
-            font-family: "Montserrat"; 
-            font-weight: 400; 
-          border-radius: 10px;
-
-        }
-     }
-   }
-  
-   &__div3{
-   
-     @include applymyDivAlignment;
-     >p{
-      text-align: center;
-     }
-     &__ThreeImage {
-      height:220px;
-
-      width:220px;
-
-        border-radius: 50%;
-        color: #191B1B;
-        border: solid;
-        background:url("../assets/icons/three.png");
-        background-position: center;
-        background-size:70% 70%;
-        background-repeat: no-repeat;
-        margin:0;
-     }
-   
-        &__content-head{
-            @include applyCustomHeadingStyles;
-            >p{
-              text-align: center;
-             }
-        }
-     &__ThreeContent {
-      margin-left:-10%;
-      width:125%;
-      
-       
-       >.details{
-         box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
-         height:auto;
-
-            padding: 1rem;
-            text-align: center;
-            color: black; 
-            font-size: 1.3em; 
-           
-            font-family: Montserrat; 
-            font-weight: 400; 
-          border-radius: 10px;
-
-        }
-     }
-  
-   }
-  
+      width: 125%;
+      justify-content: start;
+      > .details {
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+          rgba(17, 17, 26, 0.05) 0px 8px 32px;
+        height: auto;
+        padding: 1rem;
+        border-radius: 10px;
+        text-align: center;
+        color: black;
+        font-size: 1.3em;
+        font-family: Montserrat;
+        font-weight: 400;
+      }
+    }
   }
-  
+
+  &__div2 {
+    @include applymyDivAlignment;
+
+    &__TwoImage {
+      height: 220px;
+      width: 220px;
+      border-radius: 50%;
+      color: #191b1b;
+      border: solid;
+      background: url("../assets/icons/two.png");
+      background-position: center;
+      background-size: 70% 70%;
+      background-repeat: no-repeat;
+      margin: 0;
+    }
+
+    &__content-head {
+      @include applyCustomHeadingStyles;
+      > p {
+        margin-top: 20%;
+
+        text-align: center;
+      }
+    }
+    &__TwoContent {
+      margin-left: -10%;
+
+      width: 125%;
+
+      .details {
+        height: auto;
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+          rgba(17, 17, 26, 0.05) 0px 8px 32px;
+        padding: 1rem;
+        text-align: center;
+        color: black;
+        font-size: 1.3em;
+
+        font-family: "Montserrat";
+        font-weight: 400;
+        border-radius: 10px;
+      }
+    }
+  }
+
+  &__div3 {
+    @include applymyDivAlignment;
+    > p {
+      text-align: center;
+    }
+    &__ThreeImage {
+      height: 220px;
+
+      width: 220px;
+
+      border-radius: 50%;
+      color: #191b1b;
+      border: solid;
+      background: url("../assets/icons/three.png");
+      background-position: center;
+      background-size: 70% 70%;
+      background-repeat: no-repeat;
+      margin: 0;
+    }
+
+    &__content-head {
+      @include applyCustomHeadingStyles;
+      > p {
+        margin-top: 20%;
+
+        text-align: center;
+      }
+    }
+    &__ThreeContent {
+      margin-left: -10%;
+      width: 125%;
+
+      > .details {
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+          rgba(17, 17, 26, 0.05) 0px 8px 32px;
+        height: auto;
+
+        padding: 1rem;
+        text-align: center;
+        color: black;
+        font-size: 1.3em;
+
+        font-family: Montserrat;
+        font-weight: 400;
+        border-radius: 10px;
+      }
+    }
+  }
+}

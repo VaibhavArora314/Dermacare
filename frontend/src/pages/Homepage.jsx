@@ -8,6 +8,7 @@ import Procedure from "../Components/Procedure";
 import CommonDiseases from "../Components/CommonDiseases";
 import Loader from "../Components/Loader";
 import FAQ from "../Components/FAQ";
+import Footer from "../Components/Footer";
 // import bgi from "../assets/icons/mainBG.png";
 function Homepage() {
   const { isLoggedIn } = useContext(AuthContext);
@@ -37,6 +38,7 @@ function Homepage() {
       {/* <div> */}
       <CommonDiseases />
       <FAQ />
+      <Footer />
       {/* </div> */}
     </>
   );

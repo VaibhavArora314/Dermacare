@@ -1,0 +1,72 @@
+@import url("../App.css");
+
+.footer-parent {
+  width: 100%;
+  margin: 0;
+  padding: 2rem 1rem 2rem 1rem;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: rgb(32, 28, 28);
+  color: white;
+
+  > .logo-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+
+    > .a1 {
+      margin-top: -2rem;
+      display: flex;
+      flex-direction: row;
+    }
+
+    > .a2 {
+      justify-content: center;
+      align-items: center;
+      padding-left: 6rem;
+      > .copyright {
+        color: white;
+        font-family: Poppins;
+        font-size: 1.2em;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+    }
+  }
+  > .email {
+    display: flex;
+    flex-direction: column;
+    padding-right: 3rem;
+    > .b1 {
+      > .tagline {
+        margin: 0;
+        font-family: Poppins;
+        font-size: 1.15em;
+        font-weight: 300;
+        line-height: 59px;
+        letter-spacing: 0em;
+        text-align: left;
+      }
+    }
+    > .b2 {
+      > .input {
+        background: linear-gradient(0deg, #94e0e0, #a9eaea),
+          linear-gradient(0deg, #ffffff, #ffffff);
+        border: 2px solid white;
+        padding: 0.6rem;
+        width: 400px;
+        height: 30px;
+        top: 9333px;
+        border-radius: 11px;
+        font-size: 1.2em;
+      }
+      ::placeholder {
+        font-size: 1.2em;
+      }
+    }
+  }
+}

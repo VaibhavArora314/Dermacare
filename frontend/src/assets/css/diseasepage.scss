@@ -1,0 +1,36 @@
+@import url("../../App.css");
+
+.disease-parent {
+  margin: 1rem;
+  padding: 1rem;
+  padding-top: 1rem;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+  > .images {
+    // border: 2px solid black;
+    height: 20vh;
+    width: auto;
+    margin: 2rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    > img {
+      //   border: 2px solid black;
+      transform: scale(1.4);
+      border-radius: 1rem;
+    }
+  }
+  > .disease-details {
+    justify-content: center;
+    text-align: start;
+    margin: 2rem;
+    border-radius: 1.2rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    // grid-template-columns: repeat(4,1fr);
+    // grid-gap:.3em ;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  }
+}
