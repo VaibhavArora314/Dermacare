@@ -15,10 +15,21 @@ function Footer() {
             style={{
               transform: "scale(0.4)",
               borderRadius: "1rem",
+              position: "relative",
             }}
           />
-          <img src={authentic} alt="" style={{ transform: "scale(0.65)" }} />
+          <img
+            src={authentic}
+            alt="verified"
+            style={{ transform: "scale(0.5)", position: "absolute" }}
+          />
         </div>
+      </div>
+      <div className="dermacare-goal">
+        <p className="desc">
+          At Dermacare, we're dedicated to helping you achieve clear, radiant
+          and glowing skin so you can live your life with confidence stress-free
+        </p>
         <div className="a2">
           <p className="copyright">© 2023 Dermacare. All rights reserved.</p>
         </div>
