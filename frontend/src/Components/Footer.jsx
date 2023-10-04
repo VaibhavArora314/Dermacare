@@ -1,6 +1,6 @@
 import React from "react";
 import "./Footer.scss";
-import logo from "../assets/icons/logo.png";
+import logo from "../assets/icons/logo_color.png";
 import authentic from "../assets/icons/authentic.svg";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
@@ -8,27 +8,36 @@ function Footer() {
   return (
     <div className="footer-parent">
       <div className="logo-info">
-        <div className="a1">
-          <img
-            src={logo}
-            alt=""
-            style={{
-              transform: "scale(0.4)",
-              borderRadius: "1rem",
-              position: "relative",
-            }}
-          />
-          <img
-            src={authentic}
-            alt="verified"
-            style={{ transform: "scale(0.5)", position: "absolute" }}
-          />
-        </div>
+        {/* <div className="a1"> */}
+        <img
+          src={logo}
+          alt=""
+          style={{
+            transform: "scale(0.52)",
+            borderRadius: "1rem",
+            position: "relative",
+            height: "20vh",
+            width: "40vw",
+            marginRight: "-7rem",
+          }}
+        />
+        <img
+          src={authentic}
+          alt="verified"
+          style={{
+            display: "flex",
+            transform: "scale(0.6)",
+            position: "absolute",
+            marginLeft: "2rem",
+          }}
+        />
+        {/* </div> */}
       </div>
       <div className="dermacare-goal">
         <p className="desc">
           At Dermacare, we're dedicated to helping you achieve clear, radiant
-          and glowing skin so you can live your life with confidence stress-free
+          and glowing skin so you can live your life with confidence without any
+          stress
         </p>
         <div className="a2">
           <p className="copyright">© 2023 Dermacare. All rights reserved.</p>

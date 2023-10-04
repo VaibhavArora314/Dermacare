@@ -15,14 +15,20 @@
   > .logo-info {
     display: flex;
     flex-direction: column;
+    align-items: start;
     padding: 0;
-
-    > .a1 {
-      width: 120%;
-      display: flex;
-      flex-direction: row;
-      justify-content: start;
+    margin-top: 1.5rem;
+    > img {
+      filter: contrast(150%) brightness(150%);
     }
+    // width: 50%;
+
+    // > .a1 {
+    //   width: 120%;
+    //   display: flex;
+    //   flex-direction: row;
+    //   justify-content: start;
+    // }
 
     // > .a2 {
     //   display: flex;
@@ -40,8 +46,11 @@
   > .dermacare-goal {
     display: flex;
     flex-direction: column;
-    align-items: center;
+
     > .desc {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-family: poppins;
       opacity: 0.5;
       font-size: 1.3em;
@@ -49,7 +58,8 @@
     }
     > .a2 {
       display: flex;
-      justify-content: center;
+      margin-left: 2rem;
+      // justify-content: center;
       > .copyright {
         color: white;
         font-family: Poppins;
@@ -63,7 +73,7 @@
   > .email {
     display: flex;
     flex-direction: column;
-    padding: 0rem 1rem 0 0;
+    padding: 0rem 1.8rem 0 0;
     justify-content: start;
     > .b1 {
       > .tagline {
