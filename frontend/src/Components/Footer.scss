@@ -5,34 +5,32 @@
   margin: 0;
   padding-top: 1rem;
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   flex: 1;
   flex-direction: row;
   justify-content: space-around;
   background-color: rgb(0, 0, 0);
   color: white;
 
-  > .logo-info {
+  > .dermacare-goal {
     display: flex;
     flex-direction: column;
-    align-items: start;
-    padding: 0;
+    padding-left: 1.8rem;
     margin-top: 1.5rem;
-    > img {
-      filter: contrast(150%) brightness(150%);
+
+    > .desc {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: poppins;
+      // opacity: 0.5;
+      font-size: 1.3em;
+      line-height: 2rem;
     }
-    // width: 50%;
-
-    // > .a1 {
-    //   width: 120%;
-    //   display: flex;
-    //   flex-direction: row;
-    //   justify-content: start;
-    // }
-
     // > .a2 {
     //   display: flex;
-    //   justify-content: center;
+    //   margin-left: 2rem;
+    //   // justify-content: center;
     //   > .copyright {
     //     color: white;
     //     font-family: Poppins;
@@ -43,37 +41,49 @@
     //   }
     // }
   }
-  > .dermacare-goal {
+
+  > .logo-info {
     display: flex;
     flex-direction: column;
-
-    > .desc {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: poppins;
-      opacity: 0.5;
-      font-size: 1.3em;
-      line-height: 2rem;
+    // align-items: start;
+    padding: 0;
+    margin-top: 0.5rem;
+    > img {
+      filter: contrast(150%) brightness(150%);
     }
+    // width: 50%;
+
+    > .a1 {
+      // width: 120%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+
     > .a2 {
       display: flex;
-      margin-left: 2rem;
-      // justify-content: center;
+      flex-direction: column;
+      align-items: center;
       > .copyright {
         color: white;
         font-family: Poppins;
         font-size: 1.2em;
         font-style: normal;
         font-weight: 400;
+        opacity: 0.7;
+
         line-height: normal;
       }
     }
   }
+
   > .email {
     display: flex;
     flex-direction: column;
     padding: 0rem 1.8rem 0 0;
+    margin-top: 1.5rem;
+
     justify-content: start;
     > .b1 {
       > .tagline {
